@@ -1,22 +1,38 @@
 # Это шпаргалка для Backend
 
+Активация вертуального окружения:
+
+```
+.venv\Scripts\activate
+```
+
 Запуск сервера в режиме реального времени:
 
 ```
-uvicorn backMain:app --reload
+uvicorn fast_main:app --reload
 ```
 
 Зависимости:
 
-* FastAPI
+* Фрэймворк FastAPI
 
   ```
   pip install fastapi
   ```
-* Uvicorn
+* Uvicorn:
 
   ```
   pip install uvicorn
+  ```
+* ORM SQLAlchemy
+
+  ```
+  pip install SQLAlchemy
+  ```
+* Ассинхронный драйвер MySQL aiomysql:
+
+  ```
+  pip install aiomysql
   ```
 * Открытие Swagger:
 
