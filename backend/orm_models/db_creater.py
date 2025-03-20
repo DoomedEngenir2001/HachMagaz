@@ -11,7 +11,7 @@ engine : AsyncSession = create_async_engine(DATABASE_URL, echo=True)
 
 
 AsyncSessionLocal = sessionmaker(
-    bind=engine, class_=AsyncSession, expire_on_commit=False
+    bind=engine, class_ = AsyncSession, expire_on_commit=False
 )
 
 # Базовый класс для декларативных моделей
