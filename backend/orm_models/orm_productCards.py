@@ -10,8 +10,10 @@ from orm_base import ORM_Base
 class ProductCards(ORM_Base, Base):
     __tablename__ = ORM_Configuration.t_productsCards
 
-    product_id  = Column(Integer, ForeignKey(f"{ORM_Configuration.t_products}.id"), index=True, nullable=False)
-    image_id    = Column(Integer, ForeignKey(f"{ORM_Configuration.t_images}.id"),   index=True, nullable=False)
+    product_id  = Column(Integer,     ForeignKey(f"{ORM_Configuration.t_products}.id"),
+                            index=True, nullable=False)
+    image_id    = Column(Integer,     ForeignKey(f"{ORM_Configuration.t_images}.id"),
+                            index=True, nullable=False)
     title       = Column(String(255), index=True, default=ORM_Configuration.str_None)
     description = Column(String(255), index=True, default=ORM_Configuration.str_None)
     specPrice   = Column(Integer,     index=True, default=ORM_Configuration.int_None)
