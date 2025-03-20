@@ -7,10 +7,10 @@ class ORM_Configuration:
     t_detailes      : str = 'detailes'
     t_basket        : str = 'basket'
 
-    rel_products_to_productsCards : str = 'productCards'
-    rel_productsCards_to_products : str = 'products'
-    rel_images_to_productsCards   : str = 'productCards'
-    rel_productsCards_to_images   : str = 'images'
+    rel_product_to_productsCards  : str = 'product'
+    rel_productsCards_to_product  : str = 'productCards'
+    rel_image_to_productsCard     : str = 'productCard'
+    rel_productsCard_to_image     : str = 'image'
     
 
     str_None        : str = 'None'
