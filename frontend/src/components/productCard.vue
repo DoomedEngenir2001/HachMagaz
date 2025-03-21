@@ -1,16 +1,19 @@
+/* eslint no-use-before-define: 0 */
 <template>
 <div class="product-card">
-    <div class="product-image"></div>
-    <div class="product-name">this.$props.product</div>
+    <img :src="this.$props.imagePath" alt="image" class="product-image">
+    <div class="product-name">{{this.$props.product}}</div>
     <div class="price-holder">
-        <div>this.$props.price</div>
-        <orangeBtn>Выбрать</orangeBtn>
+        <div>{{this.$props.price}} рублей</div>
+        <orangeBtn class="toRightCorner">Выбрать</orangeBtn>
     </div>
 </div>
 </template>
 <script>
 import orangeBtn from './orangeBtn.vue';
+
 export default{
+
     components:{
         orangeBtn
     },
@@ -28,14 +31,18 @@ export default{
             type: String
         }
     }
+
 }
+
 </script>
 <style scoped>
 .product-card{
     width: 380px;
     height: 500px;
+    margin-right: 42.5px;
     display: flex;
     flex-direction: column;
+    box-shadow:  5px 5px rgb(175, 175, 175);
 }
 .product-image{
     width: 357px;
@@ -43,15 +50,25 @@ export default{
 }
 .product-name{
     height: wrap;
+    padding-left: 5px ;
     font-size: 24px;
 }
 .price-holder{
     height: wrap;
     display: flex;
     flex-direction: row;
+    padding-left: 5px ;
+    padding-right: 5px;
     font-size: 40px;
 }
 .product-image{
-    background-image: url(this.$props.imagePath);
+    width: 357px;
+    height: 357px;
+    object-fit: contain;
+}
+.toRightCorner{
+    margin-left: auto; 
+margin-right: 0;
+
 }
 </style>

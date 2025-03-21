@@ -15,6 +15,7 @@ export default{
     color: white;
     font-size: 20px;
     border-radius: 20px;
+    border: none;
 }
 .btn:hover{
     background-color:#FFF0E6;

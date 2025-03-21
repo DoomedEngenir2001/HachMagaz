@@ -10,11 +10,13 @@ export default{
 .nav-btn{
     min-width: 123px;
     width: wrap;
-    height: 50px;
+    height: 100px;
     background-color:#ffffff;
+    margin-left: 10%;
+    margin-right: 10%;
+    border: none;
     color: #000000;
     font-size: 20px;
-    border-radius: 20px;
 }
 .nav-btn:hover{
     background-color:#000000;
