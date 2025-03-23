@@ -1,17 +1,17 @@
 /* eslint no-use-before-define: 0 */
 <template>
 <div class="product-card">
-    <img :src="this.$props.imagePath" alt="image" class="product-image">
+    <img :src="this.$props.imagePath" alt="image" class="product-image" @click="showModal">
     <div class="product-name">{{this.$props.product}}</div>
     <div class="price-holder">
         <div>{{this.$props.price}} рублей</div>
-        <orangeBtn class="toRightCorner">Выбрать</orangeBtn>
+        <orangeBtn @click="addItemToCart" class="toRightCorner">Выбрать</orangeBtn>
     </div>
 </div>
 </template>
 <script>
 import orangeBtn from './orangeBtn.vue';
-
+import { mapMutations } from 'vuex';
 export default{
 
     components:{
@@ -29,11 +29,28 @@ export default{
         imagePath:{
             required: true,
             type: String
+        },
+        description:{
+            required: true,
+            type: String
+        }
+    }, 
+    methods:{
+        ...mapMutations({
+            addToCart: "addToCart"
+        }),
+        addItemToCart(){
+            this.addToCart({
+                "product": this.product,
+                "price": this.price
+            });
+        },
+        showModal(){
+            this.$emit("showModal", this.$props.product, this.$props.price,
+            this.$props.imagePath, this.$props.description);
         }
     }
-
 }
-
 </script>
 <style scoped>
 .product-card{
@@ -68,7 +85,6 @@ export default{
 }
 .toRightCorner{
     margin-left: auto; 
-margin-right: 0;
-
+    margin-right: 0;
 }
 </style>
