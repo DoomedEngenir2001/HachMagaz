@@ -19,9 +19,9 @@ class ProductCards(ORM_Base, Base):
     specPrice   = Column(Integer,     index=True, default=ORM_Base.int_None)
     limit       = Column(Integer,     index=True, default=ORM_Base.int_None)
 
-    #Cвязь с таблицей product
-    product = relationship(ORM_Configuration.t_products,
-                             back_populates=ORM_Configuration.rel_productsCards_to_product)
-    #Cвязь с таблицей image
-    image = relationship(ORM_Configuration.t_images,
-                           back_populates=ORM_Configuration.rel_productsCard_to_image)
+    # #Cвязь с таблицей product
+    # product = relationship(ORM_Configuration.t_products,
+    #                          back_populates=ORM_Configuration.rel_productsCards_to_product)
+    # #Cвязь с таблицей image
+    # image = relationship(ORM_Configuration.t_images,
+    #                        back_populates=ORM_Configuration.rel_productsCard_to_image)

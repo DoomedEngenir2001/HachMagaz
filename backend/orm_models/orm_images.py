@@ -15,6 +15,6 @@ class Images(ORM_Base, Base):
     hash        = Column(String(255), index=True, default=ORM_Base.str_None)
 
     #Cвязь с таблицей productCard
-    productCard = relationship(ORM_Configuration.t_productsCards,
-                                 back_populates=ORM_Configuration.rel_image_to_productsCard)
+    # productCard = relationship(ORM_Configuration.t_productsCards,
+    #                              back_populates=ORM_Configuration.rel_image_to_productsCard)
     
