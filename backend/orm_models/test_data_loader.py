@@ -2,6 +2,10 @@ import asyncio
 from sqlalchemy.ext.asyncio import AsyncSession
 from db_creater import AsyncSessionLocal
 from orm_products import Products
+from orm_productCards import ProductCards
+from orm_images import Images
+
+
 
 async def insert_test_data():
     async with AsyncSessionLocal() as session:

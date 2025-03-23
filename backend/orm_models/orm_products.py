@@ -16,6 +16,6 @@ class Products(ORM_Base, Base):
     countInStock = Column(Integer,      index=True, default=ORM_Base.int_None)
     
 
-    # #Связь с таблицей productCards
-    # productCards = relationship(ORM_Configuration.t_productsCards,
-    #                              back_populates=ORM_Configuration.rel_product_to_productsCards)
+    #Связь с таблицей productCards
+    productCards = relationship(ORM_Configuration.c_ProductCards,
+                                 back_populates=ORM_Configuration.rel_product_to_productsCards)
