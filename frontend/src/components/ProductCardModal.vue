@@ -15,6 +15,7 @@
 <script>
 import cancelBtn from './cancelBtn.vue';
 import orangeBtn from './orangeBtn.vue';
+import { mapMutations } from 'vuex';
 export default{
     components:{
         cancelBtn, 
@@ -39,8 +40,16 @@ export default{
         }
     },
     methods:{
+        ...mapMutations({
+            addToCart: "addToCart"
+        }),
         addtoCart(){
-
+            this.addToCart({
+                "product": this.$props.product,
+                "price": this.$props.price,
+                "count": 1,
+                "imagePath": this.$props.imagePath
+            });
            this.$emit("closeModal");
         }
     }

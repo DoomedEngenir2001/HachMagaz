@@ -4,8 +4,10 @@
     <navBtn>Пицца</navBtn>
     <navBtn>Cамса</navBtn>
     <navBtn>Пиво</navBtn>
-    <orangeBtn class="or-btn">Корзина</orangeBtn>
-    <orangeBtn class="or-btn">Личный кабинет</orangeBtn>
+    <div class="btnContainer">
+        <orangeBtn @click="openCart" class="or-btn">Корзина</orangeBtn>
+        <orangeBtn class="or-btn">Личный кабинет</orangeBtn>
+    </div>
 </div>
 </template>
 <script>
@@ -15,6 +17,11 @@ export default{
 components:{
     orangeBtn,
     navBtn
+},
+methods:{
+    openCart(){
+        this.$emit('OpenCart');
+    }
 }
 }
 </script>
@@ -24,13 +31,22 @@ components:{
     flex-direction: row;
     align-items:center;
     height: 100px;
-    /* padding: 6px 15px 10px 15px; */
+    width:100%;
     box-shadow:  5px 5px rgb(182, 182, 182);
 }
 .logo-placeholder{
     width: 84px;
     height: 84px;
+    margin-left: 2.5%;
     background-image: url(~@/assets/logo.png);
+}
+.btnContainer{
+    display: flex;
+     flex-direction: row; 
+    margin-right: 2.5%;
+    margin-left: auto;
+    align-items: center;
+    height: 100px;
 }
 .or-btn{
     margin-right: 2.5%;

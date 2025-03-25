@@ -13,7 +13,7 @@ export default{
     height: 100px;
     background-color:#ffffff;
     margin-left: 10%;
-    margin-right: 10%;
+    /* margin-right: 10%; */
     border: none;
     color: #000000;
     font-size: 20px;

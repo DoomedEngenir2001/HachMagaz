@@ -1,6 +1,6 @@
 <template>
     <div class = "main-page">
-        <HeaderPage></HeaderPage>
+        <HeaderPage @OpenCart="this.cartIsVisible=true"></HeaderPage>
         <div class="center-align">
         <div class="product-panel">
            <productCard @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
@@ -13,6 +13,10 @@
             :product="selectedProduct" :price="selectedPrice" :description="selectedDesc"
             :imagePath="selectedImg"/>
         </div>
+        <div v-if="this.cartIsVisible" class="cart-modal">
+            <CartModal @closeCart="this.cartIsVisible=false"></CartModal>
+        </div>
+        
     </div>
 </template>
 <script>
@@ -20,6 +24,7 @@ import { mapActions, mapGetters } from 'vuex';
 import productCard from '@/components/productCard.vue';
 import HeaderPage from '@/components/HeaderPage.vue';
 import ProductCardModal from '@/components/ProductCardModal.vue';
+import CartModal from '@/components/CartModal.vue';
 export default{
     async created(){
         await this.getProductsfromServer();
@@ -27,7 +32,8 @@ export default{
     components:{
         HeaderPage,
         productCard,
-        ProductCardModal
+        ProductCardModal,
+        CartModal
     },
     data(){
         return {
@@ -35,7 +41,8 @@ export default{
             selectedPrice: null,
             selectedProduct: null,
             selectedDesc: null,
-            selectedImg: null
+            selectedImg: null,
+            cartIsVisible: false
         }
     },
     computed: {
@@ -88,5 +95,15 @@ export default{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.cart-modal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content:right;
 }
 </style>

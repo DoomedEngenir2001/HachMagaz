@@ -13,7 +13,6 @@
 import orangeBtn from './orangeBtn.vue';
 import { mapMutations } from 'vuex';
 export default{
-
     components:{
         orangeBtn
     },
@@ -41,8 +40,10 @@ export default{
         }),
         addItemToCart(){
             this.addToCart({
-                "product": this.product,
-                "price": this.price
+                "product": this.$props.product,
+                "price": this.$props.price,
+                "count": 1,
+                "imagePath": this.$props.imagePath
             });
         },
         showModal(){
