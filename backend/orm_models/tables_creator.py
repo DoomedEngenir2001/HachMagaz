@@ -1,7 +1,7 @@
 import asyncio
 from sqlalchemy.ext.asyncio import AsyncConnection
 #-------------------------------------------------------------#
-from db_creater import engine, Base
+from session_handler import engine, Base
 from orm_products import Products  # Импортируем модели, чтобы они были зарегистрированы
 from orm_images import Images
 from orm_productCards import ProductCards

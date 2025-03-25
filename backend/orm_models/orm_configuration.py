@@ -11,6 +11,7 @@ class ORM_Configuration:
     c_Products     : str = "Products"
     c_ProductCards : str = "ProductCards"
     c_Images       : str = "Images"
+
     rel_product_to_productsCards  : str = 'product'
     rel_productsCards_to_product  : str = 'productCards'
     rel_image_to_productsCard     : str = 'image'
