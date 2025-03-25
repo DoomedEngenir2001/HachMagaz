@@ -11,7 +11,10 @@
         :image-path="item.imagePath" :price="item.price" :key="item.product"></CartItem>
     </div>
     <div class="cart-footer">
-        <div class="price">Сумма заказа {{ this.getCartCost }} рублей</div>
+        <div class="price">
+            <div>Сумма заказа </div>
+            <div style="margin-right: 25px; margin-left: auto;">{{ this.getCartCost }} рублей</div>
+        </div>
         <orangeBtn class="bigBtn">Заказать</orangeBtn>
     </div>
 </div>
@@ -70,24 +73,30 @@ export default{
     width: 100%;
     height: 60px;
     font-size: 36px;
+    font-weight: bold;
 }
 .cart-panel{
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 80%;
+    font-weight: bold;
 }
 .cart-footer{
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 10%;
+    font-weight: bold;
 }
 .to-Right{
     margin-left: auto;
-    margin-right: 20px;
+    margin-right: 15px;
+    background-color: #F3F3F7;
 }
 .price{
+    display: flex;
+    flex-direction: row;
     font-size: 24px;
 }
 .bigBtn{

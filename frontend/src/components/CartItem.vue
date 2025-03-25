@@ -7,7 +7,8 @@
     </div>
     <div class="footer">
         <p>{{ cost }} рублей</p>
-        <changCountBtn class="toRight" @add="AddItem" @minus="MinusItem"></changCountBtn>
+        <changCountBtn class="toRight" @add="AddItem" @minus="MinusItem">{{this.$props.count}}
+        </changCountBtn>
     </div>
 </div>
 </template>
@@ -45,26 +46,28 @@ export default{
     },
     methods: {
         ...mapMutations({
-            addCountByIndex : 'addCountByIndex',
-            minusCountByIndex: 'minusCountByIndex',
-            deleteItemByIndex: 'deleteItemByIndex'
+            addCountByName : 'addCountByName',
+            minusCountByName: 'minusCountByName',
+            deleteItemByName: 'deleteItemByName'
         }),
         AddItem(){
-            this.addCountByIndex();
+            this.addCountByName(this.$props.name);
+            console.log(this.$props.name+ " props")
         },
         MinusItem(){
-            this.minusCountByIndex();
+            this.minusCountByName(this.$props.name);
         },
         deleteItem(){
-            this.deleteItemByIndex();
+            this.deleteItemByName(this.$props.name);
         }
     }
 }
 </script>
 <style scoped>
 .cart-item{
+    margin-top: 5px;
     width: 100%;
-    height: 210px;
+    height: 230px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -72,6 +75,7 @@ export default{
 .central-content{
     display: flex;
     flex-direction: row;
+    font-size: 24px;
     width: 100%;
     height: 140px;
     padding-left: 5px;
@@ -82,12 +86,13 @@ export default{
     background-size:contain;
 }
 .toRight{
-    margin-right: 5px;
+    margin-right: 25px;
     margin-left: auto;
 }
 .footer{
     display: flex;
     flex-direction: row;
+    align-items: center;
     font-size: 20px;
     width: 100%;
     height: 60px;
