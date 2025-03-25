@@ -1,12 +1,13 @@
 
 from typing import Annotated
-
-from fastapi import APIRouter, Depends, Response, status
+import shutil
+import os
+from fastapi import APIRouter, Depends, Response, status, FastAPI, File, UploadFile
 from orm_models.orm_products import Products
 from orm_models.orm_productCards import ProductCards
 from orm_models.orm_images import Images
 from orm_models.orm_configuration import ORM_Configuration
-
+from backend_configuration import Backend_Configuration
 
 ORM_dict = {
         ORM_Configuration.t_products      : Products,
@@ -28,16 +29,27 @@ async def get_table_data(table : str):
         return {"message": "Table not found"}
 
 @router.get("/drop_table")
-async def drop_products_table(table : str):
+async def drop_table(table : str):
     if table in ORM_dict.keys():
         return await ORM_dict[table].drop_table()
     else:
         return {"message": "Table not found"}
 
 @router.get("/drop_table_data")
-async def drop_products_data(table : str):
+async def drop_table_data(table : str):
     if table in ORM_dict.keys():
         return await ORM_dict[table].drop_table_data()
     else:
         return {"message": "Table not found"}
+
+@router.post("/upload/")
+async def upload_file(file: UploadFile = File(...)):
+    file_path = os.path.join(Backend_Configuration.IMAGES_FOLDER, file.filename)
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)  # Сохраняем файл
+
+    return {"filename": file.filename, "path": file_path}
+
+
+
 
