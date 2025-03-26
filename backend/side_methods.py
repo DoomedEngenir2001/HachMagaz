@@ -1,4 +1,5 @@
 import os, sys
+import random, string
 
 def add_folderToSysPath(folder: str):
     absolute_path = os.path.abspath(folder)
@@ -14,3 +15,6 @@ def create_folderIfNotExists(folder_path: str):
         print(f"Папка '{folder_path}' создана.")
     else:
         print(f"Папка '{folder_path}' уже существует.")
+
+def generate_random_UID(length: int = 4):
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))

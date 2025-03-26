@@ -25,3 +25,12 @@ class ProductCards(ORM_Base, Base):
     #Cвязь с таблицей image
     image = relationship(ORM_Configuration.c_Images,
                            back_populates=ORM_Configuration.rel_productsCard_to_image)
+    
+    def __init__(self, product_id : int, image_id : int, title : str, description : str, specPrice : int, limit : int):
+        self.product_id = product_id
+        self.image_id = image_id
+        self.title = title
+        self.description = description
+        self.specPrice = specPrice
+        self.limit = limit
+        self.add_row()

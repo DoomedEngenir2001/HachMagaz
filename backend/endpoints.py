@@ -8,6 +8,9 @@ from orm_models.orm_productCards import ProductCards
 from orm_models.orm_images import Images
 from orm_models.orm_configuration import ORM_Configuration
 from backend_configuration import Backend_Configuration
+#-------------------------------------------------------------#
+from objects_DTO.productCard_DTO import ProductCard_DTO
+#-------------------------------------------------------------#
 
 ORM_dict = {
         ORM_Configuration.t_products      : Products,
@@ -50,6 +53,17 @@ async def upload_file(file: UploadFile = File(...)):
 
     return {"filename": file.filename, "path": file_path}
 
+@router.get("/getProductCard")
+async def get_product_card(product_id: int):
+    return await ProductCards.get_rowById(cls=ProductCards, id=product_id)
 
+@router.get("/getProductCards")
+async def get_product_card():
+    cards : list = await ProductCards.get_table_data()
+    for index, card in enumerate(cards):
+        card : ProductCards
+        cards[index] =  ProductCard_DTO(card)
+        await cards[index].get_image()
+    return cards
 
 
