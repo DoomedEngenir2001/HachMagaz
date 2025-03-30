@@ -7,13 +7,15 @@ from orm_images import Images
 from orm_productCards import ProductCards
 #-------------------------------------------------------------#
 
-async def init_models():
+async def initialize_tables(debug: bool = False) -> None:
     try:
         async with engine.begin() as connection:
-            connection : AsyncConnection
+            connection: AsyncConnection
             await connection.run_sync(Base.metadata.create_all)
-    finally:
-        await connection.close()
+        print("Модели успешно инициализированы.")
+    except Exception as ex:
+        if debug:
+            print(f"Ошибка при инициализации моделей: {ex}")
 
 if __name__ == "__main__":
-    asyncio.run(init_models())
+    asyncio.run(initialize_tables())
