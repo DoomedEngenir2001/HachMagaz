@@ -17,17 +17,12 @@ from project_init import init
 init()
 #-------------------------------------------------------------#
 import asyncio
-from sqlalchemy.ext.asyncio             import AsyncConnection
+from sqlalchemy.ext.asyncio import AsyncConnection
 #-------------------------------------------------------------#
-from db_modules.session_handler         import engine, Base
-#ORM models block №1
+from session_handler import engine, Base
 from orm_models.orm_products            import Products 
 from orm_models.orm_images              import Images
 from orm_models.orm_productCards        import ProductCards
-#ORM models block №2
-from orm_models.orm_users              import Users
-from orm_models.orm_orders             import Orders
-from orm_models.orm_transactions       import Transactions
 #-------------------------------------------------------------#
 
 async def initialize_tables(debug: bool = False) -> None:
@@ -48,4 +43,5 @@ def create_tables(debug: bool = False) -> None:
             print(f"Ошибка при создании таблиц: {ex}")
 
 if __name__ == "__main__":
+   
     create_tables(debug=True)

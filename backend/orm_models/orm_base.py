@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine
 from sqlalchemy.sql import text  # Импортируем функцию text
 #-------------------------------------------------------------#
 from orm_configuration import ORM_Configuration
-from session_handler import get_session, AsyncSessionLocal
+from db_modules.session_handler import get_session, AsyncSessionLocal
 #-------------------------------------------------------------#
 
 class ORM_Base:

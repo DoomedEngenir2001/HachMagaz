@@ -2,7 +2,7 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 #-------------------------------------------------------------#
-from session_handler import Base
+from db_modules.session_handler import Base
 from orm_configuration import ORM_Configuration
 from orm_base import ORM_Base
 #-------------------------------------------------------------#

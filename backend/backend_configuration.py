@@ -10,3 +10,5 @@ class Backend_Configuration:
     LOG_FOLDER    = os.path.join(BASEDIR, 'logs')
     IMAGES_FOLDER = os.path.join(BASEDIR, 'images')
     ORM_FOLDER    = os.path.join(BASEDIR, 'orm_models')
+    DB_FOLDER     = os.path.join(BASEDIR, 'db_modules')
+    DTO_FOLDER    = os.path.join(BASEDIR, 'objects_dto')

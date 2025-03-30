@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 #-------------------------------------------------------------#
 import random, string
 #-------------------------------------------------------------#
-from session_handler import Base
+from db_modules.session_handler import Base
 from orm_configuration import ORM_Configuration
 from orm_base import ORM_Base
 #-------------------------------------------------------------#

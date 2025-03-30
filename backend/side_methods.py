@@ -18,3 +18,15 @@ def create_folderIfNotExists(folder_path: str):
 
 def generate_random_UID(length: int = 4):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+
+def add_parent_folder_to_sys_path():
+    """
+    Добавляет родительскую папку текущего файла в sys.path.
+    """
+    current_dir = os.path.abspath(os.path.dirname(__file__))  # Текущая директория файла
+    parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))  # Родительская директория
+    if parent_dir not in sys.path:
+        sys.path.insert(0, parent_dir)
+        print(f"Родительская папка {parent_dir} добавлена в sys.path")
+    else:
+        print(f"Родительская папка {parent_dir} уже присутствует в sys.path")

@@ -7,10 +7,10 @@ from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 #-------------------------------------------------------------#
 from endpoints import router
-from orm_models.session_handler import get_session
+from backend.db_modules.session_handler import get_session
 #-------------------------------------------------------------#
-from orm_models.orm_products import Products
-from orm_models.orm_images import Images
+from orm_models.orm_products     import Products
+from orm_models.orm_images       import Images
 from orm_models.orm_productCards import ProductCards
 #-------------------------------------------------------------#
 

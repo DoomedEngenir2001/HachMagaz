@@ -1,6 +1,6 @@
 import asyncio
 from sqlalchemy.ext.asyncio import AsyncSession
-from session_handler import AsyncSessionLocal
+from db_modules.session_handler import AsyncSessionLocal
 from orm_products import Products
 from orm_productCards import ProductCards
 from orm_images import Images
