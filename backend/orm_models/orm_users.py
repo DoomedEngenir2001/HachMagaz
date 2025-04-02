@@ -34,7 +34,7 @@ class Users(ORM_Base, Base):
                   lastSeen   : str = get_current_datetime()):
         
         self.login        = login
-        self.hashPassword = hash_password(password)
+        self.hashPassword = hash_password(password)[0]
         self.email        = email
         self.phone        = phone
         self.createTime   = createTime

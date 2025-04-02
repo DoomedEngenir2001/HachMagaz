@@ -104,18 +104,18 @@ if __name__ == "__main__":
     # except Exception as ex:
     #     print(f"Ошибка при добавлении тестовых продуктов: {ex}")
 
-    try:
-        asyncio.run(insert_images_data())
-    except Exception as ex:
-        print(f"Ошибка при добавлении тестовых изображений: {ex}")
+    # try:
+    #     asyncio.run(insert_images_data())
+    # except Exception as ex:
+    #     print(f"Ошибка при добавлении тестовых изображений: {ex}")
 
     # try:
     #     asyncio.run(insert_productCards_data())
     # except Exception as ex:
     #     print(f"Ошибка при добавлении тестовых карточек товара: {ex}")
 
-    # try:
-    #     asyncio.run(insert_users_data())
-    # except Exception as ex:
-    #     print(f"Ошибка при добавлении тестовых пользователей: {ex}")
+    try:
+        asyncio.run(insert_users_data())
+    except Exception as ex:
+        print(f"Ошибка при добавлении тестовых пользователей: {ex}")
 

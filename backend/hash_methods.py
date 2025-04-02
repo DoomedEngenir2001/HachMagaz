@@ -3,7 +3,7 @@ import hashlib
 import os
 #-------------------------------------------------------------#
 
-def hash_password(password: str, salt_length: int = 16) -> (str, str):
+def hash_password(password: str, salt_length: int = 16) -> tuple[str, str]:
     """
     Генерирует хэш пароля с использованием SHA-256 и соли.
     :param password: Пароль, который нужно захэшировать.
