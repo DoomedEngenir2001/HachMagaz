@@ -1,5 +1,6 @@
 import os, sys
 import random, string
+from datetime import datetime
 
 def add_folderToSysPath(folder: str):
     absolute_path = os.path.abspath(folder)
@@ -30,3 +31,12 @@ def add_parent_folder_to_sys_path():
         print(f"Родительская папка {parent_dir} добавлена в sys.path")
     else:
         print(f"Родительская папка {parent_dir} уже присутствует в sys.path")
+
+def get_current_datetime(pattern: str = "%Y-%m-%d %H:%M:%S") -> str:
+    """
+    Возвращает текущую дату и время в строковом формате по заданному паттерну.
+
+    :param pattern: Паттерн для форматирования даты и времени (по умолчанию "%Y-%m-%d %H:%M:%S").
+    :return: Строка с текущей датой и временем.
+    """
+    return datetime.now().strftime(pattern)

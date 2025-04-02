@@ -1,11 +1,34 @@
+import os, sys
+def add_parent_folder_to_sys_path():
+    """
+    Добавляет родительскую папку текущего файла в sys.path.
+    """
+    current_dir = os.path.abspath(os.path.dirname(__file__))  # Текущая директория файла
+    parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))  # Родительская директория
+    if parent_dir not in sys.path:
+        sys.path.insert(0, parent_dir)
+        print(f"Родительская папка {parent_dir} добавлена в sys.path")
+    else:
+        print(f"Родительская папка {parent_dir} уже присутствует в sys.path")
+
+# Вызов функции
+add_parent_folder_to_sys_path()
+from project_init import init
+init()
+#-------------------------------------------------------------#
 import asyncio
 from sqlalchemy.ext.asyncio import AsyncSession
 from db_modules.session_handler import AsyncSessionLocal
-from orm_products import Products
-from orm_productCards import ProductCards
-from orm_images import Images
-
-
+#-------------------------------------------------------------#
+#ORM models block №1
+from orm_models.orm_products            import Products 
+from orm_models.orm_images              import Images
+from orm_models.orm_productCards        import ProductCards
+#ORM models block №2
+from orm_models.orm_users              import Users
+from orm_models.orm_orders             import Orders
+from orm_models.orm_transactions       import Transactions
+#-------------------------------------------------------------#
 
 async def insert_product_data():
     async with AsyncSessionLocal() as session:
@@ -62,9 +85,37 @@ async def insert_productCards_data():
         await session.commit()
         print("Тестовые карточки товара добавлены!")
 
+async def insert_users_data():
+    async with AsyncSessionLocal() as session:
+        session : AsyncSession
+        test_users = [
+            Users("Admin", "qwerty"),
+            Users("Test_User", "918808722"),
+        ]
+
+        session.add_all(test_users)
+        await session.commit()
+        print("Тестовые пользователи добавлены!")
+
 # await table.__table__.drop(bind=session.bind)
 if __name__ == "__main__":
-    # asyncio.run(insert_product_data())
-    # asyncio.run(insert_images_data())
-    asyncio.run(insert_productCards_data())
+    # try:
+    #     asyncio.run(insert_product_data())
+    # except Exception as ex:
+    #     print(f"Ошибка при добавлении тестовых продуктов: {ex}")
+
+    try:
+        asyncio.run(insert_images_data())
+    except Exception as ex:
+        print(f"Ошибка при добавлении тестовых изображений: {ex}")
+
+    # try:
+    #     asyncio.run(insert_productCards_data())
+    # except Exception as ex:
+    #     print(f"Ошибка при добавлении тестовых карточек товара: {ex}")
+
+    # try:
+    #     asyncio.run(insert_users_data())
+    # except Exception as ex:
+    #     print(f"Ошибка при добавлении тестовых пользователей: {ex}")
 
