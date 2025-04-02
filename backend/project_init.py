@@ -10,6 +10,7 @@ def init(debug: bool = False):
     add_folderToSysPath(Backend_Configuration.DB_FOLDER)
     add_folderToSysPath(Backend_Configuration.DTO_FOLDER)
     add_folderToSysPath(Backend_Configuration.ORM_FOLDER)
+    add_folderToSysPath(Backend_Configuration.LOGIC_FOLDER)
 
     if debug: 
         print( "Папки и пути успешно инициализированы.")

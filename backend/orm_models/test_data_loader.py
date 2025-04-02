@@ -29,6 +29,8 @@ from orm_models.orm_users              import Users
 from orm_models.orm_orders             import Orders
 from orm_models.orm_transactions       import Transactions
 #-------------------------------------------------------------#
+from logic.l_users import create_user
+#-------------------------------------------------------------#
 
 async def insert_product_data():
     async with AsyncSessionLocal() as session:
@@ -86,16 +88,11 @@ async def insert_productCards_data():
         print("Тестовые карточки товара добавлены!")
 
 async def insert_users_data():
-    async with AsyncSessionLocal() as session:
-        session : AsyncSession
-        test_users = [
-            Users("Admin", "qwerty"),
-            Users("Test_User", "918808722"),
-        ]
+    obj_a = await create_user(login="admin", password="12345", email="noemail@gmail.com", phone="8918808733")
+    obj_b = await create_user(login="bot", password="12345", email="fakeemail@gmail.com", phone="8888888881")
 
-        session.add_all(test_users)
-        await session.commit()
-        print("Тестовые пользователи добавлены!")
+    print("Тестовые пользователи добавлены!")
+    print(obj_a, obj_b)
 
 # await table.__table__.drop(bind=session.bind)
 if __name__ == "__main__":
