@@ -29,6 +29,9 @@ class Users(ORM_Base, Base):
     orders = relationship(ORM_Configuration.c_Orders,
                                  back_populates=ORM_Configuration.rel_user_to_orders)
     
+    def __repr__(self):
+        return f"Users(id={self.id}, login={self.login}, hashPassword={self.hashPassword}, email={self.email}, phone={self.phone}, createTime={self.createTime}, lastSeen={self.lastSeen})"
+
     @staticmethod
     async def is_login_exist(login: str) -> bool:
         """

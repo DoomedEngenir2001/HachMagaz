@@ -41,13 +41,19 @@ async def drop_table(table : str):
     else:
         return {"message": "Table not found"}
 
+@table_routes.get("/drop_all_tables_data")
+async def drop_table_data():
+    for table in ORM_dict.keys():
+        await ORM_dict[table].drop_table_data()
+    return {"message": "All tables data dropped"}
+
 @table_routes.get("/drop_table_data")
 async def drop_table_data(table : str):
     if table in ORM_dict.keys():
         return await ORM_dict[table].drop_table_data()
     else:
         return {"message": "Table not found"}
-
+    
 @table_routes.post("/upload_file/")
 async def upload_file(file: UploadFile = File(...)):
     file_path = os.path.join(Backend_Configuration.IMAGES_FOLDER, file.filename)

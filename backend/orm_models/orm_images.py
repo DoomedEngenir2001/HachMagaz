@@ -24,5 +24,6 @@ class Images(ORM_Base, Base):
     productCards = relationship(ORM_Configuration.c_ProductCards,
                                  back_populates=ORM_Configuration.rel_image_to_productsCard)
     
-
+    def __repr__(self):
+        return f"Images(id={self.id}, file_path={self.file_path}, UID={self.UID}, hash={self.hash})"
     

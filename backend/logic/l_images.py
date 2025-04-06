@@ -31,3 +31,12 @@ async def create_image_row(file_path : str) -> Union[Images, NoSuchFileError]:
                         UID       = generate_random_UID(),
                         hash      = get_fileHash(file_path),
                         )
+        
+        try:
+            await _image.add_row()
+            return _image
+        except Exception as e:
+            print(f"Error adding product card: {e}")
+            return None
+    else:
+        return NoSuchFileError(file_path)

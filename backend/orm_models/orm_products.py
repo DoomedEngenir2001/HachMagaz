@@ -19,3 +19,6 @@ class Products(ORM_Base, Base):
     #Связь с таблицей productCards
     productCards = relationship(ORM_Configuration.c_ProductCards,
                                  back_populates=ORM_Configuration.rel_product_to_productsCards)
+    
+    def __repr__(self):
+        return f"Products(id={self.id}, title={self.title}, description={self.description}, price={self.price}, countInStock={self.countInStock})"

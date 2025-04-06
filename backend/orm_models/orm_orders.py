@@ -26,3 +26,6 @@ class Orders(ORM_Base, Order_status, Base ):
     #Связь с таблицей transactions
     transactions = relationship(ORM_Configuration.c_Transactions,
                                  back_populates=ORM_Configuration.rel_orders_to_transactions)
+    
+    def __repr__(self):
+        return f"Orders(id={self.id}, user_id={self.user_id}, email={self.email}, phone={self.phone}, address={self.address}, createTime={self.createTime}, status={self.status})"

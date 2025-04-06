@@ -18,6 +18,7 @@ from backend_configuration import Backend_Configuration
 #-------------------------------------------------------------#
 from objects_DTO.productCard_DTO import ProductCard_DTO
 from ORM_dict import ORM_dict
+from orm_models.test_data_loader import insert_images_data, insert_products_data, insert_productCards_data, insert_users_data
 #-------------------------------------------------------------#
 from fastapi.security import OAuth2PasswordBearer
 from logic.l_jwt      import verify_jwt, create_jwt
@@ -26,31 +27,32 @@ from logic.l_jwt      import verify_jwt, create_jwt
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-router = APIRouter()
+debug_router = APIRouter()
 
-@router.get("/")
+@debug_router.get("/")
 async def root():
     return {"message": "Иди нахуй"}
 
-@router.get("/getProductCard")
-async def get_product_card(product_id: int):
-    return await ProductCards.get_rowById(cls=ProductCards, id=product_id)
 
-@router.get("/getProductCards")
-async def get_product_card():
-    cards : list = await ProductCards.get_table_data()
-    for index, card in enumerate(cards):
-        card : ProductCards
-        cards[index] =  ProductCard_DTO(card)
-        await cards[index].get_image()
-    return cards
+@debug_router.get("/setup_debug_data")
+async def setup_debug_data():
+    imagesList   = await insert_images_data()
+    productsList = await insert_products_data()
+    print ("productsList", productsList)
+    print ("imagesList", imagesList)
+    productCardsList = await insert_productCards_data(productsList, imagesList)
+    usersList = await insert_users_data()
+    return {"images": imagesList, 
+            "products": productsList, 
+            "productCards": productCardsList, 
+            "users": usersList}
 
-@router.get("/protected")
+@debug_router.get("/protected")
 async def protected_route(token: str = Depends(oauth2_scheme)):
     user_data = await verify_jwt(token)
     return {"message": "Вы получили доступ!", "user_id": user_data["user_id"]}
 
-@router.get("/get_user_JWT_token")
+@debug_router.get("/get_user_JWT_token")
 async def get_user_JWT_token(user_id: int, password: str):
     user = await Users.get_rowById(cls=Users, id=user_id)
     if isinstance(user, Users):
