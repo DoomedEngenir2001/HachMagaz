@@ -16,6 +16,7 @@ from orm_models.orm_transactions       import Transactions
 #-------------------------------------------------------------#
 from orm_models.orm_configuration import ORM_Configuration
 from backend_configuration import Backend_Configuration
+from side_methods import get_current_datetime
 #-------------------------------------------------------------#
 from objects_DTO.productCard_DTO import ProductCard_DTO
 from ORM_dict import ORM_dict
@@ -40,7 +41,7 @@ async def get_table_data(   login    : str,
         return {"message": _result.show}
     elif isinstance(_result, tuple):
         return {"user_id": _result[0].id, "order_id": _result[1].id}
-    
+
 @user_routes.get("/is_user_exist")
 async def is_user_exist(login: str = None, email: str = None, phone: str = None):
     _result : bool = False
@@ -61,3 +62,25 @@ async def get_user(user_id: int):
     else:
         return {"message": "User not found"}
 
+# TODO: Что то не так с этой функцией
+@user_routes.get("/login_user")
+async def login_user(password: str = None, login: str = None, email: str = None, phone: str = None):
+    print(f"login_user: {password}, {login}, {email}, {phone}")
+    user : Users = None
+    if login is not None:
+        user = await Users.get_rowByLogin( login )
+    elif email is not None:
+        user = await Users.get_rowByEmail( email )
+    elif phone is not None:
+        user = await Users.get_rowByPhone( phone )
+    
+    if isinstance(user, Users):
+        if await user.verify_password(inputPassword=password):
+            # await user.update_last_seen()
+            # TODO: user вываливается из сессии, нужно обновить его
+            user.lastSeen = get_current_datetime()
+            await user.update_row()
+            token = create_jwt(user_id=user.id)
+            return {"token": token}
+        else:
+            return AuthenticationError("Invalid password").show

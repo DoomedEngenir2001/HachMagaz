@@ -72,4 +72,30 @@ class Users(ORM_Base, Base):
         async with AsyncSessionLocal() as session:
             session: AsyncSession
             return await verify_password(inputPassword, self.hashPassword)
-        
+    
+    @staticmethod
+    async def get_rowByLogin( login: str) -> ORM_Base:
+        async with AsyncSessionLocal() as session:
+            session: AsyncSession
+            stmt = select(Users).where(Users.login == login)
+            result = await session.execute(stmt)
+            user = result.scalar_one_or_none()
+            return user if isinstance(user, Users) else ORM_Base.str_Error
+
+    @staticmethod
+    async def get_rowByEmail( email: str) -> ORM_Base:
+        async with AsyncSessionLocal() as session:
+            session: AsyncSession
+            stmt = select(Users).where(Users.email == email)
+            result = await session.execute(stmt)
+            user = result.scalar_one_or_none()
+            return user if isinstance(user, Users) else ORM_Base.str_Error
+    
+    @staticmethod
+    async def get_rowByPhone( phone: str) -> ORM_Base:
+        async with AsyncSessionLocal() as session:
+            session: AsyncSession
+            stmt = select(Users).where(Users.phone == phone)
+            result = await session.execute(stmt)
+            user = result.scalar_one_or_none()
+            return user if isinstance(user, Users) else ORM_Base.str_Error
