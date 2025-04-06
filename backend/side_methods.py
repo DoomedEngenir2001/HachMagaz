@@ -40,3 +40,11 @@ def get_current_datetime(pattern: str = "%Y-%m-%d %H:%M:%S") -> str:
     :return: Строка с текущей датой и временем.
     """
     return datetime.now().strftime(pattern)
+
+def check_file_exists(file_path: str) -> bool:
+    """
+    Проверяет, существует ли файл по указанному пути.
+    :param file_path: Путь к файлу.
+    :return: True, если файл существует, иначе False.
+    """
+    return os.path.isfile(file_path)

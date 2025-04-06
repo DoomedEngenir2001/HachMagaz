@@ -3,7 +3,7 @@ import hashlib
 import os
 #-------------------------------------------------------------#
 
-def hash_password(password: str, salt_length: int = 16) -> tuple[str, str]:
+def hash_password(password: str, salt_length: int = 16, salt = 4) -> tuple[str, str]:
     """
     Генерирует хэш пароля с использованием SHA-256 и соли.
     :param password: Пароль, который нужно захэшировать.
@@ -18,7 +18,7 @@ def hash_password(password: str, salt_length: int = 16) -> tuple[str, str]:
     # Возвращаем соль и хэш в формате "salt:hash"
     return (password_hash, salt)
 
-def verify_password(password: str, hashed_password: str) -> bool:
+async def verify_password(password: str, hashed_password: str) -> bool:
     """
     Проверяет, соответствует ли введённый пароль хэшу.
     :param password: Введённый пароль.
@@ -28,6 +28,7 @@ def verify_password(password: str, hashed_password: str) -> bool:
     try:
         # Разделяем соль и хэш
         salt, stored_hash = hashed_password.split(":")
+        print(f"salt: {salt}, stored_hash: {stored_hash}")
         # Вычисляем хэш введённого пароля с той же солью
         hash_object = hashlib.sha256((salt + password).encode())
         password_hash = hash_object.hexdigest()

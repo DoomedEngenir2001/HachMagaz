@@ -25,9 +25,4 @@ class Images(ORM_Base, Base):
                                  back_populates=ORM_Configuration.rel_image_to_productsCard)
     
 
-    def __init__(self, file_path : str):
-        self.hash = get_fileHash(file_path)
-        self.file_path = file_path
-        self.UID = generate_random_UID()
-        self.add_row()
     

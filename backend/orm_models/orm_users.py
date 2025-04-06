@@ -7,6 +7,9 @@ from db_modules.session_handler import Base
 from orm_configuration import ORM_Configuration
 from orm_base import ORM_Base
 #-------------------------------------------------------------#
+from side_methods import get_current_datetime
+from hash_methods import verify_password
+#-------------------------------------------------------------#
 from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine
 from db_modules.session_handler import get_session, AsyncSessionLocal
 #-------------------------------------------------------------#
@@ -55,3 +58,15 @@ class Users(ORM_Base, Base):
            result = await session.execute(stmt)
            user = result.scalar_one_or_none()
            return user is not None
+        
+    async def update_last_seen(self) -> None:
+        async with AsyncSessionLocal() as session:
+            session: AsyncSession
+            self.lastSeen = get_current_datetime()
+            await session.refresh(self)  # Обновляем объект из базы данных
+
+    async def verify_password(self, inputPassword) -> bool:
+        async with AsyncSessionLocal() as session:
+            session: AsyncSession
+            return await verify_password(inputPassword, self.hashPassword)
+        

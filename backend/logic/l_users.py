@@ -9,15 +9,17 @@ from orm_models.orm_base      import ORM_Base
 from hash_methods import hash_password, verify_password
 from side_methods import get_current_datetime
 #-------------------------------------------------------------#
-from l_errors import UniqueDataError
+from l_errors import UniqueDataError, AuthenticationError
+#-------------------------------------------------------------#
+from l_jwt import create_jwt
 #-------------------------------------------------------------#
 
 
-async def create_user(  login    : str,
-                        password : str,
-                        email    : str,
-                        phone    : str,
-                        ) -> Union[UniqueDataError, tuple[Users, Orders]]:
+async def create_user_row(  login    : str,
+                            password : str,
+                            email    : str,
+                            phone    : str,
+                            ) -> Union[UniqueDataError, tuple[Users, Orders]]:
                 
     
     if await Users.is_login_exist(login):
@@ -27,8 +29,11 @@ async def create_user(  login    : str,
     if await Users.is_phone_exist(phone):
         return UniqueDataError("phone")
 
+    _hash        = hash_password(password)
+    hashPassword = _hash[1] + ":" + _hash[0]
+
     _user = Users(login    = login,
-                  hashPassword = hash_password(password)[0],
+                  hashPassword = hashPassword,
                   email    = email,
                   phone    = phone)
     await _user.add_row()
@@ -45,3 +50,9 @@ async def create_user(  login    : str,
     await _order.add_row()
 
     return (_user, _order)
+
+async def authenticate_user(_user : Users, _inputPassword : str) -> Union[AuthenticationError, str]:
+    if await _user.verify_password(_inputPassword):
+        return await create_jwt(_user.id)
+    else:
+        return AuthenticationError(_inputPassword)

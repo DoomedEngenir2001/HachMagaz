@@ -29,7 +29,7 @@ from orm_models.orm_users              import Users
 from orm_models.orm_orders             import Orders
 from orm_models.orm_transactions       import Transactions
 #-------------------------------------------------------------#
-from logic.l_users import create_user
+from logic.l_users import create_user_row
 #-------------------------------------------------------------#
 
 async def insert_product_data():
@@ -88,8 +88,8 @@ async def insert_productCards_data():
         print("Тестовые карточки товара добавлены!")
 
 async def insert_users_data():
-    obj_a = await create_user(login="admin", password="12345", email="noemail@gmail.com", phone="8918808733")
-    obj_b = await create_user(login="bot", password="12345", email="fakeemail@gmail.com", phone="8888888881")
+    obj_a = await create_user_row(login="admin", password="12345", email="noemail@gmail.com", phone="8918808733")
+    obj_b = await create_user_row(login="bot", password="12345", email="fakeemail@gmail.com", phone="8888888881")
 
     print("Тестовые пользователи добавлены!")
     print(obj_a, obj_b)
