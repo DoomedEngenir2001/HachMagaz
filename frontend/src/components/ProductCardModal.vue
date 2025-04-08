@@ -58,7 +58,7 @@ export default{
 <style scoped>
 .product-card-modal{
     width: 620px;
-    height: 800px;
+    height: 90%;
     display: flex;
     background-color: #ffffff;
     flex-direction: column;
@@ -68,8 +68,8 @@ export default{
     border-radius: 25px;
 }
 .header{
-    padding-top: 0px;
-    padding-right: 5px;
+    padding-top: 10px;
+    padding-right: 15px;
     display: flex;
     flex-direction: row;
     width: 620px;
@@ -109,6 +109,7 @@ export default{
 }
 .alignToRight{
     margin-left: auto;
-    margin-right: 0;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 </style>

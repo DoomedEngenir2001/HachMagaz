@@ -1,9 +1,11 @@
 import { createStore } from "vuex";
-import api from '@/plugins/api';
+import api from "../plugins/api";
 export default createStore({
     state: {
         products: null,
-        cart: []
+        cart: [],
+        login: null,
+        address: ''
     },
     getters: {
         getProductsfromState(state){
@@ -25,6 +27,12 @@ export default createStore({
                 sum+=element.count*element.price;
             });
             return sum;
+        },
+        getLogin(state){
+            return state.login;
+        },
+        getAddress(state){
+            return state.address;
         }
     },
     mutations:{
@@ -49,8 +57,13 @@ export default createStore({
         deleteItemByName(state, name){
             state.cart.forEach((element, index) => {
                 if (element.product == name)state.cart.splice(index,1);
-            });
-            
+            });  
+        },
+        setLogin(state, name){
+            state.login=name;
+        },
+        setAddress(state, addr){
+            state.address=addr;
         }
     },
     actions: {

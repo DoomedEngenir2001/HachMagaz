@@ -8,14 +8,11 @@ export default{
 </script>
 <style>
 .cancelButton{
-    width: 35px;
-    height:35px;
-    background-image: url(~@/assets/close.png);
+    width: 25px;
+    height:25px;
+    background-image: url(../assets/close.png);
     background-size:contain;
     margin-left: auto;
     margin-right: 0;
-}
-.cancelButton:hover{
-    background-image: url(~@/assets/close_inv.png);
 }
 </style>

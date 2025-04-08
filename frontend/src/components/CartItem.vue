@@ -66,7 +66,8 @@ export default{
 <style scoped>
 .cart-item{
     margin-top: 5px;
-    width: 100%;
+    margin-left: 5px;
+    width: 98%;
     height: 230px;
     background-color: white;
     display: flex;
@@ -86,7 +87,7 @@ export default{
     background-size:contain;
 }
 .toRight{
-    margin-right: 25px;
+    margin-right: 5px;
     margin-left: auto;
 }
 .footer{

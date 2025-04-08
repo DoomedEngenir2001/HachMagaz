@@ -15,12 +15,11 @@
             <div>Сумма заказа </div>
             <div style="margin-right: 25px; margin-left: auto;">{{ this.getCartCost }} рублей</div>
         </div>
-        <orangeBtn class="bigBtn">Заказать</orangeBtn>
+        <orangeBtn @click="toCart" class="bigBtn">Заказать</orangeBtn>
     </div>
 </div>
 </template>
 <script>
-import { initFlowbite } from 'flowbite'
 import orangeBtn from './orangeBtn.vue';
 import cancelBtn from './cancelBtn.vue';
 import CartItem from './CartItem.vue';
@@ -54,6 +53,9 @@ export default{
     methods:{
         close(){
             this.$emit('closeCart');
+        },
+        toCart(){
+            this.$emit('toMap');
         }
     }
 }
@@ -65,7 +67,7 @@ export default{
     width: 40%;
     height: 100%;
     background-color: #F3F3F7;
-    padding: 5px 5px 5px 5px;
+
 }
 .header-cart{
     display: flex;
@@ -81,6 +83,7 @@ export default{
     width: 100%;
     height: 80%;
     font-weight: bold;
+    overflow-y:scroll;
 }
 .cart-footer{
     display: flex;
@@ -91,7 +94,7 @@ export default{
 }
 .to-Right{
     margin-left: auto;
-    margin-right: 15px;
+    margin-right: 25px;
     background-color: #F3F3F7;
 }
 .price{
