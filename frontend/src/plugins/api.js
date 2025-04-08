@@ -10,5 +10,17 @@ const instance = axios.create({ // создаем instance с установле
 export default{
     async getProducts(){
         return instance.get("/getProductCards");
+    },
+    async createOrder(name, surname, phone, addr, cost,status, prod){
+        return instance.post("/newOrder", {
+            "Name" : name,
+            "Surname" : surname,
+            "Adress" : addr,
+            "Phone" : phone,
+            "Cost" : cost,
+            "Status" : status,
+            "Products" :prod
+            
+        })
     }
 }

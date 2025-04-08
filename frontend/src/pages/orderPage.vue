@@ -16,6 +16,10 @@
                 <div class="w-[285px] h-[40px] rounded-md border mr-0 ml-auto"><input  v-model="surname" class="w-[285px] h-[40px]"></input></div>
             </div>
             <div class="w-full h-[40px] flex flex-row mt-[21px]">
+                <div class="w-[100px] h-[40px] text-xl font-bold leading-[40px]">Телефон</div>
+                <div class="w-[285px] h-[40px] rounded-md border mr-0 ml-auto"><input  v-model="phone" class="w-[285px] h-[40px]"></input></div>
+            </div>
+            <div class="w-full h-[40px] flex flex-row mt-[21px]">
                 <div class="w-[100px] h-[40px] text-xl font-bold leading-[40px]">Адрес</div>
                 <div class="flex w-[285px] h-[40px] text-xl font-bold rounded-xl">{{ addrr }}</div>
             </div>
@@ -57,10 +61,11 @@ export default {
     setup(props, ctx) {
         const store = useStore();
         const cart = store.getters.getCart;
-        const addrr = store.getters.getAddress;
-        const cost = store.getters.getCartCost;
-        const name = ref('');
-        const surname = ref('');
+        const addrr = ref(store.getters.getAddress);
+        const cost = ref(store.getters.getCartCost);
+        const name = ref(store.getters.getName);
+        const surname = ref(store.getters.getSurname);
+        const phone = ref(store.getters.getPhone);
         const card = ref('');
         const srok = ref('');
         const cvv = ref('');
@@ -70,7 +75,8 @@ export default {
             router.push('/');
         }
 
-        const makeOrder = () =>{
+        const makeOrder = async () =>{
+            const resp = await store.actions.postProductsToServer(name, surname, phone);
             router.push('/');
         }
 

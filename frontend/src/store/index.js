@@ -5,7 +5,10 @@ export default createStore({
         products: null,
         cart: [],
         login: null,
-        address: ''
+        address: '',
+        name: '',
+        surname: '',
+        phone: '',
     },
     getters: {
         getProductsfromState(state){
@@ -33,6 +36,15 @@ export default createStore({
         },
         getAddress(state){
             return state.address;
+        },
+        getName(state){
+            return state.name;
+        },
+        getSurname(state){
+            return state.surname;
+        },
+        getPhone(state){
+            return state.phone;
         }
     },
     mutations:{
@@ -64,12 +76,28 @@ export default createStore({
         },
         setAddress(state, addr){
             state.address=addr;
+        },
+        setName(state, n_){
+            state.name = n_;
+        },
+        setSurname(state, s_){
+            state.surname = s_;
+        },
+        setPhone(state, p_){
+            state.phone = p_;
         }
     },
     actions: {
         async getProductsfromServer(context){
             const response = await api.getProducts();
             context.commit("setProducts", response.data);
+        },
+        async postProductsToServer(context, n_, s_, p_){
+            context.commit("setName", n_);
+            context.commit("setSurname", s_);
+            context.commit("setPhone", p_);
+            const response=await api.createOrder(state.getName, state.getSurname, 
+                state.getPhone, state.getAddress, state.getCartCost, 'OK', state.getCart);
         }
     }
 })
