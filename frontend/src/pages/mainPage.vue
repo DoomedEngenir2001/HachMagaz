@@ -1,6 +1,6 @@
 <template>
     <div class = "main-page">
-        <HeaderPage @OpenCart="this.cartIsVisible=true"></HeaderPage>
+        <HeaderPage @LogIn="this.signInIsVisble=true" @OpenCart="this.cartIsVisible=true"></HeaderPage>
         <div class="center-align">
         <div class="product-panel">
            <productCard @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
@@ -13,18 +13,23 @@
             :product="selectedProduct" :price="selectedPrice" :description="selectedDesc"
             :imagePath="selectedImg"/>
         </div>
-        <div v-if="this.cartIsVisible" class="cart-modal">
-            <CartModal @closeCart="this.cartIsVisible=false"></CartModal>
+        <div  v-if="this.cartIsVisible" class="cart-modal">
+            <CartModal @toMap="openMap" @closeCart="this.cartIsVisible=false"></CartModal>
         </div>
-        
+        <signInForm @toSignUp="toSignUp" @closeFormSignIn="this.signInIsVisble=false" 
+        v-if="this.signInIsVisble"></signInForm>
+        <signUpForm @toSignIN="toSignIn" @closeFormSignUp="this.signUpIsVisble=false" 
+        v-if="this.signUpIsVisble"></signUpForm>
     </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import productCard from '@/components/productCard.vue';
-import HeaderPage from '@/components/HeaderPage.vue';
-import ProductCardModal from '@/components/ProductCardModal.vue';
-import CartModal from '@/components/CartModal.vue';
+import productCard from '../components/productCard.vue';
+import HeaderPage from '../components/HeaderPage.vue';
+import ProductCardModal from '../components/ProductCardModal.vue';
+import CartModal from '../components/CartModal.vue';
+import signInForm from '../components/signInForm.vue';
+import signUpForm from '../components/signUpForm.vue';
 export default{
     async created(){
         await this.getProductsfromServer();
@@ -33,7 +38,9 @@ export default{
         HeaderPage,
         productCard,
         ProductCardModal,
-        CartModal
+        CartModal,
+        signInForm,
+        signUpForm
     },
     data(){
         return {
@@ -42,7 +49,9 @@ export default{
             selectedProduct: null,
             selectedDesc: null,
             selectedImg: null,
-            cartIsVisible: false
+            cartIsVisible: false,
+            signInIsVisble: false,
+            signUpIsVisble: false
         }
     },
     computed: {
@@ -60,6 +69,17 @@ export default{
             this.selectedDesc=description;
             this.selectedImg=imagePath;
             this.isVisible=true;
+        },
+        toSignUp(){
+           this.signUpIsVisble = true;
+           this.signInIsVisble = false;
+        },
+        toSignIn(){
+           this.signUpIsVisble = false;
+           this.signInIsVisble = true;
+        },
+        openMap(){
+            this.$router.push('/orderMap');
         }
     }
 
@@ -79,7 +99,7 @@ export default{
 .product-panel{
 
     margin-top:50px;
-    width: wrap;
+    width: 90%;
     align-items: center;
     height: wrap;
     display: grid;

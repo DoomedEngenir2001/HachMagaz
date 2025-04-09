@@ -1,12 +1,12 @@
 <template>
 <div class="header">
-    <img class="logo-placeholder" :src="require('@/assets/logotip.png')"/>
+    <img class="logo-placeholder" src="../assets/logotip.png"/>
     <navBtn>Пицца</navBtn>
     <navBtn>Cамса</navBtn>
     <navBtn>Пиво</navBtn>
     <div class="btnContainer">
         <orangeBtn @click="openCart" class="or-btn">Корзина</orangeBtn>
-        <orangeBtn class="or-btn">Личный кабинет</orangeBtn>
+        <orangeBtn  @click="signIn" class="or-btn">Личный кабинет</orangeBtn>
     </div>
 </div>
 </template>
@@ -21,6 +21,9 @@ components:{
 methods:{
     openCart(){
         this.$emit('OpenCart');
+    },
+    signIn(){
+        this.$emit('LogIn');
     }
 }
 }

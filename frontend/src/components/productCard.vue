@@ -1,7 +1,9 @@
 /* eslint no-use-before-define: 0 */
 <template>
 <div class="product-card">
-    <img :src="this.$props.imagePath" alt="image" class="product-image" @click="showModal">
+    <div class="image-placeholder">
+        <img :src="this.$props.imagePath" alt="image" class="product-image" @click="showModal">
+    </div>
     <div class="product-name">{{this.$props.product}}</div>
     <div class="price-holder">
         <div>{{this.$props.price}} рублей</div>
@@ -55,16 +57,21 @@ export default{
 </script>
 <style scoped>
 .product-card{
-    width: 380px;
+    width: wrap;
     height: 500px;
-    margin-right: 42.5px;
+    /* margin-right: 42.5px; */
     display: flex;
     flex-direction: column;
     box-shadow:  5px 5px rgb(175, 175, 175);
 }
-.product-image{
+.image-placeholder{
     width: 357px;
     height: 357px;
+}
+.product-image{
+    max-width: 355px;
+    max-height: 355px;
+
 }
 .product-name{
     height: wrap;
