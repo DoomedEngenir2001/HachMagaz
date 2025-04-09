@@ -4,11 +4,15 @@ export default createStore({
     state: {
         products: null,
         cart: [],
-        login: null,
+        orders: [],
+        addresses: [],
+        login: '',
+        password: '',
         address: '',
         name: '',
         surname: '',
         phone: '',
+        token: ''
     },
     getters: {
         getProductsfromState(state){
@@ -37,6 +41,9 @@ export default createStore({
         getAddress(state){
             return state.address;
         },
+        getAddresses(state){
+            return state.addresses;
+        },
         getName(state){
             return state.name;
         },
@@ -45,6 +52,21 @@ export default createStore({
         },
         getPhone(state){
             return state.phone;
+        },
+        getLogin(state){
+            return state.login;
+        },
+        getPassword(state){
+            return state.password;
+        },
+        getPasswordSHA(state){
+            return;
+        },
+        getToken(state){
+            return state.token;
+        },
+        getOrders(state){
+            return state.orders;
         }
     },
     mutations:{
@@ -71,11 +93,20 @@ export default createStore({
                 if (element.product == name)state.cart.splice(index,1);
             });  
         },
+        setCart(state, c_){
+            state.cart = c_;
+        },
         setLogin(state, name){
             state.login=name;
         },
+        setPassword(state, p_){
+            state.password= p_;
+        },
         setAddress(state, addr){
             state.address=addr;
+        },
+        setAddresses(state, addrs){
+            state.addresses = addrs;
         },
         setName(state, n_){
             state.name = n_;
@@ -85,6 +116,12 @@ export default createStore({
         },
         setPhone(state, p_){
             state.phone = p_;
+        },
+        setToken(state, t_){
+            state.token = t_;
+        },
+        setOrders(state, o_){
+            state.orders = o_;
         }
     },
     actions: {
@@ -96,8 +133,33 @@ export default createStore({
             context.commit("setName", n_);
             context.commit("setSurname", s_);
             context.commit("setPhone", p_);
-            const response=await api.createOrder(state.getName, state.getSurname, 
-                state.getPhone, state.getAddress, state.getCartCost, 'OK', state.getCart);
+            const response=await api.createOrder(context.state.getName, context.state.getSurname, 
+                context.state.getPhone, context.state.getAddress, context.state.getCartCost,
+                 'OK', context.state.getCart);
+        },
+        async SignIn(context){
+            const response = await api.SignIn(context.state.login, context.state.password);
+            context.commit("setToken", response.data.token);
+        },
+        async SignUp(context){
+            const response = await api.SignUp(context.state.login, context.state.password);
+            context.commit("setToken", response.data.token);
+        },
+        async getOrders(context){
+            const response = await api.getOrders(context.state.login, context.state.token);
+            context.commit("setOrders", response.data.orders);
+        },
+        async getAdresses(context){
+            const response = await api.getAdress(context.state.login, context.state.token);
+            context.commit("setAddresses", response.data.addresses);
+        },
+        async getCart(context){
+            const response = await api.getCart(context.state.login, context.state.token);
+            context.commit("setCart", response.data.addresses);
+        },
+        async addToCart(context, count, price, product){
+            const response = await api.addToCart(context.state.login, context.state.password,
+                count, product, context.state.token);
         }
     }
 })

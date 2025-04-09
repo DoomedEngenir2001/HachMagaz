@@ -22,5 +22,63 @@ export default{
             "Products" :prod
             
         })
+    },
+    async SignIn(login, password){
+        return instance.post("/login",{
+            "login": login,
+            "password":password 
+        });
+    },
+    async SignUp(login, password){
+        return instance.post("/registration",{
+            "login": login,
+            "password":password 
+        });
+    },
+    async getOrders(login, token){
+        return instance.post("/getOrders",{
+            "login": login
+        },
+        {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        });
+    },
+
+    async getAdress(login, token){
+        return instance.post("/getAddresses",{
+            "login": login
+        },
+        {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        });
+    },
+    async getCart(login, token){
+        return instance.post("/getCart",{
+            "login": login
+        },
+        {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        });
+    },
+    async addToCart(login, count, price, product, token){
+        return instance.post("/addToCart",  {
+            "login": login,
+            "count":count,
+            "price":price,
+            "product":product
+            },
+            {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
     }
+
 }
