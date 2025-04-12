@@ -39,14 +39,18 @@ async def get_table_data(table : str):
 async def get_table_row_data(table : str, rowId : int):
     if table in ORM_dict.keys():
         _return : ORM_Base = await ORM_Base.get_rowById(ORM_dict[table], rowId)
-        return _return.toDict()
+        if _return is None:
+            return {"message": "Row not found"}
+        else:
+            return _return.toDict()
     else:
         return {"message": "Table not found"}
 
 @table_routes.get("/drop_table")
 async def drop_table(table : str):
     if table in ORM_dict.keys():
-        return await ORM_dict[table].drop_table()
+        _return = await ORM_dict[table].drop_table()
+        return {"delited table": _return}
     else:
         return {"message": "Table not found"}
 

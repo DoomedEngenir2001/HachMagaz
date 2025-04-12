@@ -23,12 +23,15 @@ from ORM_dict import ORM_dict
 
 productCards_routes = APIRouter()
 
-@productCards_routes.get("/getProductCard")
+@productCards_routes.get("/get_product_card")
 async def get_product_card(product_id: int):
-    return await ProductCards.get_rowById(cls=ProductCards, id=product_id)
+    _productCards = await ProductCards.get_rowById(cls=ProductCards, id=product_id)
+    if isinstance(_productCards, ProductCards):
+        return _productCards.toDict()
+    return {"message": "Product card not found"}
 
-@productCards_routes.get("/getProductCards")
-async def get_product_card():
+@productCards_routes.get("/get_product_cards")
+async def get_product_cards():
     cards : list = await ProductCards.get_table_data()
     for index, card in enumerate(cards):
         card : ProductCards

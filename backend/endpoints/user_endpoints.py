@@ -31,14 +31,14 @@ user_routes = APIRouter()
 
 
 @user_routes.get("/create_user")
-async def get_table_data(   login    : str,
+async def create_user(   login    : str,
                             password : str,
                             email    : str,
                             phone    : str,):
     _result = await create_user_row( login=login, password=password, email=email, phone=phone )
 
     if isinstance(_result, UniqueDataError):
-        return {"message": _result.show}
+        return {"message": _result.show()}
     elif isinstance(_result, tuple):
         return {"user_id": _result[0].id, "order_id": _result[1].id}
 
