@@ -1,5 +1,6 @@
 import os, sys
 import random, string
+from datetime import datetime
 
 def add_folderToSysPath(folder: str):
     absolute_path = os.path.abspath(folder)
@@ -18,3 +19,32 @@ def create_folderIfNotExists(folder_path: str):
 
 def generate_random_UID(length: int = 4):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+
+def add_parent_folder_to_sys_path():
+    """
+    Добавляет родительскую папку текущего файла в sys.path.
+    """
+    current_dir = os.path.abspath(os.path.dirname(__file__))  # Текущая директория файла
+    parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))  # Родительская директория
+    if parent_dir not in sys.path:
+        sys.path.insert(0, parent_dir)
+        print(f"Родительская папка {parent_dir} добавлена в sys.path")
+    else:
+        print(f"Родительская папка {parent_dir} уже присутствует в sys.path")
+
+def get_current_datetime(pattern: str = "%Y-%m-%d %H:%M:%S") -> str:
+    """
+    Возвращает текущую дату и время в строковом формате по заданному паттерну.
+
+    :param pattern: Паттерн для форматирования даты и времени (по умолчанию "%Y-%m-%d %H:%M:%S").
+    :return: Строка с текущей датой и временем.
+    """
+    return datetime.now().strftime(pattern)
+
+def check_file_exists(file_path: str) -> bool:
+    """
+    Проверяет, существует ли файл по указанному пути.
+    :param file_path: Путь к файлу.
+    :return: True, если файл существует, иначе False.
+    """
+    return os.path.isfile(file_path)

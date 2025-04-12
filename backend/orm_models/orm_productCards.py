@@ -2,7 +2,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 #-------------------------------------------------------------#
-from session_handler import Base
+from db_modules.session_handler import Base
 from orm_configuration import ORM_Configuration
 from orm_base import ORM_Base
 #-------------------------------------------------------------#
@@ -25,12 +25,9 @@ class ProductCards(ORM_Base, Base):
     #Cвязь с таблицей image
     image = relationship(ORM_Configuration.c_Images,
                            back_populates=ORM_Configuration.rel_productsCard_to_image)
+    #Cвязь с таблицей transactions
+    transactions = relationship(ORM_Configuration.c_Transactions,
+                                  back_populates=ORM_Configuration.rel_productsCards_to_transactions)
     
-    def __init__(self, product_id : int, image_id : int, title : str, description : str, specPrice : int, limit : int):
-        self.product_id = product_id
-        self.image_id = image_id
-        self.title = title
-        self.description = description
-        self.specPrice = specPrice
-        self.limit = limit
-        self.add_row()
+    def __repr__(self):
+        return f"ProductCards(id={self.id}, product_id={self.product_id}, image_id={self.image_id}, title={self.title}, description={self.description}, specPrice={self.specPrice}, limit={self.limit})"

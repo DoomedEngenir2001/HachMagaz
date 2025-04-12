@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine
 from sqlalchemy.sql import text  # Импортируем функцию text
 #-------------------------------------------------------------#
 from orm_configuration import ORM_Configuration
-from session_handler import get_session, AsyncSessionLocal
+from db_modules.session_handler import get_session, AsyncSessionLocal
 #-------------------------------------------------------------#
 
 class ORM_Base:
@@ -26,18 +26,28 @@ class ORM_Base:
 
     #---------------------Create, Update, Delete-----------------#
 
-    async def add_row(self):
-        async with AsyncSessionLocal() as session:
-            session : AsyncSession
-            session.add(self)
-            await session.commit()
-            await session.refresh(self)
+    async def add_row(self) -> bool:
+        try:
+            async with AsyncSessionLocal() as session:
+                session : AsyncSession
+                session.add(self)
+                await session.commit()
+                await session.refresh(self)
+            return True
+        except Exception as ex:
+            raise ex
+            return False
     
     async def update_row(self):
         async with AsyncSessionLocal() as session:
             session : AsyncSession
             await session.commit()
             await session.refresh(self)
+
+    async def set_values(self):
+        async with AsyncSessionLocal() as session:
+            session : AsyncSession
+            await session.commit()
 
     async def delete_row(self):
         async with AsyncSessionLocal() as session:
@@ -46,6 +56,15 @@ class ORM_Base:
             await session.commit()
     
     #-------------------------------------------------------------#
+
+    def toDict(self) -> dict:
+        """
+        Преобразует объект в словарь.
+        """
+        return {
+            "id": self.id,
+            **{column.name: getattr(self, column.name) for column in self.__table__.columns}
+        }
 
     @classmethod
     async def get_table_data(cls):
