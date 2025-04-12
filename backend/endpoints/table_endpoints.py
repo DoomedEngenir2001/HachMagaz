@@ -4,6 +4,7 @@ import shutil
 import os
 from fastapi import APIRouter, Depends, Response, status, FastAPI, File, UploadFile
 #-------------------------------------------------------------#
+from orm_models.orm_base                import ORM_Base
 #ORM models block №1
 from orm_models.orm_products            import Products 
 from orm_models.orm_images              import Images
@@ -31,6 +32,14 @@ table_routes = APIRouter()
 async def get_table_data(table : str):
     if table in ORM_dict.keys():
         return await ORM_dict[table].get_table_data()
+    else:
+        return {"message": "Table not found"}
+
+@table_routes.get("/get_table_row_data")
+async def get_table_row_data(table : str, rowId : int):
+    if table in ORM_dict.keys():
+        _return : ORM_Base = await ORM_Base.get_rowById(ORM_dict[table], rowId)
+        return _return.toDict()
     else:
         return {"message": "Table not found"}
 

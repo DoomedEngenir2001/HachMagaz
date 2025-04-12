@@ -12,6 +12,28 @@
 uvicorn fast_main:app --reload
 ```
 
+## Как это запустить :
+
+1. Установить **MySQL Workbench**
+2. Запустить **MySQL Workbench**
+3. Создать **connection** со следующими параметрами:
+
+```
+USER         = "root"
+PASSWORD     = "918808722"
+HOST         = "127.0.0.1"
+PORT         = 3306
+DB_NAME      = "foodshop"
+```
+
+4. Проверить их соответствие в файле **database_configuration.py
+5. Создать новый терминал
+6. Перейти в каталог **backend**
+7. Выполнить команду
+   ```
+   uvicorn fast_main:app --reload
+   ```
+
 Зависимости:
 
 * Фрэймворк FastAPI

@@ -78,10 +78,15 @@ async def get_order_for_user_with_status(user_id: int = None, login : str = None
     if user_id is not None:
         _user = await Users.get_rowById(Users, user_id)
     if login is not None:
-        _user = await Users.get_rowByLogin(Users, login)
+        _user = await Users.get_rowByLogin( login )
+
+    print( "_user : " +  _user.__repr__() )
+
     if isinstance(_user, Users) and status in Order_status.get_all_statuses():
         _orders : Orders = await get_user_orders_with_status(_user.id, status)
+        print( "_orders : " +  _orders.__repr__() )
         if isinstance(_orders, Orders):
             return _orders.toDict()
         else:
             return {"message": "Orders not found"}
+        

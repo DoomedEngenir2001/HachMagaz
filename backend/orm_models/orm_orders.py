@@ -57,3 +57,15 @@ class Orders(ORM_Base, Order_status, Base ):
             result = result.scalars().first()
             # print("Result : " + str(result) + " Type : " + str(type(result)))
             return result
+        
+    def toDict(self):        
+        return {
+            "class" : self.__class__.__name__,
+            "id": self.id,
+            "user_id": self.user_id,
+            "email":self.email,
+            "phone":self.phone,
+            "address":self.address,
+            "createTime":self.createTime,
+            "status":self.status,
+        }

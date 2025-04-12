@@ -26,3 +26,15 @@ class Transactions(ORM_Base, Order_status, Base ):
     #Связь с таблицей productsCards
     productCard = relationship(ORM_Configuration.c_ProductCards,
                                  back_populates=ORM_Configuration.rel_transactions_to_productsCards)
+    
+    def toDict(self)-> dict:
+        return {
+            "class" : self.__class__.__name__,
+            "id": self.id,
+            "order_id": self.order_id,
+            "productCard_id": self.productCard_id,
+            "count": self.count,
+            "price": self.price,
+            "createTime": self.createTime,
+            "bankCardInfo": self.bankCardInfo,
+        }
