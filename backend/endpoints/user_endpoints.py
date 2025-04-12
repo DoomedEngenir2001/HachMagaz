@@ -58,14 +58,14 @@ async def is_user_exist(login: str = None, email: str = None, phone: str = None)
 async def get_user(user_id: int):
     user : Users = await Users.get_rowById(cls=Users, id=user_id)
     if isinstance(user, Users):
-        return user.__dict__()
+        return user.toDict()
     else:
         return {"message": "User not found"}
 
 # TODO: Что то не так с этой функцией
 @user_routes.get("/login_user")
 async def login_user(password: str = None, login: str = None, email: str = None, phone: str = None):
-    print(f"login_user: {password}, {login}, {email}, {phone}")
+    # print(f"login_user: {password}, {login}, {email}, {phone}")
     user : Users = None
     if login is not None:
         user = await Users.get_rowByLogin( login )
@@ -73,14 +73,13 @@ async def login_user(password: str = None, login: str = None, email: str = None,
         user = await Users.get_rowByEmail( email )
     elif phone is not None:
         user = await Users.get_rowByPhone( phone )
-    
+
     if isinstance(user, Users):
         if await user.verify_password(inputPassword=password):
-            # await user.update_last_seen()
+            # TODO: Сделать обновление последнего входа в систему
             # TODO: user вываливается из сессии, нужно обновить его
-            user.lastSeen = get_current_datetime()
-            await user.update_row()
-            token = create_jwt(user_id=user.id)
+            token = await create_jwt(user_id=user.id)
+            # await user.update_last_seen()
             return {"token": token}
         else:
             return AuthenticationError("Invalid password").show

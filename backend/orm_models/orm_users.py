@@ -99,3 +99,15 @@ class Users(ORM_Base, Base):
             result = await session.execute(stmt)
             user = result.scalar_one_or_none()
             return user if isinstance(user, Users) else ORM_Base.str_Error
+    
+    def toDict(self) -> dict:
+        return {
+            "class" : self.__class__.__name__,
+            "id": self.id,
+            "login": self.login,
+            "hashPassword": self.hashPassword,
+            "email": self.email,
+            "phone": self.phone,
+            "createTime": self.createTime,
+            "lastSeen": self.lastSeen
+        }

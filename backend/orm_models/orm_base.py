@@ -39,6 +39,11 @@ class ORM_Base:
             await session.commit()
             await session.refresh(self)
 
+    async def set_values(self):
+        async with AsyncSessionLocal() as session:
+            session : AsyncSession
+            await session.commit()
+
     async def delete_row(self):
         async with AsyncSessionLocal() as session:
             session : AsyncSession

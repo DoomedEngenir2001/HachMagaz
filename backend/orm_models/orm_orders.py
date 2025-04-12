@@ -1,11 +1,15 @@
 #-------------------------------------------------------------#
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import select
 from sqlalchemy.orm import relationship
 #-------------------------------------------------------------#
 from db_modules.session_handler import Base
 from orm_configuration import ORM_Configuration
 from orders_status import Order_status
 from orm_base import ORM_Base
+#-------------------------------------------------------------#
+from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine
+from db_modules.session_handler import get_session, AsyncSessionLocal
 #-------------------------------------------------------------#
 
 class Orders(ORM_Base, Order_status, Base ):
@@ -29,3 +33,5 @@ class Orders(ORM_Base, Order_status, Base ):
     
     def __repr__(self):
         return f"Orders(id={self.id}, user_id={self.user_id}, email={self.email}, phone={self.phone}, address={self.address}, createTime={self.createTime}, status={self.status})"
+    
+    

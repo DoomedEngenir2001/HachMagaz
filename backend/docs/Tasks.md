@@ -17,7 +17,7 @@
 > "Products" : Array<Int>
 > }
 
-* [ ]  вход / регистрация запрос
+* [X]  вход / регистрация запрос
 
 > {
 > login: String,
@@ -27,3 +27,33 @@
 > Ответ :
 >
 > {token: String}
+
+* [ ]  Добавление в корзину (post)
+
+> /addToCart - рут
+> Запрос
+> {
+> login: String,
+> count:Number,
+> price:Number,
+> product:String
+> }
+
+* [ ]  Получение корзины (get)
+
+> /getCart - рут
+> Запрос
+> {
+> login: String,
+> }
+> Ответ:
+> {[
+> {
+> login: String,
+> count:Number,
+> price:Number,
+> imagePath: String,
+> product:String
+> },
+> ...
+> ]}
