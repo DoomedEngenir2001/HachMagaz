@@ -6,9 +6,11 @@ from orm_models.orm_users         import Users
 from orm_models.orm_transactions  import Transactions
 from orm_models.orm_base          import ORM_Base
 #-------------------------------------------------------------#
+from orm_models.orders_status     import Order_status
+#-------------------------------------------------------------#
 from l_errors                 import NoSuchFileError
 #-------------------------------------------------------------#
-from side_methods             import check_file_exists, generate_random_UID
+from side_methods             import check_file_exists, generate_random_UID, get_current_datetime
 #-------------------------------------------------------------#
 from hash_methods             import get_fileHash
 #-------------------------------------------------------------#
@@ -33,6 +35,8 @@ async def create_order_row(
                         email   = email,
                         phone   = phone,
                         address = address,
+                        status  = Order_status.STATUS_CREATED,
+                        createTime = get_current_datetime(),
                         user    = _user,
                     )
     try:
@@ -41,3 +45,5 @@ async def create_order_row(
     except Exception as e:
         print(f"Error adding order: {e}")
         return None
+    
+

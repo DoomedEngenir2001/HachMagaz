@@ -26,12 +26,17 @@ class ORM_Base:
 
     #---------------------Create, Update, Delete-----------------#
 
-    async def add_row(self):
-        async with AsyncSessionLocal() as session:
-            session : AsyncSession
-            session.add(self)
-            await session.commit()
-            await session.refresh(self)
+    async def add_row(self) -> bool:
+        try:
+            async with AsyncSessionLocal() as session:
+                session : AsyncSession
+                session.add(self)
+                await session.commit()
+                await session.refresh(self)
+            return True
+        except Exception as ex:
+            raise ex
+            return False
     
     async def update_row(self):
         async with AsyncSessionLocal() as session:
@@ -51,6 +56,15 @@ class ORM_Base:
             await session.commit()
     
     #-------------------------------------------------------------#
+
+    async def toDict(self) -> dict:
+        """
+        Преобразует объект в словарь.
+        """
+        return {
+            "id": self.id,
+            **{column.name: getattr(self, column.name) for column in self.__table__.columns}
+        }
 
     @classmethod
     async def get_table_data(cls):

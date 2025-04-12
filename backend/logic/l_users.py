@@ -56,3 +56,19 @@ async def authenticate_user(_user : Users, _inputPassword : str) -> Union[Authen
         return await create_jwt(_user.id)
     else:
         return AuthenticationError(_inputPassword)
+    
+async def get_user_orders(user_id: int) -> Union[Orders, None]:
+    _user : Users = await Users.get_rowById(Users, user_id)
+    if isinstance(_user, Users):
+        return _user.orders
+    else:
+        return None
+
+async def get_user_orders_with_status(user_id: int, status: str) -> Union[Orders, None]:
+    _user : Users = await Users.get_rowById(Users, user_id)
+    if isinstance(_user, Users):
+        result = await Orders.get_user_orders_with_current_status(_user.id, status)
+        # print( "Upper result : " + str(result))
+        return result
+    else:
+        return None

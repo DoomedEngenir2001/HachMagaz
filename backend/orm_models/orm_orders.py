@@ -34,4 +34,26 @@ class Orders(ORM_Base, Order_status, Base ):
     def __repr__(self):
         return f"Orders(id={self.id}, user_id={self.user_id}, email={self.email}, phone={self.phone}, address={self.address}, createTime={self.createTime}, status={self.status})"
     
-    
+    @staticmethod
+    async def get_user_orders(user_id : int) -> list["Orders"]:
+        """
+        Возвращает все заказы пользователя.
+        """
+        async with AsyncSessionLocal() as session:
+            session : AsyncSession
+            stmt = select(Orders).where(Orders.user_id == user_id)
+            result = await session.execute(stmt)
+            return result.scalars().all()
+        
+    @staticmethod
+    async def get_user_orders_with_current_status(user_id : int, status : str) -> "Orders":
+        """
+        Возвращает все заказы пользователя с указанным статусом.
+        """
+        async with AsyncSessionLocal() as session:
+            session : AsyncSession
+            stmt = select(Orders).where(Orders.user_id == user_id, Orders.status == status)
+            result = await session.execute(stmt)
+            result = result.scalars().first()
+            # print("Result : " + str(result) + " Type : " + str(type(result)))
+            return result

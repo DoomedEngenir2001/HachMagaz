@@ -9,7 +9,7 @@ from orm_models.orm_base          import ORM_Base
 #-------------------------------------------------------------#
 from l_errors                 import NoSuchFileError
 #-------------------------------------------------------------#
-from side_methods             import check_file_exists, generate_random_UID
+from side_methods             import check_file_exists, generate_random_UID, get_current_datetime
 #-------------------------------------------------------------#
 from hash_methods             import get_fileHash
 #-------------------------------------------------------------#
@@ -22,9 +22,9 @@ async def create_transaction_row(
                             bankCardInfo   : str = None,
                           ) -> Transactions:
     
-    _order : Orders = Orders.get_rowById(Orders, order_id)
+    _order : Orders = await Orders.get_rowById(Orders, order_id)
     if isinstance(_order, Orders):
-        _productCard : ProductCards = ProductCards.get_rowById(ProductCards, productCard_id)
+        _productCard : ProductCards = await ProductCards.get_rowById(ProductCards, productCard_id)
         if isinstance(_productCard, ProductCards):
             _transaction = Transactions(
                             order_id       = order_id,
@@ -32,11 +32,12 @@ async def create_transaction_row(
                             count          = count,
                             price          = price,
                             bankCardInfo   = bankCardInfo,
+                            createTime     = get_current_datetime(),
                             order          = _order,
                             productCard    = _productCard,
                         )
             try:
-                await _transaction.add_row()
+                print( await _transaction.add_row() )
                 return _transaction
             except Exception as e:
                 print(f"Error adding transaction: {e}")

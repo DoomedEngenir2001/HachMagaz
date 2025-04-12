@@ -46,4 +46,3 @@ async def create_productCard_row(product_id : int,
     except Exception as e:
         print(f"Error adding product card: {e}")
         return None
-    
