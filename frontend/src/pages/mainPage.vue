@@ -33,6 +33,8 @@ import signUpForm from '../components/signUpForm.vue';
 export default{
     async created(){
         await this.getProductsfromServer();
+        await this.getOrders();
+
     },
     components:{
         HeaderPage,
@@ -57,11 +59,13 @@ export default{
     computed: {
         ...mapGetters({
             getProductsfromState: "getProductsfromState"
+            
         })
     },
     methods:{
         ...mapActions({
-            getProductsfromServer: "getProductsfromServer"
+            getProductsfromServer: "getProductsfromServer",
+            getOrders: "getOrders"
         }),
         showModalWindow(product, price, imagePath, description){
             this.selectedProduct=product;

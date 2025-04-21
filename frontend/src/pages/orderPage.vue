@@ -76,7 +76,7 @@ export default {
         }
 
         const makeOrder = async () =>{
-            const resp = await store.actions.postProductsToServer(name, surname, phone);
+            const resp = await store.dispatch('postProductsToServer', {name, surname, phone});
             router.push('/');
         }
 

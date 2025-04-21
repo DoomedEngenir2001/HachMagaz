@@ -56,6 +56,9 @@ export default{
             }
         });
     },
+    async getProductDict(){
+        return instance.get("/getDict");
+    },
     async getCart(login, token){
         return instance.post("/getCart",{
             "login": login
