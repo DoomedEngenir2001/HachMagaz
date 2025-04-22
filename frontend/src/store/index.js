@@ -100,7 +100,8 @@ export default createStore({
         },
         minusCountByName(state, name){
             state.cart.forEach((element, index) => {
-                if (element.product == name)state.cart[index].count -=1;
+                if (element.product == name && state.cart[index].count > 0)
+                    state.cart[index].count -=1;
             });
         },
         deleteItemByName(state, name){
@@ -150,10 +151,7 @@ export default createStore({
         //    });
             context.commit("setProducts", response.data);
         },
-        async postProductsToServer(context, n_, s_, p_){
-            context.commit("setName", n_);
-            context.commit("setSurname", s_);
-            context.commit("setPhone", p_);
+        async postProductsToServer(context){
             const response=await api.createOrder(context.state.getName, context.state.getSurname, 
                 context.state.getPhone, context.state.getAddress, context.state.getCartCost,
                  'OK', context.state.getCart);

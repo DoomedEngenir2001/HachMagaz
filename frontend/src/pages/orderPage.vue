@@ -5,26 +5,24 @@
     </div>
     <div class="w-full h-full flex flex-row mt-[41px] p-[10px]">
         <div class="text-base w-3/5">
-
         <div class=" h-full text-base">
             <div class="w-full h-[40px] flex flex-row">
                 <div class="w-[90px] h-[40px] text-xl font-bold leading-[40px]">Имя</div>
-                <div class="w-[285px] h-[40px] rounded-md border mr-0 ml-auto"><input v-model="name" class="w-[285px] h-[40px]"></input></div>
+                <div class="w-[285px] h-[40px] rounded-md border mr-0 ml-auto"><input v-model="name" class="w-[285px] h-[40px]" readonly></input></div>
             </div>
             <div class="w-full h-[40px] flex flex-row mt-[21px]">
                 <div class="w-[100px] h-[40px] text-xl font-bold leading-[40px]">Фамилия</div>
-                <div class="w-[285px] h-[40px] rounded-md border mr-0 ml-auto"><input  v-model="surname" class="w-[285px] h-[40px]"></input></div>
+                <div class="w-[285px] h-[40px] rounded-md border mr-0 ml-auto"><input  v-model="surname" class="w-[285px] h-[40px]" readonly></input></div>
             </div>
             <div class="w-full h-[40px] flex flex-row mt-[21px]">
                 <div class="w-[100px] h-[40px] text-xl font-bold leading-[40px]">Телефон</div>
-                <div class="w-[285px] h-[40px] rounded-md border mr-0 ml-auto"><input  v-model="phone" class="w-[285px] h-[40px]"></input></div>
+                <div class="w-[285px] h-[40px] rounded-md border mr-0 ml-auto"><input  v-model="phone" class="w-[285px] h-[40px]" readonly></input></div>
             </div>
-            <div class="w-full h-[40px] flex flex-row mt-[21px]">
+            <div class="w-full h-fit flex flex-row mt-[21px]">
                 <div class="w-[100px] h-[40px] text-xl font-bold leading-[40px]">Адрес</div>
-                <div class="flex w-[285px] h-[40px] text-xl font-bold rounded-xl">{{ addrr }}</div>
+                <div class="flex w-[285px] h-[40px] text-xl rounded-xl">{{ addrr }}</div>
             </div>
         </div>
-
         <div class="flex-col flex ml-[11px] mr-auto">
             <div class="w-full h-[40px] font-bold text-2xl">Cпособ оплаты</div>
             <div class="w-full h-[40px] flex flex-row"><input  type="radio" value="SBP" name="buying"/><img class="w-[40px] h-[40px] object-scale-down flex ml-[10px]" src="../assets/sbp.png"/><div class="flex leading-[40px] text-xl font-bold pl-[6px]">Система Быстрых платежей</div></div>
@@ -42,9 +40,9 @@
         </div>
         <div class="w-2/5 h-full flex flex-col text-base pl-[40px] pr-[40px]">
             <div class="w-full text-3xl font-bold">Cостав заказа</div>
-            <div class="flex-row flex text-xl font-bold w-full h-[30px]" v-for="item in cart"><div class="flex h-[30px]">{{item.product}}</div><div class="flex mr-0 ml-auto h-[30px]">{{item.price}} рублей</div></div>
+            <div class="flex-row flex text-xl  w-full h-[30px]" v-for="item in cart"><div class="flex h-[30px]">{{item.product}} x{{ item.count }}</div><div class="flex mr-0 ml-auto h-[30px]">{{item.price * item.count}} рублей</div></div>
             <div class="flex-row flex text-xl font-bold"><div>Сумма заказа</div><div class="mr-0 ml-auto">{{ cost }} рублей</div></div>
-            <orangeBtnTS class="mt-[20px]" @click="makeOrder">Оформить заказ</orangeBtnTS>
+            <orangeBtnTS class="mt-[20px] " @click="makeOrder">Оформить заказ</orangeBtnTS>
         </div>
     </div>
 
@@ -81,7 +79,7 @@ export default {
         }
 
         return {
-            cart, cost, addrr, name, surname, card, srok,cvv, cancelOrder, makeOrder
+            cart, cost, addrr, name, surname, card, srok,cvv, phone, cancelOrder, makeOrder
         }
     },
     components:{

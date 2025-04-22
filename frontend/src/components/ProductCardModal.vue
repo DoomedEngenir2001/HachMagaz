@@ -77,7 +77,7 @@ export default{
 }
 .product-image{
     height:425px;
-    width: 620px;
+    width: 425px;
     align-items: center;
 
 }
