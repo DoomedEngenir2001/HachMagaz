@@ -1,0 +1,31 @@
+services:
+  db:
+    image: mysql:9.3
+    environment: 
+      - MYSQL_ROOT_PASSWORD=${PASSW}
+      - MYSQL_USER=${USER}
+      - MYSQL_PASSWORD=${PASSW}
+      - MYSQL_DATABASE=${NAME}
+    ports:
+      - '3306:3306'
+    healthcheck:
+      test: mysql --user=${USER} --password=${PASSW} --execute="SHOW DATABASES;"
+      interval: 10s
+      timeout: 60s
+      retries: 5
+    volumes:
+      - db-data:/var/lib/mysql
+    
+  backend:
+      image: foodshop_backend
+      ports:
+      - '8000:8000'
+      build: 
+        context: ./
+      depends_on:
+        db:
+          condition: service_healthy
+volumes: 
+  db-data:
+
+

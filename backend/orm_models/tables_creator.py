@@ -48,4 +48,4 @@ def create_tables(debug: bool = False) -> None:
             print(f"Ошибка при создании таблиц: {ex}")
 
 if __name__ == "__main__":
-    create_tables(debug=True)
+     create_tables(debug=True)
