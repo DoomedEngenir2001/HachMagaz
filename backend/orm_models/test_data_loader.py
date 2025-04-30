@@ -102,7 +102,7 @@ async def init_db():
     imagesList = await insert_images_data()
     await insert_productCards_data(productslist, imagesList)
     await insert_users_data()
-    print('БАЗА ДАННЫХ ЕБАЬ ГОТОВА!!!!!!!')
+    print('БАЗА ДАННЫХ ЕБАTЬ ГОТОВА!!!!!!!')
    # loop.close()
 # await table.__table__.drop(bind=session.bind)
 if __name__ == "__main__":

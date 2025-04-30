@@ -38,7 +38,7 @@ async def create_productCard_row(product_id : int,
                                 specPrice    = specPrice,
                                 limit        = limit,
                                 product      = await Products.get_rowById(Products, product_id),
-                                image        = await Images.get_rowById(Images, image_id),
+                                image        = await Images.get_rowById(Images, image_id),   
                                 )
     try:
         await _productCard.add_row()
