@@ -33,6 +33,7 @@ from logic.l_products import create_product_row
 from logic.l_users import create_user_row
 from logic.l_images import create_image_row
 from logic.l_productCards import create_productCard_row
+from tables_creator import initialize_tables
 #-------------------------------------------------------------#
 
 async def insert_products_data() -> list[Products]:
@@ -94,6 +95,15 @@ async def insert_users_data() -> list[Users]:
     print(obj_a, obj_b)
     return [obj_a, obj_b]
 
+async def init_db():
+   # loop = asyncio.get_event_loop()
+    await initialize_tables(debug=True)
+    productslist = await insert_products_data()
+    imagesList = await insert_images_data()
+    await insert_productCards_data(productslist, imagesList)
+    await insert_users_data()
+    print('БАЗА ДАННЫХ ЕБАTЬ ГОТОВА!!!!!!!')
+   # loop.close()
 # await table.__table__.drop(bind=session.bind)
 if __name__ == "__main__":
     # try:

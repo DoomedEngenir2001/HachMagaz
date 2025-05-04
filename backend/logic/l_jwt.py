@@ -7,6 +7,7 @@ from fastapi import FastAPI, Depends, HTTPException
 #-------------------------------------------------------------#
 
 async def create_jwt(user_id: int):
+    print(user_id)
     payload = {
         "user_id": user_id,
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=JWT_Configuration.VALIDITY_TIME)  # Токен на 1 час

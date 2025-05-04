@@ -1,5 +1,6 @@
 
 from typing import Annotated
+from typing import Any
 import shutil
 import os
 from fastapi.security import OAuth2PasswordBearer
@@ -20,27 +21,29 @@ from side_methods import get_current_datetime
 #-------------------------------------------------------------#
 from objects_DTO.productCard_DTO import ProductCard_DTO
 from ORM_dict import ORM_dict
+from pydantic import BaseModel
 #-------------------------------------------------------------#
 from logic.l_errors   import UniqueDataError, AuthenticationError
-from logic.l_users    import create_user_row
+from logic.l_users    import create_user_row, create_user_row_reg
 from logic.l_jwt      import verify_jwt, create_jwt
 #-------------------------------------------------------------#
-
+class sign_up_request(BaseModel):
+    login: str
+    password: str
+    email: str
+    phone: str
 
 user_routes = APIRouter()
 
 
-@user_routes.get("/create_user")
-async def create_user(   login    : str,
-                            password : str,
-                            email    : str,
-                            phone    : str,):
-    _result = await create_user_row( login=login, password=password, email=email, phone=phone )
-
+@user_routes.post("/registration")
+async def create_user(   req: sign_up_request, response_model=None)-> Any: # ДОДЕЛАТЬ
+    _result = await create_user_row_reg( login=req.login, password=req.password, 
+                                    email=req.email, phone=req.phone )
     if isinstance(_result, UniqueDataError):
         return {"message": _result.show()}
-    elif isinstance(_result, tuple):
-        return {"user_id": _result[0].id, "order_id": _result[1].id}
+    elif isinstance(_result, str):
+        return {"token": await create_jwt( _result)}
 
 @user_routes.get("/is_user_exist")
 async def is_user_exist(login: str = None, email: str = None, phone: str = None):
@@ -63,16 +66,18 @@ async def get_user(user_id: int):
         return {"message": "User not found"}
 
 # TODO: Что то не так с этой функцией
-@user_routes.get("/login_user")
-async def login_user(password: str = None, login: str = None, email: str = None, phone: str = None):
+@user_routes.post("/login_user")
+async def login_user(password: str = None, login: str = None
+                     #, email: str = None, phone: str = None
+                     ):
     # print(f"login_user: {password}, {login}, {email}, {phone}")
     user : Users = None
     if login is not None:
         user = await Users.get_rowByLogin( login )
-    elif email is not None:
-        user = await Users.get_rowByEmail( email )
-    elif phone is not None:
-        user = await Users.get_rowByPhone( phone )
+    # elif email is not None:
+    #     user = await Users.get_rowByEmail( email )
+    # elif phone is not None:
+    #     user = await Users.get_rowByPhone( phone )
 
     if isinstance(user, Users):
         if await user.verify_password(inputPassword=password):

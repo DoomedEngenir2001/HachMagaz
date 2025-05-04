@@ -51,6 +51,45 @@ async def create_user_row(  login    : str,
 
     return (_user, _order)
 
+
+
+
+async def create_user_row_reg(  login    : str,
+                            password : str,
+                            email    : str,
+                            phone    : str,
+                            ) -> str:
+                
+    
+    if await Users.is_login_exist(login):
+        return UniqueDataError("login")
+    if await Users.is_email_exist(email):
+        return UniqueDataError("email")
+    if await Users.is_phone_exist(phone):
+        return UniqueDataError("phone")
+
+    _hash        = hash_password(password)
+    hashPassword = _hash[1] + ":" + _hash[0]
+
+    _user = Users(login    = login,
+                  hashPassword = hashPassword,
+                  email    = email,
+                  phone    = phone)
+    await _user.add_row()
+
+    _order = Orders(user_id      = _user.id,
+                   email        = _user.email,
+                   phone        = _user.phone,
+                   address      = ORM_Base.str_None,
+                   createTime   = get_current_datetime(),
+                   status       = Order_status.STATUS_CREATED,
+                   user         = _user
+                   )
+
+    await _order.add_row()
+
+    return _user.login
+
 async def authenticate_user(_user : Users, _inputPassword : str) -> Union[AuthenticationError, str]:
     if await _user.verify_password(_inputPassword):
         return await create_jwt(_user.id)

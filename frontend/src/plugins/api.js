@@ -1,6 +1,6 @@
 import axios from "axios";
 const instance = axios.create({ // создаем instance с установленными настройками
-    baseURL: "http://localhost:3000/",
+    baseURL: "http://localhost:8000/",
     withCredentials: false,
     headers: {
       Accept: 'application/json',
@@ -9,7 +9,7 @@ const instance = axios.create({ // создаем instance с установле
 });
 export default{
     async getProducts(){
-        return instance.get("/getProductCards");
+        return instance.get("/get_product_cards");
     },
     async createOrder(name, surname, phone, addr, cost,status, prod){
         return instance.post("/newOrder", {
@@ -29,10 +29,12 @@ export default{
             "password":password 
         });
     },
-    async SignUp(login, password){
+    async SignUp(login, password, email, phone){
         return instance.post("/registration",{
             "login": login,
-            "password":password 
+            "password":password,
+            "email": email,
+            "phone": phone
         });
     },
     async getOrders(login, token){
@@ -55,6 +57,9 @@ export default{
                 Authorization: `Bearer ${token}`
             }
         });
+    },
+    async getProductDict(){
+        return instance.get("/getDict");
     },
     async getCart(login, token){
         return instance.post("/getCart",{
@@ -80,5 +85,4 @@ export default{
             }
         );
     }
-
 }

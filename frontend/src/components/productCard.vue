@@ -67,6 +67,7 @@ export default{
 .image-placeholder{
     width: 357px;
     height: 357px;
+    
 }
 .product-image{
     max-width: 355px;
@@ -76,7 +77,8 @@ export default{
 .product-name{
     height: wrap;
     padding-left: 5px ;
-    font-size: 24px;
+    font-size: 32px;
+    font-weight: bold;
 }
 .price-holder{
     height: wrap;

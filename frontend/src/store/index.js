@@ -2,16 +2,18 @@ import { createStore } from "vuex";
 import api from "../plugins/api";
 export default createStore({
     state: {
-        products: null,
+        products:  [],
+      //  productMap: new Map(),
         cart: [],
         orders: [],
         addresses: [],
         login: '',
         password: '',
-        address: '',
-        name: '',
-        surname: '',
-        phone: '',
+        email: '',
+        address: 'Полюстровский проспект',
+        name: 'Test',
+        surname: 'Test',
+        phone: '8-999-999-99-99',
         token: ''
     },
     getters: {
@@ -35,6 +37,20 @@ export default createStore({
             });
             return sum;
         },
+        getProductFromOrders(state){
+            let CardProducts = new Map();
+            state.orders.forEach((el) =>{
+                let products_ = [];
+                el.Products.forEach((pr)=>{
+                    state.products.forEach((product) =>{
+                        if (product.id ==pr)products_.push(product); // add pr cart to arr
+                    })
+                    
+                })
+                CardProducts.set(el.Id,products_);
+            });
+            return CardProducts; // return map ID-> product cards
+        },
         getLogin(state){
             return state.login;
         },
@@ -55,6 +71,10 @@ export default createStore({
         },
         getLogin(state){
             return state.login;
+        },
+
+        getEmail(state){
+            return state.email;
         },
         getPassword(state){
             return state.password;
@@ -85,7 +105,8 @@ export default createStore({
         },
         minusCountByName(state, name){
             state.cart.forEach((element, index) => {
-                if (element.product == name)state.cart[index].count -=1;
+                if (element.product == name && state.cart[index].count > 0)
+                    state.cart[index].count -=1;
             });
         },
         deleteItemByName(state, name){
@@ -122,17 +143,23 @@ export default createStore({
         },
         setOrders(state, o_){
             state.orders = o_;
+        },
+        addProdCart(state, key, val){
+            state.productMap.set(key, val);
+        },
+        setEmail(state, e_){
+            state.email = e_;
         }
     },
     actions: {
         async getProductsfromServer(context){
             const response = await api.getProducts();
+        //    response.data.forEach((el)=> {
+        //        context.commit("addProdCart", el.id, new Object(el));
+        //    });
             context.commit("setProducts", response.data);
         },
-        async postProductsToServer(context, n_, s_, p_){
-            context.commit("setName", n_);
-            context.commit("setSurname", s_);
-            context.commit("setPhone", p_);
+        async postProductsToServer(context){
             const response=await api.createOrder(context.state.getName, context.state.getSurname, 
                 context.state.getPhone, context.state.getAddress, context.state.getCartCost,
                  'OK', context.state.getCart);
@@ -142,20 +169,21 @@ export default createStore({
             context.commit("setToken", response.data.token);
         },
         async SignUp(context){
-            const response = await api.SignUp(context.state.login, context.state.password);
+            const response = await api.SignUp(context.state.login, context.state.password, 
+                context.state.email, context.state.phone);
             context.commit("setToken", response.data.token);
         },
         async getOrders(context){
             const response = await api.getOrders(context.state.login, context.state.token);
-            context.commit("setOrders", response.data.orders);
+            context.commit("setOrders", response.data);
         },
         async getAdresses(context){
             const response = await api.getAdress(context.state.login, context.state.token);
-            context.commit("setAddresses", response.data.addresses);
+            context.commit("setAddresses", response.data);
         },
         async getCart(context){
             const response = await api.getCart(context.state.login, context.state.token);
-            context.commit("setCart", response.data.addresses);
+            context.commit("setCart", response.data);
         },
         async addToCart(context, count, price, product){
             const response = await api.addToCart(context.state.login, context.state.password,
