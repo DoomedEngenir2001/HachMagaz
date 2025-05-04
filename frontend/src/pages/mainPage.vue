@@ -1,10 +1,10 @@
 <template>
     <div class = "main-page">
-        <HeaderPage @LogIn="toLK()" @OpenCart="this.cartIsVisible=true"></HeaderPage>
+        <HeaderPage @LogIn="toSignUp()" @OpenCart="this.cartIsVisible=true"></HeaderPage>
         <div class="center-align">
         <div class="product-panel">
            <productCard @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
-           :product="product.product" :price="product.price" :imagePath="product.imagePath"
+           :product="product.product" :price="product.price" :imagePath="product.image"
            :description="product.description"></productCard> 
         </div>
         </div>
@@ -33,6 +33,8 @@ import signUpForm from '../components/signUpForm.vue';
 export default{
     async created(){
         await this.getProductsfromServer();
+        await this.getOrders();
+
     },
     components:{
         HeaderPage,
@@ -57,11 +59,13 @@ export default{
     computed: {
         ...mapGetters({
             getProductsfromState: "getProductsfromState"
+            
         })
     },
     methods:{
         ...mapActions({
-            getProductsfromServer: "getProductsfromServer"
+            getProductsfromServer: "getProductsfromServer",
+            getOrders: "getOrders"
         }),
         showModalWindow(product, price, imagePath, description){
             this.selectedProduct=product;
@@ -107,6 +111,7 @@ export default{
     height: wrap;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
 }
 .modal{
   position: fixed;

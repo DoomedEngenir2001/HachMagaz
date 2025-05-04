@@ -17,15 +17,14 @@
       </yandex-map>
       <div class="w-[320px] h-wrap p-[10px] bg-white flex-column 
         fixed bottom-[79px] left-[70px] rounded-2xl">
-        <div class="w-100% h-[65px] text-lg">Передвиньте маркер
-            или укажите ваш адрес</div>
+        <div class="w-100% h-[65px] text-lg">Укажите ваш адрес</div>
           <input v-model="address" list="search" placeholder="Город, улица и дом" class="w-[300px] h-[45px] rounded-2xl border mt-[14px]"/>
               <datalist id="search" class="flex-column">
                   <option 
                       v-for="(item, index) in searchResponse ?? []"
                       :key="item.geometry?.coordinates.join(',') ?? index"
                       :value="item.geometry?.coordinates"
-                      >
+                      hidden>
                       {{ item.properties.name }} ({{ item.properties.description }})
                   </option>
                 </datalist>
