@@ -6,10 +6,9 @@ import datetime
 from fastapi import FastAPI, Depends, HTTPException
 #-------------------------------------------------------------#
 
-async def create_jwt(user_id: int):
-    print(user_id)
+async def create_jwt(login: str):
     payload = {
-        "user_id": user_id,
+        "user_id": login,
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=JWT_Configuration.VALIDITY_TIME)  # Токен на 1 час
     }
     token = jwt.encode(payload, JWT_Configuration.SECRET_KEY, algorithm=JWT_Configuration.ALGORITHM)

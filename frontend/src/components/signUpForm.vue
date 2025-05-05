@@ -13,8 +13,8 @@
             <input v-model="this.email" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
             <div class="h-[30px] w-full mt-[5px] text-base leading-[30px] font-bold">Телефон</div>
             <input v-model="this.phone" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
-            <div class="mt-[10px] flex text-center text-gray text-xl underline" @click="this.$emit('toSignIn');">Войти</div>
-            <div class="mt-[65px] flex w-full text-center justify-center"><orangeBtn  @click="signUp()" class="text-white w-[220px] ">Зарегистрироваться</orangeBtn></div>    
+            <div class="mt-[10px] flex text-center text-gray text-xl justify-center"> <orangeBtn @click="this.$emit('toSignIn');">Войти</orangeBtn></div>
+            <div class="mt-[20px] flex w-full text-center justify-center"><orangeBtn  @click="signUp()" class="text-white w-[220px] ">Зарегистрироваться</orangeBtn></div>    
             
         </div>
     </div>
@@ -53,7 +53,7 @@ import cancelBtn from "./cancelBtn.vue";
                 this.setLogin(this.login);
                 this.setPasword(this.password);
                 await this.SignUp();
-                this.$emit('closeFormSignUp');
+                this.$emit('toSignIn');
             }
         }
     }

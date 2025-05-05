@@ -24,7 +24,7 @@ from ORM_dict import ORM_dict
 from pydantic import BaseModel
 #-------------------------------------------------------------#
 from logic.l_errors   import UniqueDataError, AuthenticationError
-from logic.l_users    import  create_user_row_reg
+from logic.l_users    import  create_user_row_reg, authenticate_user
 from logic.l_jwt      import verify_jwt, create_jwt
 #-------------------------------------------------------------#
 class sign_up_request(BaseModel):
@@ -32,10 +32,7 @@ class sign_up_request(BaseModel):
     password: str
     email: str
     phone: str
-
-class sign_up_response(BaseModel):
-    token: str
-    
+  
 class login_req(BaseModel):
     login: str
     password: str
@@ -54,27 +51,27 @@ async def create_user(   req: sign_up_request)->dict: # ДОДЕЛАТЬ
         return {"token":token}
     
 @user_routes.post("/login")
-async def login_user(password: str = None, login: str = None
+async def login_user(req:login_req
                      #, email: str = None, phone: str = None
                      ):
     # print(f"login_user: {password}, {login}, {email}, {phone}")
-    user : Users = None
-    if login is not None:
-        user = await Users.get_rowByLogin( login )
+   # user : Users = None
+    if req.login is not None:
+        user = await Users.get_rowByLogin( req.login )
     # elif email is not None:
     #     user = await Users.get_rowByEmail( email )
     # elif phone is not None:
     #     user = await Users.get_rowByPhone( phone )
-
-    if isinstance(user, Users):
-        if await user.verify_password(inputPassword=password):
-            # TODO: Сделать обновление последнего входа в систему
-            # TODO: user вываливается из сессии, нужно обновить его
-            token = await create_jwt(user_id=user.id)
-            # await user.update_last_seen()
-            return {"token": token}
-        else:
-            return AuthenticationError("Invalid password").show
+        if isinstance(user, Users):
+            token = await authenticate_user(user, _inputPassword=req.password)
+            if isinstance(token, str):
+                # TODO: Сделать обновление последнего входа в систему
+                # TODO: user вываливается из сессии, нужно обновить его
+                token = await create_jwt(user.login)
+                # await user.update_last_seen()
+                return {"token": token}
+            elif isinstance(token, AuthenticationError):
+                return AuthenticationError("Invalid password").show
         
 @user_routes.get("/is_user_exist")
 async def is_user_exist(login: str = None, email: str = None, phone: str = None):

@@ -87,12 +87,13 @@ async def create_user_row_reg(  login    : str,
                    )
 
     await _order.add_row()
-
     return _user.login
 
 async def authenticate_user(_user : Users, _inputPassword : str) -> Union[AuthenticationError, str]:
-    if await _user.verify_password(_inputPassword):
-        return await create_jwt(_user.id)
+    password_ok = await _user.verify_password(_inputPassword)
+    if password_ok:
+        token = await create_jwt(_user.login)
+        return token
     else:
         return AuthenticationError(_inputPassword)
     

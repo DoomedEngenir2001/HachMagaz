@@ -16,9 +16,9 @@
         <div  v-if="this.cartIsVisible" class="cart-modal">
             <CartModal @toMap="openMap" @closeCart="this.cartIsVisible=false"></CartModal>
         </div>
-        <signInForm @toSignUp="toSignUp" @closeFormSignIn="this.signInIsVisble=false" 
+        <signInForm @toSignUp="this.signInIsVisble=false;this.signUpIsVisble=true;" @closeFormSignIn="this.signInIsVisble=false;this.signUpIsVisble=false;" 
         v-if="this.signInIsVisble"></signInForm>
-        <signUpForm @toSignIN="toSignIn" @closeFormSignUp="this.signUpIsVisble=false" 
+        <signUpForm @toSignIn="this.signInIsVisble=true;this.signUpIsVisble=false;" @closeFormSignUp="this.signInIsVisble=false;this.signUpIsVisble=false;" 
         v-if="this.signUpIsVisble"></signUpForm>
     </div>
 </template>
@@ -58,8 +58,8 @@ export default{
     },
     computed: {
         ...mapGetters({
-            getProductsfromState: "getProductsfromState"
-            
+            getProductsfromState: "getProductsfromState",
+            getToken: "getToken"
         })
     },
     methods:{
@@ -75,6 +75,9 @@ export default{
             this.isVisible=true;
         },
         toSignUp(){
+           if (this.getToken != ""){ // if authorized -> LK
+                this.toLK();
+           } 
            this.signUpIsVisble = true;
            this.signInIsVisble = false;
         },
@@ -82,6 +85,7 @@ export default{
             this.$router.push('/personalCabinet');
         },
         toSignIn(){
+            console.log("sign in")
            this.signUpIsVisble = false;
            this.signInIsVisble = true;
         },
