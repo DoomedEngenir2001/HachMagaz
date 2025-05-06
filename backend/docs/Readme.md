@@ -26,7 +26,7 @@ PORT         = 3306
 DB_NAME      = "foodshop"
 ```
 
-4. Проверить их соответствие в файле **database_configuration.py
+4. Проверить их соответствие в файле **database_configuration.py**
 5. Создать новый терминал
 6. Перейти в каталог **backend**
 7. Выполнить команду
@@ -56,6 +56,12 @@ DB_NAME      = "foodshop"
   ```
   pip install aiomysql
   ```
+* Библиотека обработки JWT
+
+```
+pip install PyJWT
+```
+
 * Открытие Swagger:
 
 ```
