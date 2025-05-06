@@ -1,6 +1,8 @@
 <template>
 <div class="app">
-<router-view/>
+<keep-alive>
+  <router-view/>
+</keep-alive>
 <!-- <orderMapPage></orderMapPage> -->
 </div>  
 </template>

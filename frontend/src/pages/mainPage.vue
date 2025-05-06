@@ -8,18 +8,18 @@
            :description="product.description"></productCard> 
         </div>
         </div>
-        <div class="modal" v-if="isVisible">
+        <div class="modal" v-show="isVisible">
             <ProductCardModal @closeModal="this.isVisible=false"    
             :product="selectedProduct" :price="selectedPrice" :description="selectedDesc"
             :imagePath="selectedImg"/>
         </div>
-        <div  v-if="this.cartIsVisible" class="cart-modal">
+        <div  v-show="this.cartIsVisible" class="cart-modal">
             <CartModal @toMap="openMap" @closeCart="this.cartIsVisible=false"></CartModal>
         </div>
         <signInForm @toSignUp="this.signInIsVisble=false;this.signUpIsVisble=true;" @closeFormSignIn="this.signInIsVisble=false;this.signUpIsVisble=false;" 
-        v-if="this.signInIsVisble"></signInForm>
+        v-show="this.signInIsVisble"></signInForm>
         <signUpForm @toSignIn="this.signInIsVisble=true;this.signUpIsVisble=false;" @closeFormSignUp="this.signInIsVisble=false;this.signUpIsVisble=false;" 
-        v-if="this.signUpIsVisble"></signUpForm>
+        v-show="this.signUpIsVisble"></signUpForm>
     </div>
 </template>
 <script>
