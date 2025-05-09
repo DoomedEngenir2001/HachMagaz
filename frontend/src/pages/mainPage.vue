@@ -4,7 +4,7 @@
         <div class="center-align">
         <div class="product-panel">
            <productCard @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
-           :product="product.product" :price="product.price" :imagePath="product.image"
+           :product="product.product" :price="product.price" :imagePath="product.image" :id="product.id"
            :description="product.description"></productCard> 
         </div>
         </div>
@@ -32,9 +32,10 @@ import signInForm from '../components/signInForm.vue';
 import signUpForm from '../components/signUpForm.vue';
 export default{
     async created(){
-        await this.getProductsfromServer();
-        await this.getOrders();
-
+        if (this.getProductsfromState.length ==0){
+            await this.getProductsfromServer();
+ //           await this.getOrders();
+        }
     },
     components:{
         HeaderPage,
@@ -59,7 +60,8 @@ export default{
     computed: {
         ...mapGetters({
             getProductsfromState: "getProductsfromState",
-            getToken: "getToken"
+            getToken: "getToken",
+            getProductsfromState: "getProductsfromState"
         })
     },
     methods:{
@@ -75,17 +77,10 @@ export default{
             this.isVisible=true;
         },
         toSignUp(){
-           if (this.getToken != ""){ // if authorized -> LK
-                this.toLK();
-           } 
            this.signUpIsVisble = true;
            this.signInIsVisble = false;
         },
-        toLK(){
-            this.$router.push('/personalCabinet');
-        },
         toSignIn(){
-            console.log("sign in")
            this.signUpIsVisble = false;
            this.signInIsVisble = true;
         },

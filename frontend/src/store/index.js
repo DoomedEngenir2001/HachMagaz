@@ -14,9 +14,24 @@ export default createStore({
         name: 'Test',
         surname: 'Test',
         phone: '8-999-999-99-99',
-        token: ''
+        token: '',
+        user_id: null
     },
     getters: {
+        getCartIdxs(state){
+            let pr_idxs = []
+            state.cart.forEach(el =>{
+                pr_idxs.push(el.id)
+            });
+            return pr_idxs;
+        },
+        getCartCount(state){
+            let pr_cnt = []
+            state.cart.forEach(el =>{
+                pr_cnt.push(el.count)
+            });
+            return pr_cnt;
+        },
         getProductsfromState(state){
             return state.products;
         },
@@ -87,6 +102,9 @@ export default createStore({
         },
         getOrders(state){
             return state.orders;
+        },
+        getUserId(state){
+            return state.user_id;
         }
     },
     mutations:{
@@ -149,6 +167,9 @@ export default createStore({
         },
         setEmail(state, e_){
             state.email = e_;
+        },
+        setUserId(state, i){
+            state.user_id = i;
         }
     },
     actions: {
@@ -159,14 +180,14 @@ export default createStore({
         //    });
             context.commit("setProducts", response.data);
         },
-        async postProductsToServer(context){
-            const response=await api.createOrder(context.state.getName, context.state.getSurname, 
-                context.state.getPhone, context.state.getAddress, context.state.getCartCost,
-                 'OK', context.state.getCart);
+        async createOrder(context){
+            const response=await api.createOrder(context.getters.getUserId, context.getters.getCartIdxs,
+                context.getters.getCartCount);
         },
         async SignIn(context){
             const response = await api.SignIn(context.state.login, context.state.password);
             context.commit("setToken", response.data.token);
+            context.commit("setUserId", response.data.user_id);
         },
         async SignUp(context){
             const response = await api.SignUp(context.state.login, context.state.password, 

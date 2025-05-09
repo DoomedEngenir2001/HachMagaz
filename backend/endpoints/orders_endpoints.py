@@ -26,6 +26,7 @@ from fastapi.security      import OAuth2PasswordBearer
 from logic.l_jwt           import verify_jwt, create_jwt
 from logic.l_transanctions import create_transaction_row
 from logic.l_users         import get_user_orders, get_user_orders_with_status
+from pydantic import BaseModel
 #-------------------------------------------------------------#
 
 orders_router = APIRouter()
@@ -43,26 +44,33 @@ orders_router = APIRouter()
 # price:Number,
 # product:String
 # }
+class order_reg(BaseModel):
+    user_id: int
+ #   address: str
+    productCard_ids: list
+    count: list
+class order_address(BaseModel):
+    address: str
 
-@orders_router.get("/add_to_order")
-async def add_to_order(user_id: int, productCard_id: int, count: int):
-    _user = await Users.get_rowById(Users, user_id)
+@orders_router.post("/newOrder")
+async def add_to_order(req: order_reg)->dict:
+    _user = await Users.get_rowById(Users, req.user_id)
     if isinstance(_user, Users):
-        _productCard = await ProductCards.get_rowById(ProductCards, productCard_id)
-        if isinstance(_productCard, ProductCards):
-            if count <= _productCard.limit:
-                _order : Orders = await get_user_orders_with_status(user_id, Order_status.STATUS_CREATED)
-                # print( "_order result : " + str(_order) )
-                if isinstance(_order, Orders):
-                    _transactions : Transactions = await create_transaction_row(
-                                                        order_id       = _order.id,
-                                                        productCard_id = _productCard.id,
-                                                        count          = count,
-                                                        price          = _productCard.specPrice,
-                                                        bankCardInfo   = ORM_Base.str_None,
-                                                        )
+        for i, productCard_id in enumerate(req.productCard_ids):
+            _productCard = await ProductCards.get_rowById(ProductCards, productCard_id)
+            if isinstance(_productCard, ProductCards):
+                if req.count[i] <= _productCard.limit:
+                    _order : Orders = await get_user_orders_with_status(req.user_id, Order_status.STATUS_CREATED)
+                    # print( "_order result : " + str(_order) )
+                    if isinstance(_order, Orders):
+                        _transactions : Transactions = await create_transaction_row(
+                                                            order_id       = _order.id,
+                                                            productCard_id = _productCard.id,
+                                                            count          = req.count[i],
+                                                            price          = _productCard.specPrice,
+                                                            bankCardInfo   = ORM_Base.str_None,
+                                                            )
                     # print( "_transactions result : " + str(_transactions) )
-                    return {"message": "Transaction created successfully", "transaction_id": _transactions.id}
                 else:
                     return {"message": "Order not found"}
             else:
@@ -71,7 +79,6 @@ async def add_to_order(user_id: int, productCard_id: int, count: int):
             return {"message": "Product card not found"}
     else:
         return {"message": "User not found"}
-    
 @orders_router.get("/get_order_for_user_with_status")
 async def get_order_for_user_with_status(user_id: int = None, login : str = None, status : str = Order_status.STATUS_CREATED):
     _user : Users = None

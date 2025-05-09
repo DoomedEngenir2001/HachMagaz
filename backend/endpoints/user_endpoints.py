@@ -41,7 +41,7 @@ user_routes = APIRouter()
 
 
 @user_routes.post("/registration")
-async def create_user(   req: sign_up_request)->dict: # ДОДЕЛАТЬ
+async def create_user(req: sign_up_request)->dict: # ДОДЕЛАТЬ
     _result = await create_user_row_reg( login=req.login, password=req.password, 
                                     email=req.email, phone=req.phone)
     if isinstance(_result, UniqueDataError):
@@ -53,7 +53,7 @@ async def create_user(   req: sign_up_request)->dict: # ДОДЕЛАТЬ
 @user_routes.post("/login")
 async def login_user(req:login_req
                      #, email: str = None, phone: str = None
-                     ):
+                     )->dict:
     # print(f"login_user: {password}, {login}, {email}, {phone}")
    # user : Users = None
     if req.login is not None:
@@ -69,7 +69,7 @@ async def login_user(req:login_req
                 # TODO: user вываливается из сессии, нужно обновить его
                 token = await create_jwt(user.login)
                 # await user.update_last_seen()
-                return {"token": token}
+                return {"token": token, "user_id": user.id}
             elif isinstance(token, AuthenticationError):
                 return AuthenticationError("Invalid password").show
         

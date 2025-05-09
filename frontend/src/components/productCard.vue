@@ -1,4 +1,5 @@
 /* eslint no-use-before-define: 0 */
+/*прокинь в пропсы айди */
 <template>
 <div class="product-card">
     <div class="image-placeholder">
@@ -34,6 +35,10 @@ export default{
         description:{
             required: true,
             type: String
+        },
+        id: {
+            requird: true,
+            type: String
         }
     }, 
     methods:{
@@ -45,7 +50,8 @@ export default{
                 "product": this.$props.product,
                 "price": this.$props.price,
                 "count": 1,
-                "imagePath": this.$props.imagePath
+                "imagePath": this.$props.imagePath,
+                "id": this.$props.id
             });
         },
         showModal(){

@@ -23,7 +23,7 @@
 import orangeBtn from './orangeBtn.vue';
 import cancelBtn from './cancelBtn.vue';
 import CartItem from './CartItem.vue';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default{
     components:{
         orangeBtn,
@@ -51,10 +51,14 @@ export default{
 
     },
     methods:{
+        ...mapActions({
+            createOrder: "createOrder"
+        }),
         close(){
             this.$emit('closeCart');
         },
-        toCart(){
+        async toCart(){
+            await this.createOrder();
             this.$emit('toMap');
         }
     }

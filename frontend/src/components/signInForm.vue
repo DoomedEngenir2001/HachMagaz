@@ -45,7 +45,7 @@ export default {
             this.setLogin(this.login);
             this.setPasword(this.password);
             await this.SignIn()
-            this.$emit('closeFormSignIn');
+            this.$router.push('/personalCabinet');
         }
     }
 }
