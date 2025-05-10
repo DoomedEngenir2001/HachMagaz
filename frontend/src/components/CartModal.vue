@@ -58,7 +58,6 @@ export default{
             this.$emit('closeCart');
         },
         async toCart(){
-            await this.createOrder();
             this.$emit('toMap');
         }
     }

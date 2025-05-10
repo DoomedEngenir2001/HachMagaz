@@ -182,7 +182,7 @@ export default createStore({
         },
         async createOrder(context){
             const response=await api.createOrder(context.getters.getUserId, context.getters.getCartIdxs,
-                context.getters.getCartCount);
+                context.getters.getCartCount, context.getters.getAddress);
         },
         async SignIn(context){
             const response = await api.SignIn(context.state.login, context.state.password);

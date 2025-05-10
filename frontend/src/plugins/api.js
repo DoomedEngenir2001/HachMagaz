@@ -11,11 +11,12 @@ export default{
     async getProducts(){
         return instance.get("/get_product_cards");
     },
-    async createOrder(user_id, prod, count){
+    async createOrder(user_id, prod, count, addr){
         return instance.post("/newOrder", {
             "user_id": user_id,
             "productCard_ids": prod,
-            "count": count
+            "count": count,
+            "address": addr
 
         })
     },
