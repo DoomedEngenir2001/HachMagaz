@@ -1,6 +1,6 @@
 <template>
     <div class = "main-page">
-        <HeaderPage @LogIn="toSignUp()" @OpenCart="this.cartIsVisible=true"></HeaderPage>
+        <HeaderPage @LogIn="toLK()" @OpenCart="this.cartIsVisible=true"></HeaderPage>
         <div class="center-align">
         <div class="product-panel">
            <productCard @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
@@ -83,6 +83,10 @@ export default{
         toSignIn(){
            this.signUpIsVisble = false;
            this.signInIsVisble = true;
+        },
+        toLK(){
+            if(this.getToken != '')this/this.$router.push('/personalCabinet');
+            else toSignUp();
         },
         openMap(){
             this.$router.push('/orderMap');

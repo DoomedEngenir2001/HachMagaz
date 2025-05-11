@@ -17,6 +17,7 @@ from orm_models.orm_configuration import ORM_Configuration
 from backend_configuration        import Backend_Configuration
 #-------------------------------------------------------------#
 from objects_DTO.productCard_DTO import ProductCard_DTO
+from objects_DTO import order_DTO
 from ORM_dict import ORM_dict
 from orm_models.orm_base         import ORM_Base
 from orm_models.orders_status    import Order_status
@@ -50,8 +51,6 @@ class order_reg(BaseModel):
     address: str
     productCard_ids: list
     count: list
-class order_address(BaseModel):
-    address: str
 
 @orders_router.post("/newOrder")
 async def add_to_order(req: order_reg)->dict:
@@ -85,7 +84,7 @@ async def add_to_order(req: order_reg)->dict:
         return {"message": "User not found"}
 
 @orders_router.get("/get_order_for_user_with_status")
-async def get_order_for_user_with_status(user_id: int = None, login : str = None, status : str = Order_status.STATUS_CREATED):
+async def get_order_for_user_with_status(user_id: int = None, login : str = None, status : str = Order_status.STATUS_CREATED)->list:
     _user : Users = None
     if user_id is not None:
         _user = await Users.get_rowById(Users, user_id)
@@ -95,10 +94,13 @@ async def get_order_for_user_with_status(user_id: int = None, login : str = None
     print( "_user : " +  _user.__repr__() )
 
     if isinstance(_user, Users) and status in Order_status.get_all_statuses():
-        _orders : Orders = await get_user_orders_with_status(_user.id, status)
+        _orders : Orders = await get_user_orders(_user.id)
         print( "_orders : " +  _orders.__repr__() )
         if isinstance(_orders, Orders):
-            return _orders.toDict()
+            orders = []
+            for _order in _orders:
+                order = order_DTO(_order)
+                orders.append(order)
+            return orders
         else:
             return {"message": "Orders not found"}
-        

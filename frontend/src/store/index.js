@@ -1,21 +1,22 @@
 import { createStore } from "vuex";
 import api from "../plugins/api";
+import {saveStorage, getStorage} from "../plugins/persistent"
 export default createStore({
     state: {
-        products:  [],
+        products:  getStorage("products") || [],
       //  productMap: new Map(),
-        cart: [],
-        orders: [],
-        addresses: [],
-        login: '',
+        cart: getStorage("cart") || [],
+        orders:  getStorage("orders") || [],
+        addresses: getStorage("orders") || [],
+        login:  '',
         password: '',
-        email: '',
-        address: 'Полюстровский проспект',
-        name: 'Test',
-        surname: 'Test',
-        phone: '8-999-999-99-99',
-        token: '',
-        user_id: null
+        email: getStorage("email") || '',
+        address: getStorage("address") || '',
+        name: getStorage("name") || '',
+        surname: getStorage("surname") || '',
+        phone: getStorage("phone") ||'',
+        token: getStorage("token") ||'',
+        user_id: getStorage("user_id") ||null
     },
     getters: {
         getCartIdxs(state){
@@ -110,66 +111,83 @@ export default createStore({
     mutations:{
         setProducts(state, products_){
             state.products = products_;
+            saveStorage("products", products_);
         },
         addToCart(state, item){
             state.cart.push(item);
+            saveStorage("cart", state.cart);
         },
         addCountByName(state, name){
             console.log(name)
         state.cart.forEach((element, index) => {
                 if (element.product == name)state.cart[index].count +=1;
             });
-            
+            saveStorage("cart", state.cart);
         },
         minusCountByName(state, name){
             state.cart.forEach((element, index) => {
                 if (element.product == name && state.cart[index].count > 0)
                     state.cart[index].count -=1;
             });
+            saveStorage("cart", state.cart);
         },
         deleteItemByName(state, name){
             state.cart.forEach((element, index) => {
                 if (element.product == name)state.cart.splice(index,1);
             });  
+            saveStorage("cart", state.cart);
         },
         setCart(state, c_){
             state.cart = c_;
+            saveStorage("cart", c_);
         },
-        setLogin(state, name){
+        setLogin(state, name){ // cookie
             state.login=name;
+            saveStorage("login", name);
         },
-        setPassword(state, p_){
+        setPassword(state, p_){ // cookie
             state.password= p_;
+            saveStorage("password", p_);
         },
-        setAddress(state, addr){
+        setAddress(state, addr){ // cookie
             state.address=addr;
+            saveStorage("address", addr);
+           
         },
         setAddresses(state, addrs){
             state.addresses = addrs;
+            saveStorage("addresses", addrs);
         },
         setName(state, n_){
             state.name = n_;
+            saveStorage("name", n_);
         },
         setSurname(state, s_){
             state.surname = s_;
+            saveStorage("surname", s_);
         },
-        setPhone(state, p_){
+        setPhone(state, p_){ // cookie
             state.phone = p_;
+            saveStorage("phone", p_);
         },
-        setToken(state, t_){
+        setToken(state, t_){ // cookie
             state.token = t_;
+            saveStorage("token", t_);
         },
-        setOrders(state, o_){
+        setOrders(state, o_){ 
             state.orders = o_;
+            saveStorage("orders", o_);
         },
         addProdCart(state, key, val){
             state.productMap.set(key, val);
         },
-        setEmail(state, e_){
+        setEmail(state, e_){ // cookie
             state.email = e_;
+            saveStorage("email", e_);
         },
-        setUserId(state, i){
+        setUserId(state, i){ // cookie
             state.user_id = i;
+            saveStorage("user_id", i);
         }
     },
     actions: {

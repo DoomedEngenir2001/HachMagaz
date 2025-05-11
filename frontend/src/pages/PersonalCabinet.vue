@@ -28,8 +28,8 @@
     </div>
     <div class="flex flex-col w-full h-[60px] text-3xl flex  shadow-md">
         <div class="text-3xl font-bold pl-[20px] leading-[60px]">Мои заказы</div>
-        <orderContainer v-for="order in orders" :date="order.date" 
-        :Address="order.Adress" :cost="order.Cost" :products="productMap.get(order.Id)"
+        <orderContainer v-for="order in orders" :date="order.createTime" 
+        :Address="order.address" :cost="order.cost" :products="productMap.get(order.id)"
         class="mt-[5px]"></orderContainer>
     </div>
 </div>
