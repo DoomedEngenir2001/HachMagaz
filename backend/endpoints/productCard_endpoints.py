@@ -19,7 +19,7 @@ from backend_configuration import Backend_Configuration
 from objects_DTO.productCard_DTO import ProductCard_DTO
 from ORM_dict import ORM_dict
 #-------------------------------------------------------------#
-
+CARD_BATCH=16
 
 productCards_routes = APIRouter()
 
@@ -31,10 +31,13 @@ async def get_product_card(product_id: int):
     return {"message": "Product card not found"}
 
 @productCards_routes.get("/get_product_cards")
-async def get_product_cards():
+async def get_product_cards(index: int):
     cards : list = await ProductCards.get_table_data()
-    for index, card in enumerate(cards):
-        card : ProductCards
-        cards[index] =  ProductCard_DTO(card)
-        await cards[index].get_image()
-    return cards
+    response : list =[]
+    for index in range(index, index+CARD_BATCH):
+        #card : ProductCards
+        card = ProductCard_DTO(cards[index])
+        await card.get_image()
+        response.append(card)
+        
+    return response

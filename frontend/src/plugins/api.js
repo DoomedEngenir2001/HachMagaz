@@ -8,8 +8,10 @@ const instance = axios.create({ // создаем instance с установле
     }
 });
 export default{
-    async getProducts(){
-        return instance.get("/get_product_cards");
+    async getProducts(index){
+        return instance.get("/get_product_cards",{
+            params: {"index": index}}
+        );
     },
     async createOrder(user_id, prod, count, addr){
         return instance.post("/newOrder", {

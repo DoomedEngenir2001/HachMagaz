@@ -16,7 +16,8 @@ export default createStore({
         surname: getStorage("surname") || '',
         phone: getStorage("phone") ||'',
         token: getStorage("token") ||'',
-        user_id: getStorage("user_id") ||null
+        user_id: getStorage("user_id") ||null,
+        index:0
     },
     getters: {
         getCartIdxs(state){
@@ -106,11 +107,16 @@ export default createStore({
         },
         getUserId(state){
             return state.user_id;
+        },
+        getIndex(state){
+            return state.index;
         }
     },
     mutations:{
         setProducts(state, products_){
-            state.products = products_;
+            products_.forEach(el =>{
+                state.products.push(el)
+            })
             saveStorage("products", products_);
         },
         addToCart(state, item){
@@ -188,14 +194,18 @@ export default createStore({
         setUserId(state, i){ // cookie
             state.user_id = i;
             saveStorage("user_id", i);
+        },
+        increment(state){
+            state.index+=16;
         }
     },
     actions: {
-        async getProductsfromServer(context){
-            const response = await api.getProducts();
+        async getProductsfromServer(context, index){
+            const response = await api.getProducts(index);
         //    response.data.forEach((el)=> {
         //        context.commit("addProdCart", el.id, new Object(el));
         //    });
+            context.commit("increment");
             context.commit("setProducts", response.data);
         },
         async createOrder(context){

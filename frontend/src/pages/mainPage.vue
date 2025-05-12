@@ -3,7 +3,7 @@
         <HeaderPage @LogIn="toLK()" @OpenCart="this.cartIsVisible=true"></HeaderPage>
         <div class="center-align">
         <div class="product-panel">
-           <productCard @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
+           <productCard @scroll="this.onScroll()" @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
            :product="product.product" :price="product.price" :imagePath="product.image" :id="product.id"
            :description="product.description"></productCard> 
         </div>
@@ -30,13 +30,17 @@ import ProductCardModal from '../components/ProductCardModal.vue';
 import CartModal from '../components/CartModal.vue';
 import signInForm from '../components/signInForm.vue';
 import signUpForm from '../components/signUpForm.vue';
+import { onMounted } from 'vue';
 export default{
     async created(){
         if (this.getProductsfromState.length ==0){
-            await this.getProductsfromServer();
+            await this.getProductsfromServer(this.getIndex);
  //           await this.getOrders();
         }
     },
+    mounted() {
+  window.addEventListener("scroll", this.onScroll)
+ },
     components:{
         HeaderPage,
         productCard,
@@ -61,7 +65,8 @@ export default{
         ...mapGetters({
             getProductsfromState: "getProductsfromState",
             getToken: "getToken",
-            getProductsfromState: "getProductsfromState"
+            getProductsfromState: "getProductsfromState",
+            getIndex: "getIndex"  
         })
     },
     methods:{
@@ -90,6 +95,11 @@ export default{
         },
         openMap(){
             this.$router.push('/orderMap');
+        },
+        async onScroll(){
+            if (document.getElementsByClassName("product-panel")[0]
+            .getBoundingClientRect().bottom < window.innerHeight)
+                await this.getProductsfromServer(this.getIndex);
         }
     }
 
