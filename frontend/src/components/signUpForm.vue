@@ -5,12 +5,14 @@
                 <cancelBtn @click="this.$emit('closeFormSignUp');" class="m-r-0 m-l-auto"></cancelBtn>
             </div>
             <div class="h-[105px] w-full text-4xl leading-[105px] text-center font-bold">Регистрация</div>
-            <div class="h-[30px] w-full mt-[5px] text-base leading-[30px] font-bold">Телефон</div>
+            <div class="h-[30px] w-full mt-[5px] text-base leading-[30px] font-bold">Логин</div>
             <input v-model="this.login" placeholder="Введите логин" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
             <div class="h-[30px] w-full mt-[5px] text-base leading-[30px] font-bold">Пароль</div>
             <input v-model="this.password" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
             <div class="h-[30px] w-full mt-[5px] text-base leading-[30px] font-bold">Email</div>
             <input v-model="this.email" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
+            <div class="h-[30px] w-full mt-[5px] text-base leading-[30px] font-bold">Телефон</div>
+            <input v-model="this.phone" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
             <div class="mt-[10px] flex text-center text-gray text-xl justify-center"> <orangeBtn @click="this.$emit('toSignIn');">Войти</orangeBtn></div>
             <div class="mt-[20px] flex w-full text-center justify-center"><orangeBtn  @click="signUp()" class="text-white w-[220px] ">Зарегистрироваться</orangeBtn></div>    
             

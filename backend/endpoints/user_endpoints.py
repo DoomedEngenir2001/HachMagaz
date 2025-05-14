@@ -43,7 +43,7 @@ user_routes = APIRouter()
 @user_routes.post("/registration")
 async def create_user(req: sign_up_request)->dict: # ДОДЕЛАТЬ
     _result = await create_user_row_reg( login=req.login, password=req.password, 
-                                    email=req.email, phone=req.phone)
+                                    email=req.email, phone=req.phone )
     if isinstance(_result, UniqueDataError):
         return {"message": _result.show()}
     elif isinstance(_result, str):

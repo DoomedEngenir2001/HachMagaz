@@ -91,14 +91,14 @@ export default{
         },
         toLK(){
             if(this.getToken != '')this/this.$router.push('/personalCabinet');
-            else toSignUp();
+            else this.toSignUp();
         },
         openMap(){
             this.$router.push('/orderMap');
         },
         async onScroll(){
             if (document.getElementsByClassName("product-panel")[0]
-            .getBoundingClientRect().bottom < window.innerHeight)
+            .getBoundingClientRect().bottom +10< window.innerHeight)
                 await this.getProductsfromServer(this.getIndex);
         }
     }

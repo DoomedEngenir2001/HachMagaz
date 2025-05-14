@@ -3,8 +3,6 @@ services:
     image: mysql:9.3
     environment: 
       - MYSQL_ROOT_PASSWORD=${PASSW}
-      - MYSQL_USER=${USER}
-      - MYSQL_PASSWORD=${PASSW}
       - MYSQL_DATABASE=${NAME}
     ports:
       - '3306:3306'
