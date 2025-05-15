@@ -1,9 +1,9 @@
 <template>
-    <div class = "main-page">
+    <div @scroll="this.onScroll()" class = "main-page">
         <HeaderPage @LogIn="toLK()" @OpenCart="this.cartIsVisible=true"></HeaderPage>
         <div class="center-align">
         <div class="product-panel">
-           <productCard @scroll="this.onScroll()" @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
+           <productCard  @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
            :product="product.product" :price="product.price" :imagePath="product.image" :id="product.id"
            :description="product.description"></productCard> 
         </div>
@@ -97,8 +97,8 @@ export default{
             this.$router.push('/orderMap');
         },
         async onScroll(){
-            if (document.getElementsByClassName("product-panel")[0]
-            .getBoundingClientRect().bottom +10< window.innerHeight)
+            if (document.getElementsByClassName("center-align")[0]
+            .getBoundingClientRect().bottom <= window.innerHeight)
                 await this.getProductsfromServer(this.getIndex);
         }
     }
@@ -109,6 +109,7 @@ export default{
 .main-page{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .center-align{
     display: flex;
@@ -117,7 +118,6 @@ export default{
   align-items: center;
 }
 .product-panel{
-
     margin-top:50px;
     width: 90%;
     align-items: center;

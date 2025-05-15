@@ -58,7 +58,7 @@ export default{
 <style scoped>
 .product-card-modal{
     width: 620px;
-    height: 90%;
+    height: 500px;
     display: flex;
     background-color: #ffffff;
     flex-direction: column;
@@ -76,14 +76,14 @@ export default{
     height: 40px;
 }
 .product-image{
-    height:425px;
-    width: 425px;
+    height:300px;
+    width: 300px;
     align-items: center;
 
 }
 .image-placeholder{
-    width: 425px;
-    height: 425px;
+    width: 300px;
+    height: 300px;
 }
 .name{
     width: 620px;

@@ -1,14 +1,18 @@
 <template>
+<div style="display: flex; flex-direction: row; width:32%">
+<div style="height:100%;">
+    <cancelBtn style="margin-top: 50vh; width: 40px; height: 40px; 
+    border-radius: 40px;margin-right: 5px;" @click="close"></cancelBtn> 
+</div>
 <div class="cart">
     <div class="header-cart">
         <div>{{ countItems }} товаров на {{ this.getCartCost }} рублей</div>
-        <cancelBtn class="toRight" @click="close"></cancelBtn> 
     </div>
-
     <div class="cart-panel">
         <CartItem v-for="item in this.getCart"
         :count="item.count" :name="item.product"
-        :image-path="item.imagePath" :price="item.price" :key="item.product"></CartItem>
+        :image-path="item.imagePath" :price="item.price" :key="item.product" 
+        :desc="item.description"></CartItem>
     </div>
     <div class="cart-footer">
         <div class="price">
@@ -18,6 +22,8 @@
         <orangeBtn @click="toCart" class="bigBtn">Заказать</orangeBtn>
     </div>
 </div>
+</div>
+
 </template>
 <script>
 import orangeBtn from './orangeBtn.vue';
@@ -67,7 +73,7 @@ export default{
 .cart{
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 98%;
     height: 100%;
     background-color: #F3F3F7;
 

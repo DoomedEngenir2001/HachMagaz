@@ -51,7 +51,8 @@ export default{
                 "price": this.$props.price,
                 "count": 1,
                 "imagePath": this.$props.imagePath,
-                "id": this.$props.id
+                "id": this.$props.id,
+                "description" : this.$props.description
             });
         },
         showModal(){

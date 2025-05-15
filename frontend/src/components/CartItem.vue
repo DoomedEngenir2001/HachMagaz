@@ -1,14 +1,18 @@
 <template>
 <div class="cart-item">
-    <div style="width: 100%;"><cancelBtn @click="this.deleteItem" class="toRight"></cancelBtn></div>
+    <div style="width: 100%;"><cancelBtn style="width:15px; height:15px;" 
+        @click="this.deleteItem" class="toRight"></cancelBtn></div>
     <div class="central-content">
         <img :src="this.$props.imagePath" class="product-image"/>
-        <p>{{this.$props.name}}</p>
-    </div>
-    <div class="footer">
-        <p>{{ cost }} рублей</p>
-        <changCountBtn class="toRight" @add="AddItem" @minus="MinusItem">{{this.$props.count}}
-        </changCountBtn>
+        <div style="width: 80%; display: flex; flex-direction: column;">
+            <p >{{this.$props.name}}</p>
+            <p style="font-size: 18px;color: gray">{{this.$props.desc}}</p>
+                <div class="footer">
+                    <p>{{ cost }} рублей</p>
+                    <changCountBtn class="toRight" @add="AddItem" @minus="MinusItem">{{this.$props.count}}
+                    </changCountBtn>
+                </div>
+        </div>
     </div>
 </div>
 </template>
@@ -38,6 +42,10 @@ export default{
             required: true,
             type: Number
         },
+        desc:{
+            required: true,
+            type: String
+        }
     },
     computed: {
         cost(){
@@ -67,8 +75,9 @@ export default{
 .cart-item{
     margin-top: 5px;
     margin-left: 5px;
+    border-radius: 15px;
     width: 98%;
-    height: 230px;
+    height: 160px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -82,7 +91,7 @@ export default{
     padding-left: 5px;
 }
 .product-image{
-    width: 140px;
+    width: 20%;
     height: 140px;
     background-size:contain;
 }

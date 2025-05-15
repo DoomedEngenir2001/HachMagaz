@@ -120,7 +120,7 @@ export default createStore({
             saveStorage("products", products_);
         },
         addToCart(state, item){
-            state.cart.push(item);
+            if (!state.cart.includes(item)){state.cart.push(item);}            
             saveStorage("cart", state.cart);
         },
         addCountByName(state, name){
