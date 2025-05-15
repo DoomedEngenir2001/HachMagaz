@@ -8,6 +8,7 @@ const app = createApp(App);
 app.use(router)
 .use(store)
 .use(createYmaps({
+  // TODO в .env перенести
     apikey: '1f637575-4259-4ea8-a74e-2755ea4647df',
   }))
 .mount('#app');
