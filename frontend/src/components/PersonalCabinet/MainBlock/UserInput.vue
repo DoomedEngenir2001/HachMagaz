@@ -3,6 +3,7 @@ import { create, NButton, NInput } from "naive-ui";
 import type StateInputInterface from '../../../share/interfaces/inputs.ts'
 import type PutUserPropsPersonalCabinetRequest from '../../../share/api/PersonalCabinet/api'
 import handler_put_user_props from '../../../share/handlers/PersonalCabinetHandlers'
+import { ElNotification } from 'element-plus';
 import { ref } from "vue";
 
 
@@ -19,28 +20,39 @@ let stateInput = ref<StateInputInterface>({
   value: props.value
 });
 
-async function pressButtonEvent(name: string, user_id: number) {
+async function pressButtonEvent(name: string, value:string, id_user:number) {
   if (stateInput.value.active) {
     try {
       const data: PutUserPropsPersonalCabinetRequest = {
         type_props: name,
-        value: stateInput.value.value
+        value: stateInput.value.value,
+        id_user: id_user,
       };
-      await handler_put_user_props(data);
-      stateInput.value.active = false;
-      alert('заебись')
+      await handler_put_user_props(data)
+        stateInput.value.active = false
+        return ElNotification({
+          title: 'Успешно',
+          message: 'Данные изменены',
+          type: 'success',
+          duration: 5000,
+          position: 'bottom-right',
+        });
     } catch (error) {
-
-      stateInput.value.value = props.value;
-      stateInput.value.active = !stateInput.value.active;
-      alert('не заебись')
-
+      stateInput.value.value = props.value
+      stateInput.value.active = false
+    // TODO Как ьбудто можно вынести отдельно и вызывать в разынх местах приложения, а не по компонентно
+      return  ElNotification({
+        title: 'Ошибка',
+        message: error.message,
+        type: 'error',
+        duration: 5000,
+        position: 'bottom-right',
+      })
     }
   } else {
-    stateInput.value.active = !stateInput.value.active;
+    stateInput.value.active = true;
   }
 }
-
 </script>
 
 <template>
@@ -51,6 +63,7 @@ async function pressButtonEvent(name: string, user_id: number) {
     <n-input class="w-4/6 mr-2"
     autosize
     v-model:value="stateInput.value"
+    @keyup.enter="pressButtonEvent(name,stateInput.value, 10)"
     :placeholder="value"
     :disabled="!stateInput.active"
     />

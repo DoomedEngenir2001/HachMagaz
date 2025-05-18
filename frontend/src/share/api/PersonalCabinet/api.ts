@@ -15,6 +15,7 @@ const api = axios.create({
 export interface PutUserPropsPersonalCabinetRequest{
     type_props: string,
     value: string,
+    id_user: number
 }
 
 async function put_user_props(data: PutUserPropsPersonalCabinetRequest) {

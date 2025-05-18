@@ -1,6 +1,5 @@
 // PersonalCabinetHandlers.ts
-import put_user_props from '../api/PersonalCabinet/api';
-import type PutUserPropsPersonalCabinetRequest from '../api/PersonalCabinet/api'
+import put_user_props, { PutUserPropsPersonalCabinetRequest } from '../api/PersonalCabinet/api';
 
 async function handler_put_user_props(data: PutUserPropsPersonalCabinetRequest) {
     try {
