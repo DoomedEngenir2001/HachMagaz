@@ -10,6 +10,7 @@ export default createStore({
         addresses: getStorage("orders") || [],
         login:  '',
         password: '',
+        names: new Set(),
         email: getStorage("email") || '',
         address: getStorage("address") || '',
         name: getStorage("name") || '',
@@ -120,7 +121,9 @@ export default createStore({
             saveStorage("products", products_);
         },
         addToCart(state, item){
-            if (!state.cart.includes(item)){state.cart.push(item);}            
+            if (state.names.has(item.product) == false){
+                state.names.add(item.product)
+                state.cart.push(item);}            
             saveStorage("cart", state.cart);
         },
         addCountByName(state, name){
@@ -132,12 +135,13 @@ export default createStore({
         },
         minusCountByName(state, name){
             state.cart.forEach((element, index) => {
-                if (element.product == name && state.cart[index].count > 0)
+                if (element.product == name && state.cart[index].count > 1)
                     state.cart[index].count -=1;
             });
             saveStorage("cart", state.cart);
         },
         deleteItemByName(state, name){
+            state.names.delete(name)
             state.cart.forEach((element, index) => {
                 if (element.product == name)state.cart.splice(index,1);
             });  

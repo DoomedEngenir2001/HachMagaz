@@ -69,17 +69,20 @@ export default{
     /* margin-right: 42.5px; */
     display: flex;
     flex-direction: column;
-    box-shadow:  5px 5px rgb(175, 175, 175);
+    border: 5px solid rgba( 128,128,128, 0.4);
+    border-radius: 10px;
+    /* box-shadow:  5px 5px rgb(175, 175, 175); */
 }
 .image-placeholder{
     width: 357px;
     height: 357px;
+    margin: 0 auto;
     
 }
 .product-image{
     max-width: 355px;
     max-height: 355px;
-
+    display: flex;
 }
 .product-name{
     height: wrap;

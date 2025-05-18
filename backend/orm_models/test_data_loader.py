@@ -57,7 +57,7 @@ async def insert_images_data() -> list[Images]:
     imagesList = [
         await create_image_row(file_path="images/Пиццуля.PNG"),
         await create_image_row(file_path="images/Балтика.webp"),
-        await create_image_row(file_path="images/Яга.webp"),
+        await create_image_row(file_path="images/Яга.png"),
         await create_image_row(file_path="images/Медовик.jpg"),
         await create_image_row(file_path="images/Вода.jpg"),
         await create_image_row(file_path="images/Сосиска в тесте.jpg"),

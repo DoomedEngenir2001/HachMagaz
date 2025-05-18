@@ -85,6 +85,7 @@ export default{
     height: 60px;
     font-size: 36px;
     font-weight: bold;
+    margin-left: 10px;
 }
 .cart-panel{
     display: flex;
@@ -99,6 +100,7 @@ export default{
     flex-direction: column;
     width: 100%;
     height: 10%;
+    margin-left: 10px;
     font-weight: bold;
 }
 .to-Right{

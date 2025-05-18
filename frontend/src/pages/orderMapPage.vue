@@ -66,21 +66,20 @@
 }
 
     watch(address, async val => {
-        if (!val) return;
-
-    // Проверка, что уже координаты
-    if (val.split(/[,.]/).length === 4) {
-        let copy = val;
-        selectedSearch.value = copy.split(',').map(x => parseFloat(x)) as LngLat;
-        return;
-    }
-    await sleep(300);
-    if (val !== address.value) return;
-    searchResponse.value = await ymaps3.search({
-        text: val,
-        bounds: map.value?.bounds,
+      if (!val) return;
+      // Проверка, что уже координаты
+      if (val.split(/[,.]/).length === 4) {
+          let copy = val;
+          selectedSearch.value = copy.split(',').map(x => parseFloat(x)) as LngLat;
+          return;
+      }
+      await sleep(300);
+      if (val !== address.value) return;
+      searchResponse.value = await ymaps3.search({
+          text: val,
+          bounds: map.value?.bounds,
+        });
       });
-    });
 
     watch([selectedSearch], async () => {
         if ( selectedSearch.value) {
