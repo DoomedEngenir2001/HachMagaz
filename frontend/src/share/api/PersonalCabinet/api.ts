@@ -26,5 +26,4 @@ async function put_user_props(data: PutUserPropsPersonalCabinetRequest) {
         return error
     }
 }
-
-export default put_user_props;
+export default put_user_props

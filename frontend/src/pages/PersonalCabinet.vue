@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-full">
     <!-- Header -->
     <div class="flex flex-row w-full h-[60px] text-3xl shadow-xl">
       <div class="text-3xl font-bold pl-[20px] leading-[60px]">Личный кабинет</div>

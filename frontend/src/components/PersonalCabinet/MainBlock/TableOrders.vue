@@ -118,5 +118,7 @@ export default defineComponent({
 })
 </script>
 <template>
-    <n-data-table :columns="columns" :data="data" :tree="true" :bordered="true" :row-key="rowKey" />
+    <div class="flex w-full center pl-5 pr-5 h-full pb-1w0">
+        <n-data-table :columns="columns" :data="data" :tree="true" :bordered="true" :row-key="rowKey" />
+    </div>
 </template>

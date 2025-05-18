@@ -20,7 +20,7 @@ let stateInput = ref<StateInputInterface>({
   value: props.value
 });
 
-async function pressButtonEvent(name: string, value:string, id_user:number) {
+async function pressButtonEvent(name: string, value: string, id_user: number) {
   if (stateInput.value.active) {
     try {
       const data: PutUserPropsPersonalCabinetRequest = {
@@ -28,20 +28,20 @@ async function pressButtonEvent(name: string, value:string, id_user:number) {
         value: stateInput.value.value,
         id_user: id_user,
       };
-      await handler_put_user_props(data)
-        stateInput.value.active = false
-        return ElNotification({
-          title: 'Успешно',
-          message: 'Данные изменены',
-          type: 'success',
-          duration: 5000,
-          position: 'bottom-right',
-        });
+      const res = await handler_put_user_props(data)
+      stateInput.value.active = false
+      return ElNotification({
+        title: 'Успешно',
+        message: 'Данные изменены',
+        type: 'success',
+        duration: 5000,
+        position: 'bottom-right',
+      });
     } catch (error) {
       stateInput.value.value = props.value
       stateInput.value.active = false
-    // TODO Как ьбудто можно вынести отдельно и вызывать в разынх местах приложения, а не по компонентно
-      return  ElNotification({
+      // TODO Как ьбудто можно вынести отдельно и вызывать в разынх местах приложения, а не по компонентно
+      return ElNotification({
         title: 'Ошибка',
         message: error.message,
         type: 'error',
@@ -58,16 +58,14 @@ async function pressButtonEvent(name: string, value:string, id_user:number) {
 <template>
   <div class="flex flex-row w-2/3">
     <div class="w-1/12">
-      {{name}}
+      {{ name }}
     </div>
-    <n-input class="w-4/6 mr-2"
-    autosize
-    v-model:value="stateInput.value"
-    @keyup.enter="pressButtonEvent(name,stateInput.value, 10)"
-    :placeholder="value"
-    :disabled="!stateInput.active"
-    />
-    <n-button class="w-1/6" tertiary type="warning" @click="pressButtonEvent(name, 10)">
+    <n-input class="w-4/6 mr-2" autosize v-model:value="stateInput.value"
+      @keyup.enter="pressButtonEvent(name, stateInput.value, 10)" :placeholder="value" :disabled="!stateInput.active" />
+    <n-button 
+    class="w-1/6 opacity-80" 
+    :type="stateInput.active == true ? 'success' : 'warning'" 
+    @click="pressButtonEvent(name, stateInput.value, 10)">
       <template #icon v-if="stateInput.active == false">
         <!-- TODO EBANAYA ZAPUPA SUKA BLYAT  -->
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
