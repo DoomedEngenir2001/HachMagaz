@@ -23,9 +23,9 @@
                   <option 
                       v-for="(item, index) in searchResponse ?? []"
                       :key="item.geometry?.coordinates.join(',') ?? index"
-                      :value="item.geometry?.coordinates"
+                      :value="item.properties.name+' ('+ item.properties.description+')'"
                       hidden>
-                      {{ item.properties.name }} ({{ item.properties.description }})
+                      <!-- {{ item.properties.name }} ({{ item.properties.description }}) -->
                   </option>
                 </datalist>
         <div class="flex-row w-[300px] h-[31px] mt-[14px]">
@@ -67,18 +67,18 @@
 
     watch(address, async val => {
       if (!val) return;
-      // Проверка, что уже координаты
-      if (val.split(/[,.]/).length === 4) {
-          let copy = val;
-          selectedSearch.value = copy.split(',').map(x => parseFloat(x)) as LngLat;
-          return;
+      else{
+        searchResponse.value = await ymaps3.search({
+            text: val,
+            bounds: map.value?.bounds,
+          });
+        searchResponse.value.forEach(el => {
+          if (address.value === el.properties.name +' ('+ el.properties.description+')'){
+            selectedSearch.value = el.geometry?.coordinates as LngLat;
+            return;
+          }
+      })
       }
-      await sleep(300);
-      if (val !== address.value) return;
-      searchResponse.value = await ymaps3.search({
-          text: val,
-          bounds: map.value?.bounds,
-        });
       });
 
     watch([selectedSearch], async () => {
