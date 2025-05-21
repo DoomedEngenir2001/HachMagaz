@@ -36,8 +36,11 @@ async def get_product_cards(index: int):
     response : list =[]
     for index in range(index, index+CARD_BATCH):
         #card : ProductCards
-        card = ProductCard_DTO(cards[index])
-        await card.get_image()
-        response.append(card)
+        try:
+            card = ProductCard_DTO(cards[index])
+            await card.get_image()
+            response.append(card)
+        except IndexError:
+            return {"Products is ended"}
         
     return response

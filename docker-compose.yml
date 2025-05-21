@@ -20,6 +20,8 @@ services:
       - '8000:8000'
       build: 
         context: ./
+      volumes:
+      - ./backend/:/backend/ 
       depends_on:
         db:
           condition: service_healthy

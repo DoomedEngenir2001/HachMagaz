@@ -55,15 +55,15 @@ async def insert_products_data() -> list[Products]:
 
 async def insert_images_data() -> list[Images]:
     imagesList = [
-        await create_image_row(file_path="images/Пиццуля.PNG"),
+        await create_image_row(file_path="images/Пиццуля.png"),
         await create_image_row(file_path="images/Балтика.webp"),
         await create_image_row(file_path="images/Яга.png"),
-        await create_image_row(file_path="images/Медовик.jpg"),
-        await create_image_row(file_path="images/Вода.jpg"),
-        await create_image_row(file_path="images/Сосиска в тесте.jpg"),
-        await create_image_row(file_path="images/Самса.webp"),
-        await create_image_row(file_path="images/Трубочка.jpg"),
-        await create_image_row(file_path="images/Шаурма.jpg"),
+        await create_image_row(file_path="images/Медовик.png"),
+        await create_image_row(file_path="images/Вода.png"),
+        await create_image_row(file_path="images/Сосиска в тесте.png"),
+        await create_image_row(file_path="images/Самса.png"),
+        await create_image_row(file_path="images/Трубочка.png"),
+        await create_image_row(file_path="images/Шаурма.png"),
     ]
     
     print("Тестовые картинки добавлены!")

@@ -18,7 +18,8 @@ export default createStore({
         phone: getStorage("phone") ||'',
         token: getStorage("token") ||'',
         user_id: getStorage("user_id") ||null,
-        index:0
+        index:0,
+        end: false
     },
     getters: {
         getCartIdxs(state){
@@ -111,6 +112,9 @@ export default createStore({
         },
         getIndex(state){
             return state.index;
+        },
+        getEnd(state){
+            return state.end;
         }
     },
     mutations:{
@@ -200,7 +204,10 @@ export default createStore({
             saveStorage("user_id", i);
         },
         increment(state){
-            state.index+=16;
+            state.index+=8;
+        }, 
+        setEnd(state){
+            state.end=true;
         }
     },
     actions: {
@@ -209,8 +216,14 @@ export default createStore({
         //    response.data.forEach((el)=> {
         //        context.commit("addProdCart", el.id, new Object(el));
         //    });
-            context.commit("increment");
-            context.commit("setProducts", response.data);
+            if (response.data[0] === "Products is ended"){
+                context.commit("setEnd");
+            }
+            if(!context.state.end){
+                context.commit("increment");
+                context.commit("setProducts", response.data);
+            }
+
         },
         async createOrder(context){
             const response=await api.createOrder(context.getters.getUserId, context.getters.getCartIdxs,

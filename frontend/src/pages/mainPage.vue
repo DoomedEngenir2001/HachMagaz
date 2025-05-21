@@ -1,5 +1,5 @@
 <template>
-    <div @scroll="this.onScroll()" class = "main-page">
+    <div @scroll="this.onScroll(event)" class = "main-page">
         <HeaderPage @LogIn="toLK()" @OpenCart="this.cartIsVisible=true"></HeaderPage>
         <div class="center-align">
         <div class="product-panel">
@@ -39,7 +39,13 @@ export default{
         }
     },
     mounted() {
-  window.addEventListener("scroll", this.onScroll)
+        document.onscrollend = async () => {
+            if (!this.getEnd){
+                await this.getProductsfromServer(this.getIndex);
+            }else{
+                return;
+            }
+        }
  },
     components:{
         HeaderPage,
@@ -58,7 +64,8 @@ export default{
             selectedImg: null,
             cartIsVisible: false,
             signInIsVisble: false,
-            signUpIsVisble: false
+            signUpIsVisble: false,
+            productIsEnd: false
         }
     },
     computed: {
@@ -66,7 +73,8 @@ export default{
             getProductsfromState: "getProductsfromState",
             getToken: "getToken",
             getProductsfromState: "getProductsfromState",
-            getIndex: "getIndex"  
+            getIndex: "getIndex",
+            getEnd: "getEnd"  
         })
     },
     methods:{
@@ -95,14 +103,8 @@ export default{
         },
         openMap(){
             this.$router.push('/orderMap');
-        },
-        async onScroll(){
-            if (document.getElementsByClassName("center-align")[0]
-            .getBoundingClientRect().bottom <= window.innerHeight)
-                await this.getProductsfromServer(this.getIndex);
         }
-    }
-
+    } 
 }
 </script>
 <style scoped>

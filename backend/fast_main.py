@@ -14,12 +14,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import asyncio
 #-------------------------------------------------------------#
-try:
-    asyncio.create_task(init_db())
+try: ...
+#     asyncio.create_task(init_db())
 except Exception as ex:
     print(f"Ебаный в рот!! Какая-то хуйня: \n {ex}")
 finally:
-    app = FastAPI()
+    app = FastAPI(title ="test123ree4")
     origins = [
         "http://localhost",
         "http://localhost:5173",

@@ -74,15 +74,17 @@ export default{
     /* box-shadow:  5px 5px rgb(175, 175, 175); */
 }
 .image-placeholder{
-    width: 357px;
+    width: 100%;
     height: 357px;
-    margin: 0 auto;
+    display: flex;
+    background-image: url("../assets/phone.png");
     
 }
 .product-image{
-    max-width: 355px;
-    max-height: 355px;
+    width: 100%;
+    height: 355px;
     display: flex;
+    object-fit: contain;
 }
 .product-name{
     height: wrap;
@@ -97,11 +99,6 @@ export default{
     padding-left: 5px ;
     padding-right: 5px;
     font-size: 40px;
-}
-.product-image{
-    width: 357px;
-    height: 357px;
-    object-fit: contain;
 }
 .toRightCorner{
     margin-left: auto; 

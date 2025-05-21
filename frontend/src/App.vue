@@ -21,6 +21,7 @@ export default {
 
 <style>
 .app {
-font-family: Instrument Sans;
+  height: 100vh;
+  font-family: Instrument Sans;
 }
 </style>
