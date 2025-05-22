@@ -225,6 +225,10 @@ export default createStore({
             }
 
         },
+        async getAllProductCards(context){
+            const response = await api.getAllProducts();
+            context.commit("setProducts", response.data);
+        },
         async createOrder(context){
             const response=await api.createOrder(context.getters.getUserId, context.getters.getCartIdxs,
                 context.getters.getCartCount, context.getters.getAddress);

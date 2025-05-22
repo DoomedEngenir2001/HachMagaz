@@ -13,6 +13,9 @@ export default{
             params: {"index": index}}
         );
     },
+    async getAllProducts(){
+        return instance.get("/get_all_product_cards");
+    },
     async createOrder(user_id, prod, count, addr){
         return instance.post("/newOrder", {
             "user_id": user_id,

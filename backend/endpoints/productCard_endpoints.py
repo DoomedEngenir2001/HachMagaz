@@ -42,5 +42,18 @@ async def get_product_cards(index: int):
             response.append(card)
         except IndexError:
             return {"Products is ended"}
-        
+    return response
+
+@productCards_routes.get("/get_all_product_cards")
+async def get_product_cards():
+    cards : list = await ProductCards.get_table_data()
+    response : list =[]
+    for card in cards:
+        #card : ProductCards
+        try:
+            card = ProductCard_DTO(card)
+            await card.get_image()
+            response.append(card)
+        except IndexError:
+            pass
     return response
