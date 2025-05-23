@@ -4,6 +4,7 @@ import {saveStorage, getStorage} from "../plugins/persistent"
 export default createStore({
     state: {
         products:  getStorage("products") || [],
+        queryProducts: getStorage("products") || [],
       //  productMap: new Map(),
         cart: getStorage("cart") || [],
         orders:  getStorage("orders") || [],
@@ -115,6 +116,9 @@ export default createStore({
         },
         getEnd(state){
             return state.end;
+        },
+        getQueryProducts(state){
+            return state.queryProducts;
         }
     },
     mutations:{
@@ -208,6 +212,9 @@ export default createStore({
         }, 
         setEnd(state){
             state.end=true;
+        },
+        setQueryProducts(state, q_){
+            state.queryProducts = q_;
         }
     },
     actions: {
@@ -258,6 +265,20 @@ export default createStore({
         async addToCart(context, count, price, product){
             const response = await api.addToCart(context.state.login, context.state.password,
                 count, product, context.state.token);
+        },
+        getProductCardOnInput(context, query){
+            let queryProducts =[]
+            context.state.products.forEach( (el) => {
+                if(el.product.indexOf(query)===0 | el.product.toLowerCase().indexOf(query)===0){
+                    queryProducts.push(el);
+                }
+            });
+            if(queryProducts.length == 0){
+                context.commit('setQueryProducts', context.state.products)
+            }else {
+                context.commit('setQueryProducts', queryProducts);
+            }
+            
         }
     }
 })

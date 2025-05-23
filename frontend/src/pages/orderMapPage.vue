@@ -62,8 +62,8 @@
     const store = useStore();
     const router = useRouter();
     function sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
 
     watch(address, async val => {
       if (!val) return;
