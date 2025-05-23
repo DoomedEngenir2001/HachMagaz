@@ -9,7 +9,9 @@
             :name="item.product" :price="item.price" :description="item.description"
             :image="item.image" :id="item.id"/>
         </div>
-        <OrangeBtnTS @editCard="onEdit()" class="w-5/10 mt-[5px]">Добавить</OrangeBtnTS>
+        <div @editCard="onEdit()" class="fixed bottom-5 right-5 w-[100px] h-[100px]">
+            <img src="../assets/plus.png"/>
+        </div>
         <editCardDialog v-if="hideModal == false"/>
     </div>
 </div>
@@ -40,4 +42,11 @@ export default defineComponent({
 })
 // http://localhost:5173/adminPage
 // адрес странички
+
 </script>
+
+<style>
+.plus{
+    background-image: url(../assets/plus.png);
+}
+</style>
