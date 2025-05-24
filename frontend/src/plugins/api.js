@@ -86,5 +86,33 @@ export default{
                 }
             }
         );
+    },
+    async addProduct(title, desc, price, image, limit, token){
+        return instance.post("/addCard", {
+            "product": title,
+            "description":desc,
+            "price":price,
+            "image":image,
+            "limit": limit
+            },
+            {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+    },
+    async editCard(title, desc, price, image, limit, token){
+               return instance.post("/editCard", {
+            "product": title,
+            "description":desc,
+            "price":price,
+            "image":image,
+            "limit": limit
+            },
+            {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            }); 
     }
 }

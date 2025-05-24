@@ -32,17 +32,19 @@ class ProductCards(ORM_Base, Base):
                                   back_populates=ORM_Configuration.rel_productsCards_to_transactions)
     
     @staticmethod
-    async def update_product_card(id: int, image: int, title: str, desc: str, price: int, limit: int):
+    async def update_product_card(id_: int, image_: int, title_: str, desc_: str, 
+                                  price_: int, limit_: int):
         async with  AsyncSessionLocal() as session:
             session: AsyncSession
-            stmt = update(ProductCards).where(ProductCards.product_id == id).values({
-                ProductCards.id: id,
+            stmt = update(ProductCards).where(ProductCards.product_id == id_).values(
+                # ProductCards.id: id,
                 # ProductCards.image_id: image,
-                ProductCards.title: title,
-                ProductCards.description: desc,
-                ProductCards.specPrice: price,
-                ProductCards.limit: limit
-            })
-            await session.execute(stmt)
+                title=title_,
+                description=desc_,
+                specPrice=price_,
+                limit=limit_
+            )
+            result = await session.execute(stmt)
+            await session.commit()
     def __repr__(self):
         return f"ProductCards(id={self.id}, product_id={self.product_id}, image_id={self.image_id}, title={self.title}, description={self.description}, specPrice={self.specPrice}, limit={self.limit})"

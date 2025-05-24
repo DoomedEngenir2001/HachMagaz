@@ -18,6 +18,8 @@ from backend_configuration import Backend_Configuration
 #-------------------------------------------------------------#
 from objects_DTO.productCard_DTO import ProductCard_DTO
 from logic.l_productCards import create_productCard_row
+from logic.l_products import create_product_row
+from logic.l_images import create_image_row
 from ORM_dict import ORM_dict
 from pydantic import BaseModel
 #-------------------------------------------------------------#
@@ -26,7 +28,6 @@ CARD_BATCH=16
 productCards_routes = APIRouter()
 class addCardRequest(BaseModel):
     description: str
-    id: int
     image: str
     price: int
     product: str
@@ -72,9 +73,19 @@ async def get_product_cards():
 
 @productCards_routes.post("/addCard")
 async def add_product_card(req: addCardRequest)->dict:
-    _id = await Images.get_image_id_by_path(req.image)
-    await create_productCard_row(req.id,_id,req.product, req.description, req.price, req.limit)
-    return {"status":"success"}
+    # Cначала нужно сохранить картинку в файловой системе, только потом запись в бд делать
+    product = await create_product_row(title=req.product, description=req.description, price=req.price, countInStock=req.limit)
+    image = await create_image_row(file_path=req.image)
+    if(isinstance(product, Products) and isinstance(image, Images)):
+        await create_productCard_row(product_id=product.id,
+                                    image_id=image.id,
+                                    title=product.title,
+                                    description=product.description,
+                                    specPrice=product.price,
+                                    limit=product.countInStock)
+        return {"status":"success"}
+    else:
+        return {"message": "failed"}
 
 @productCards_routes.post("/editCard")
 async def edit_product_card(req: addCardRequest)->dict:
