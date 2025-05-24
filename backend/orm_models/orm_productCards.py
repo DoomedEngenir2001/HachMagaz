@@ -6,7 +6,9 @@ from db_modules.session_handler import Base
 from orm_configuration import ORM_Configuration
 from orm_base import ORM_Base
 #-------------------------------------------------------------#
-
+from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine
+from db_modules.session_handler import get_session, AsyncSessionLocal
+from sqlalchemy import update
 class ProductCards(ORM_Base, Base):
     __tablename__ = ORM_Configuration.t_productsCards
 
@@ -29,5 +31,18 @@ class ProductCards(ORM_Base, Base):
     transactions = relationship(ORM_Configuration.c_Transactions,
                                   back_populates=ORM_Configuration.rel_productsCards_to_transactions)
     
+    @staticmethod
+    async def update_product_card(id: int, image: int, title: str, desc: str, price: int, limit: int):
+        async with  AsyncSessionLocal() as session:
+            session: AsyncSession
+            stmt = update(ProductCards).where(ProductCards.product_id == id).values({
+                ProductCards.id: id,
+                # ProductCards.image_id: image,
+                ProductCards.title: title,
+                ProductCards.description: desc,
+                ProductCards.specPrice: price,
+                ProductCards.limit: limit
+            })
+            await session.execute(stmt)
     def __repr__(self):
         return f"ProductCards(id={self.id}, product_id={self.product_id}, image_id={self.image_id}, title={self.title}, description={self.description}, specPrice={self.specPrice}, limit={self.limit})"

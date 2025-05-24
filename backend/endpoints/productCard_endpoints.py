@@ -17,11 +17,23 @@ from orm_models.orm_configuration import ORM_Configuration
 from backend_configuration import Backend_Configuration
 #-------------------------------------------------------------#
 from objects_DTO.productCard_DTO import ProductCard_DTO
+from logic.l_productCards import create_productCard_row
 from ORM_dict import ORM_dict
+from pydantic import BaseModel
 #-------------------------------------------------------------#
 CARD_BATCH=16
 
 productCards_routes = APIRouter()
+class addCardRequest(BaseModel):
+    description: str
+    id: int
+    image: str
+    price: int
+    product: str
+    limit: int
+
+class deleteCardRequest(BaseModel):
+    id: int
 
 @productCards_routes.get("/get_product_card")
 async def get_product_card(product_id: int):
@@ -57,3 +69,16 @@ async def get_product_cards():
         except IndexError:
             pass
     return response
+
+@productCards_routes.post("/addCard")
+async def add_product_card(req: addCardRequest)->dict:
+    _id = await Images.get_image_id_by_path(req.image)
+    await create_productCard_row(req.id,_id,req.product, req.description, req.price, req.limit)
+    return {"status":"success"}
+
+@productCards_routes.post("/editCard")
+async def edit_product_card(req: addCardRequest)->dict:
+    # _id = await Images.get_image_id_by_path(req.image)
+    # print("_id", _id)
+    await ProductCards.update_product_card(req.id, 2, req.product, req.description, req.price, req.limit)
+    return {"status":"success"}
