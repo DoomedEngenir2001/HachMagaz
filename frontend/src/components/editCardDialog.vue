@@ -2,19 +2,25 @@
   <el-dialog
     :model-value="props.hideModal"
     title="Добавить карточку товара"
+    width="80%"
     @closed="closeModal"
   >
-    <el-form :model="form">
-      <el-form-item label="Promotion name">
-        <el-input v-model="form.name" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="Zones">
-        <el-select v-model="form.region" placeholder="Please select a zone">
-          <el-option label="Zone No.1" value="shanghai" />
-          <el-option label="Zone No.2" value="beijing" />
-        </el-select>
-      </el-form-item>
-    </el-form>
+    <div class="flex flex-row justify-between ">
+      <el-card>
+        <template #header>
+             Превью для Юзера
+        </template>
+             {{ dataCard }}
+        </el-card
+      >
+      <el-card>
+        <template #header>
+             Тут ты меняешь
+        </template>
+             {{ dataCard }}
+        </el-card
+      >
+    </div>
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="closeModal">Cancel</el-button>
@@ -25,8 +31,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { reactive, ref } from "vue";
+import { reactive, ref, defineComponent } from "vue";
+import type CardInterface from '../share/interfaces/card.ts'
 
 export default defineComponent({
   props: {
@@ -35,6 +41,14 @@ export default defineComponent({
       default: true,
       required: true,
     },
+    dataCard: {
+      description: '',
+      imagePath: '',
+      name: '',
+      count: 0,
+      price: 0,
+      id: 0
+    } as CardInterface,
   },
   emits: ["closeModalAction"],
   setup(props, { emit }) {
@@ -48,8 +62,7 @@ export default defineComponent({
       desc: "",
     });
     const closeModal = () => {
-      console.log("closeModal");
-      emit("closeModalAction");
+      emit("closeModalAction")
     };
     return { form, closeModal, props };
   },

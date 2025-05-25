@@ -18,6 +18,7 @@ export default defineComponent({
 
     emits: ['changeProducts'],
     setup(props, {emit} ) {
+//  TODO пошук очень нобычно работает (попробуй пицца, потом удалить и написать энергетик и проскролить ленту ))))
         const store = useStore();
         const query = ref('');
         watch(query, val => {

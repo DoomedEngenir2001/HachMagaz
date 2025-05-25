@@ -18,6 +18,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import orangeBtnTS from './orangeBtnTS.vue';
+
 interface productProps{
     image: string
     name: string

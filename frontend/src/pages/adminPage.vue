@@ -5,6 +5,7 @@
       <EditCardDialog
         :hideModal="isOpenModal"
         :v-model="isOpenModal"
+        :dataCard="currentCard"
         @close-modal-action="closeModal"
       />
       <searchCardItem class="w-9/10 flex justify-between mt-5 mb-5 h-fit">
@@ -22,7 +23,7 @@
         class="w-9/10 flex flex-col border-solid border border-gray bg-slate-300 rounded-xl items-center"
       >
         <productCardEdit
-          @editCard="onEdit()"
+          @editCard="onEdit(item)"
           v-for="item in store.getters.getQueryProducts"
           :key="item.id"
           :name="item.product"
@@ -37,6 +38,8 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, Ref } from "vue";
+import { ref } from "vue";
 import { useStore } from "vuex";
 import { DocumentAdd, Search } from "@element-plus/icons-vue";
 import OrangeBtnTS from "../components/orangeBtnTS.vue";
@@ -44,27 +47,45 @@ import productCardEdit from "../components/productCardEdit.vue";
 import searchCardItem from "../components/searchCardItem.vue";
 import HeaderPageAdmin from "../components/HeaderPageAdmin.vue";
 import EditCardDialog from "../components/editCardDialog.vue";
-import { defineComponent, reactive } from "vue";
-import { ref } from "vue";
+import type CardInterface from '../share/interfaces/card.ts'
+
 
 export default defineComponent({
   setup() {
     const store = useStore();
     store.dispatch("getAllProductCards");
     const isOpenModal = ref(false);
-    const onEdit = () => {
+    let currentCard: Ref<CardInterface>= ref(
+      {
+      count:0,
+      description:'',
+      imagePath: '',
+      name: '',
+      price:0,
+      id: 0
+    })
+
+    function onEdit (card:CardInterface){
       isOpenModal.value = true;
-      console.log("onEdit: isOpenModal.value", isOpenModal.value);
+      currentCard.value = card
     };
     const openModal = () => {
       isOpenModal.value = true;
-      console.log("openModal: isOpenModal.value", isOpenModal.value);
+      console.log("openModal: isOpenModal.value", isOpenModal.value)
     };
     const closeModal = () => {
       isOpenModal.value = false;
+      currentCard.value = {
+        count: 0,
+        description:'',
+        id:0,
+        imagePath:'',
+        name:'',
+        price:0,
+      }
       console.log("closeModal", isOpenModal.value);
     };
-    return { isOpenModal, onEdit, openModal, closeModal, store };
+    return { isOpenModal, onEdit, openModal, closeModal, store, currentCard };
   },
   components: {
     DocumentAdd,
