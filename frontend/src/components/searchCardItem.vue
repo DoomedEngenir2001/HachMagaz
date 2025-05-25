@@ -1,13 +1,21 @@
 <template>
-    <input class="border-solid border border-gray  rounded-xl 
-    w-9/10 h-[50px] flex justify-center"
-    v-model="query"/>
+    <div class="flex items-center">
+        <div class="flex gap-3 items-center">
+            <slot name="pre-append">
+            </slot>
+            <input class="border-solid border border-gray rounded-sm pl-1 h-8 min-w-xl"
+            v-model="query"/>
+        </div>
+        <slot name="append">
+        </slot>
+    </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
+
     emits: ['changeProducts'],
     setup(props, {emit} ) {
         const store = useStore();
