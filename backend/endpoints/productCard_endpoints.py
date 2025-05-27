@@ -23,6 +23,10 @@ from logic.l_images import create_image_row
 from ORM_dict import ORM_dict
 from pydantic import BaseModel
 #-------------------------------------------------------------#
+from store.s3client import S3Client
+from store.store_config import ACCESS_KEY, SECRET_KEY, URL, BUCKET
+from datetime import date
+import base64
 CARD_BATCH=16
 
 productCards_routes = APIRouter()
@@ -33,8 +37,20 @@ class addCardRequest(BaseModel):
     product: str
     limit: int
 
+class editCardRequest(BaseModel):
+    id: int
+    description: str
+    image: str
+    price: int
+    product: str
+    limit: int
+
 class deleteCardRequest(BaseModel):
     id: int
+
+class ImageRequest(BaseModel):
+    content: str
+    filename: str
 
 @productCards_routes.get("/get_product_card")
 async def get_product_card(product_id: int):
@@ -62,7 +78,6 @@ async def get_product_cards():
     cards : list = await ProductCards.get_table_data()
     response : list =[]
     for card in cards:
-        #card : ProductCards
         try:
             card = ProductCard_DTO(card)
             await card.get_image()
@@ -71,6 +86,13 @@ async def get_product_cards():
             pass
     return response
 
+@productCards_routes.post("/processImage")
+async def process_image(req:ImageRequest):
+    # client = S3Client(ACCESS_KEY, SECRET_KEY, URL, BUCKET)
+    content = base64.b64decode(req.content.encode('utf-8'))
+    with open(f"images//{req.filename}", "wb") as f:
+        f.write(content)
+    return{"message":"saved on server"}
 @productCards_routes.post("/addCard")
 async def add_product_card(req: addCardRequest)->dict:
     # Cначала нужно сохранить картинку в файловой системе, только потом запись в бд делать
@@ -88,8 +110,6 @@ async def add_product_card(req: addCardRequest)->dict:
         return {"message": "failed"}
 
 @productCards_routes.post("/editCard")
-async def edit_product_card(req: addCardRequest)->dict:
-    # _id = await Images.get_image_id_by_path(req.image)
-    # print("_id", _id)
+async def edit_product_card(req: editCardRequest)->dict:
     await ProductCards.update_product_card(req.id, 2, req.product, req.description, req.price, req.limit)
     return {"status":"success"}

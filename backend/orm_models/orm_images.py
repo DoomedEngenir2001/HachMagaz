@@ -21,7 +21,7 @@ class Images(ORM_Base, Base):
 
     file_path   = Column(String(255), index=True,  default=ORM_Base.str_None)
     UID         = Column(String(255), unique=True, index=True, default=ORM_Base.str_None)
-    hash        = Column(String(255), index=True,  default=ORM_Base.str_None)
+    # hash        = Column(String(255), index=True,  default=ORM_Base.str_None)
 
     #Cвязь с таблицей productCard
     productCards = relationship(ORM_Configuration.c_ProductCards,
@@ -40,5 +40,5 @@ class Images(ORM_Base, Base):
                 ORM_Base.str_Error 
 
     def __repr__(self):
-        return f"Images(id={self.id}, file_path={self.file_path}, UID={self.UID}, hash={self.hash})"
+        return f"Images(id={self.id}, file_path={self.file_path}, UID={self.UID})"
     

@@ -14,10 +14,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import asyncio
 #-------------------------------------------------------------#
-try: ...
-#     asyncio.create_task(init_db())
-except Exception as ex:
-    print(f"Ебаный в рот!! Какая-то хуйня: \n {ex}")
+try: 
+    pass
+    #  asyncio.create_task(init_db())
+# except Exception as ex:
+    # print(f"Ебаный в рот!! Какая-то хуйня: \n {ex}")
 finally:
     app = FastAPI(title ="test123ree4")
     origins = [
@@ -31,7 +32,7 @@ finally:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    app.mount("/images", StaticFiles(directory="images"), name='images')
+    # app.mount("/images", StaticFiles(directory="images"), name='images')
     app.include_router(debug_router)
     app.include_router(table_routes)
     app.include_router(productCards_routes)

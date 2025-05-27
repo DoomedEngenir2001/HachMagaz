@@ -103,6 +103,7 @@ export default{
     },
     async editCard(title, desc, price, image, limit, token){
                return instance.post("/editCard", {
+            "id": id,
             "product": title,
             "description":desc,
             "price":price,

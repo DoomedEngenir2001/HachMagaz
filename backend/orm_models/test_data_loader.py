@@ -55,15 +55,15 @@ async def insert_products_data() -> list[Products]:
 
 async def insert_images_data() -> list[Images]:
     imagesList = [
-        await create_image_row(file_path="images/Пиццуля.png"),
-        await create_image_row(file_path="images/Балтика.webp"),
-        await create_image_row(file_path="images/Яга.png"),
-        await create_image_row(file_path="images/Медовик.png"),
-        await create_image_row(file_path="images/Вода.png"),
-        await create_image_row(file_path="images/Сосиска в тесте.png"),
-        await create_image_row(file_path="images/Самса.png"),
-        await create_image_row(file_path="images/Трубочка.png"),
-        await create_image_row(file_path="images/Шаурма.png"),
+        await create_image_row(file_path="https://058fc2e1-e870-47c5-9f35-bc8a2df28ab2.selstorage.ru/images%2F%D0%9F%D0%B8%D1%86%D1%86%D1%83%D0%BB%D1%8F.png"),
+        await create_image_row(file_path="https://058fc2e1-e870-47c5-9f35-bc8a2df28ab2.selstorage.ru/images%2F%D0%91%D0%B0%D0%BB%D1%82%D0%B8%D0%BA%D0%B0.webp"),
+        await create_image_row(file_path="https://058fc2e1-e870-47c5-9f35-bc8a2df28ab2.selstorage.ru/images%2F%D0%AF%D0%B3%D0%B0.png"),
+        await create_image_row(file_path="https://058fc2e1-e870-47c5-9f35-bc8a2df28ab2.selstorage.ru/images%2F%D0%9C%D0%B5%D0%B4%D0%BE%D0%B2%D0%B8%D0%BA.png"),
+        await create_image_row(file_path="https://058fc2e1-e870-47c5-9f35-bc8a2df28ab2.selstorage.ru/images%2F%D0%92%D0%BE%D0%B4%D0%B0.png"),
+        await create_image_row(file_path="https://058fc2e1-e870-47c5-9f35-bc8a2df28ab2.selstorage.ru/images%2F%D0%A1%D0%BE%D1%81%D0%B8%D1%81%D0%BA%D0%B0%20%D0%B2%20%D1%82%D0%B5%D1%81%D1%82%D0%B5.png"),
+        await create_image_row(file_path="https://058fc2e1-e870-47c5-9f35-bc8a2df28ab2.selstorage.ru/images%2F%D0%A1%D0%B0%D0%BC%D1%81%D0%B0.png"),
+        await create_image_row(file_path="https://058fc2e1-e870-47c5-9f35-bc8a2df28ab2.selstorage.ru/images%2F%D0%A2%D1%80%D1%83%D0%B1%D0%BE%D1%87%D0%BA%D0%B0.png"),
+        await create_image_row(file_path="https://058fc2e1-e870-47c5-9f35-bc8a2df28ab2.selstorage.ru/images%2F%D0%A8%D0%B0%D1%83%D1%80%D0%BC%D0%B0.png"),
     ]
     
     print("Тестовые картинки добавлены!")

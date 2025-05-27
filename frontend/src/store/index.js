@@ -220,9 +220,6 @@ export default createStore({
     actions: {
         async getProductsfromServer(context, index){
             const response = await api.getProducts(index);
-        //    response.data.forEach((el)=> {
-        //        context.commit("addProdCart", el.id, new Object(el));
-        //    });
             if (response.data[0] === "Products is ended"){
                 context.commit("setEnd");
             }
