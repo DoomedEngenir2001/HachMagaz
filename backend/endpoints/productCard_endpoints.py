@@ -26,9 +26,11 @@ from pydantic import BaseModel
 from store.s3client import S3Client
 from store.store_config import ACCESS_KEY, SECRET_KEY, URL, BUCKET
 from datetime import date
+from logic.l_images import create_image_row
 import base64
-CARD_BATCH=16
 
+CARD_BATCH=16
+S3CONTAINER = "058fc2e1-e870-47c5-9f35-bc8a2df28ab2"
 productCards_routes = APIRouter()
 class addCardRequest(BaseModel):
     description: str
@@ -87,12 +89,14 @@ async def get_product_cards():
     return response
 
 @productCards_routes.post("/processImage")
-async def process_image(req:ImageRequest):
-    # client = S3Client(ACCESS_KEY, SECRET_KEY, URL, BUCKET)
+async def process_image(req:ImageRequest)->dict:
+    client = S3Client(ACCESS_KEY, SECRET_KEY, URL, BUCKET)
     content = base64.b64decode(req.content.encode('utf-8'))
-    with open(f"images//{req.filename}", "wb") as f:
-        f.write(content)
-    return{"message":"saved on server"}
+    await client.upload(content, req.filename)
+    filepath = f"https://{S3CONTAINER}.selstorage.ru/images%2F{req.filename}"
+    await create_image_row(filepath)
+    return{"filename":filepath}
+
 @productCards_routes.post("/addCard")
 async def add_product_card(req: addCardRequest)->dict:
     # Cначала нужно сохранить картинку в файловой системе, только потом запись в бд делать

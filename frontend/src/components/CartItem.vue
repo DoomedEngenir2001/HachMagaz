@@ -42,9 +42,9 @@ export default{
             required: true,
             type: Number
         },
-        desc:{
+        desc:{ // TODO desc -- я с начала думал, что это как сортировкаа ))) А не description )))
             required: true,
-            type: String
+            type: String 
         }
     },
     computed: {
