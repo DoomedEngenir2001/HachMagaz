@@ -16,10 +16,13 @@
         <div  v-show="this.cartIsVisible" class="cart-modal">
             <CartModal @toMap="openMap" @closeCart="this.cartIsVisible=false"></CartModal>
         </div>
-        <signInForm @toSignUp="this.signInIsVisble=false;this.signUpIsVisble=true;" @closeFormSignIn="this.signInIsVisble=false;this.signUpIsVisble=false;" 
+        <signInForm @exit="this.authResult(status)" 
+        @toSignUp="this.signInIsVisble=false;this.signUpIsVisble=true;" @closeFormSignIn="this.signInIsVisble=false;this.signUpIsVisble=false;" 
         v-show="this.signInIsVisble"></signInForm>
         <signUpForm @toSignIn="this.signInIsVisble=true;this.signUpIsVisble=false;" @closeFormSignUp="this.signInIsVisble=false;this.signUpIsVisble=false;" 
         v-show="this.signUpIsVisble"></signUpForm>
+        <poppupAuth v-if="this.showPoppupOK">Вход выполнен</poppupAuth>
+        <poppupAuth  v-if="this.showPoppupFail" class="border-red">Вход не выполнен</poppupAuth>
     </div>
 </template>
 <script>
@@ -30,6 +33,7 @@ import ProductCardModal from '../components/ProductCardModal.vue';
 import CartModal from '../components/CartModal.vue';
 import signInForm from '../components/signInForm.vue';
 import signUpForm from '../components/signUpForm.vue';
+import poppupAuth from '../components/poppupAuth.vue';
 import { onMounted } from 'vue';
 export default{
     async created(){
@@ -53,7 +57,8 @@ export default{
         ProductCardModal,
         CartModal,
         signInForm,
-        signUpForm
+        signUpForm,
+        poppupAuth
     },
     data(){
         return {
@@ -65,7 +70,10 @@ export default{
             cartIsVisible: false,
             signInIsVisble: false,
             signUpIsVisble: false,
-            productIsEnd: false
+            productIsEnd: false,
+            authOK: false,
+            showPoppupOK: false,
+            showPoppupFail: false
         }
     },
     computed: {
@@ -97,8 +105,25 @@ export default{
            this.signUpIsVisble = false;
            this.signInIsVisble = true;
         },
+        authResult(status){
+            this.signUpIsVisble = false;
+           this.signInIsVisble = false;
+           console.log(status)
+            if(status){
+                this.showPoppupOK=true;
+                setTimeout(()=>{
+                    this.showPoppupOK=false;
+                }, 3000);
+            }
+            else {
+                this.showPoppupFail=true;
+                setTimeout(()=>{
+                    this.showPoppupFail=false;
+                }, 3000);
+            }
+        },
         toLK(){
-            if(this.getToken != '')this/this.$router.push('/personalCabinet');
+            if(this.getToken != '')this.$router.push('/personalCabinet');
             else this.toSignUp();
         },
         openMap(){

@@ -7,7 +7,6 @@ import './style.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import naive from 'naive-ui'
-
 const app = createApp(App)
 
 app.use(router)
@@ -17,5 +16,4 @@ app.use(router)
   // TODO в .env перенести
   .use(createYmaps({
     apikey: '1f637575-4259-4ea8-a74e-2755ea4647df',
-  }))
-  .mount('#app')
+  })).mount('#app')

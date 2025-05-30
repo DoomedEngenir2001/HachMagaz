@@ -28,6 +28,8 @@
                       <!-- {{ item.properties.name }} ({{ item.properties.description }}) -->
                   </option>
                 </datalist>
+        <span v-if="submitted & !adressValid" 
+        class="flex text-base text-red-600">Укажите адрес!</span>
         <div class="flex-row w-[300px] h-[31px] mt-[14px]">
             <input v-model="padik" placeholder="Подъезд" class="w-[145px] h-[31px] rounded-2xl border"/>
             <input v-model="doorCode" placeholder="Код от двери" class="w-[145px] h-[31px] rounded-2xl border ml-[10px]"/>
@@ -61,6 +63,8 @@
     const searchResponse = shallowRef<null | SearchResponse>(null);
     const store = useStore();
     const router = useRouter();
+    var adressValid = false; 
+    var submitted = false;
     function sleep(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
@@ -78,6 +82,7 @@
             return;
           }
       })
+      adressValid = true;
       }
       });
 
@@ -93,10 +98,13 @@
     });
 
     const SubmitOrder = () => {
+      submitted = true;
+      if (adressValid) {
         let fullAddr = address.value + " подъезд " + padik.value + " Этаж " + stage.value + " Квартира " + flat.value;
         let info = "Код от двери "  + doorCode.value + " Комментарий " + comment.value;
         store.commit('setAddress', fullAddr);
         router.push('/order');
+      }
     };
   //Можно использовать для различных преобразований
   const map = shallowRef<null | YMap>(null);

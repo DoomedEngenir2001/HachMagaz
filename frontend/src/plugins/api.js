@@ -16,13 +16,14 @@ export default{
     async getAllProducts(){
         return instance.get("/get_all_product_cards");
     },
-    async createOrder(user_id, prod, count, addr){
+    async createOrder(user_id, prod, count, addr, method, bill){
         return instance.post("/newOrder", {
             "user_id": user_id,
+            "address": addr,
+            "method": method,
+            "bill": bill,
             "productCard_ids": prod,
             "count": count,
-            "address": addr
-
         })
     },
     async SignIn(login, password){

@@ -233,9 +233,10 @@ export default createStore({
             const response = await api.getAllProducts();
             context.commit("setProducts", response.data);
         },
-        async createOrder(context){
+        async createOrder(context, method){
             const response=await api.createOrder(context.getters.getUserId, context.getters.getCartIdxs,
-                context.getters.getCartCount, context.getters.getAddress);
+                context.getters.getCartCount, context.getters.getAddress, method, context.getters.getCartCost);
+            return response
         },
         async SignIn(context){
             const response = await api.SignIn(context.state.login, context.state.password);
@@ -275,7 +276,6 @@ export default createStore({
             }else {
                 context.commit('setQueryProducts', queryProducts);
             }
-            
         }
     }
 })

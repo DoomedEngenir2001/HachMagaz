@@ -3,7 +3,7 @@
     <div class="w-full h-[60px] text-3xl flex shadow-xl leading-[60px] pl-[10px] font-bold">
         Оформление заказа
     </div>
-    <div class="w-full h-full flex flex-row mt-[41px] p-[10px]">
+    <div class="w-full h-wrap flex flex-row mt-[41px] p-[10px]">
         <div class="text-base w-3/5">
         <div class=" h-full text-base">
             <div class="w-full h-[40px] flex flex-row">
@@ -25,16 +25,9 @@
         </div>
         <div class="flex-col flex ml-[11px] mr-auto">
             <div class="w-full h-[40px] font-bold text-2xl">Cпособ оплаты</div>
-            <div class="w-full h-[40px] flex flex-row"><input  type="radio" value="SBP" name="buying"/><img class="w-[40px] h-[40px] object-scale-down flex ml-[10px]" src="../assets/sbp.png"/><div class="flex leading-[40px] text-xl font-bold pl-[6px]">Система Быстрых платежей</div></div>
-            <div class="w-full h-[40px] flex flex-row"><input  type="radio" value="Card" name="buying"/><img class="w-[40px] h-[40px] object-scale-down flex ml-[10px]" src="../assets/credit-card.png"/><div class="flex leading-[40px] text-xl font-bold pl-[6px]">Картой на сайте</div></div>
-            <div class="w-[230px] h-[75px]">
-                <input v-model="card" placeholder="Номер карты" class="w-[227px] h-[25px] rounded-md border mt-[10px]"/>
-                <div class="flex-row mt-[18px]">
-                    <input v-model="srok" placeholder="Срок действия" class="w-[139px] h-[25px] mt-[10px] rounded-md border"/>
-                    <input v-model="cvv" placeholder="CVV" class="w-[80px] h-[25px] ml-[10px] rounded-md border"/>
-                </div>
-            </div>
-            <div class="w-full h-[40px] mt-[20px] flex flex-row"><input type="radio" value="Nal" name="buying"/><img class="w-[40px] h-[40px] object-scale-down flex ml-[10px]" src="../assets/money.png"/><div class="flex leading-[40px] text-xl font-bold pl-[6px]">Наличными</div></div>        
+            <!-- <div class="w-full h-[40px] flex flex-row"><input  type="radio" value="sbp" name="buying" v-model="paymentMethod"/><div class="flex leading-[40px] text-xl font-bold pl-[6px]">Система Быстрых платежей</div></div> -->
+            <div class="w-full h-[40px] flex flex-row"><input  type="radio" value="bank_card" name="buying" v-model="paymentMethod"/><img class="w-[40px] h-[40px] object-scale-down flex ml-[10px]" src="../assets/credit-card.png"/><div class="flex leading-[40px] text-xl font-bold pl-[6px]">Картой на сайте</div></div>
+            <div class="w-full h-[40px] mt-[20px] flex flex-row"><input type="radio" value="Nal" name="buying" v-model="paymentMethod"/><img class="w-[40px] h-[40px] object-scale-down flex ml-[10px]" src="../assets/money.png"/><div class="flex leading-[40px] text-xl font-bold pl-[6px]">Наличными</div></div>        
         </div>
         <orangeBtnTS class="bg-white text-black mt-[20px]" @click="cancelOrder">Отменить заказ</orangeBtnTS>
         </div>
@@ -68,18 +61,20 @@ export default {
         const srok = ref('');
         const cvv = ref('');
         const router = useRouter();
-        
+        const paymentMethod = ref('')
         const cancelOrder = () =>{
             router.push('/');
         }
 
         const makeOrder = async () =>{
-            const resp = await store.dispatch("createOrder");
-            router.push('/');
+            // payment
+            
+            const resp = await store.dispatch("createOrder", paymentMethod.value);
+           window.location.replace(resp.data.url)
         }
 
         return {
-            cart, cost, addrr, name, surname, card, srok,cvv, phone, cancelOrder, makeOrder
+            cart, cost, addrr, name, surname, card, srok,cvv, paymentMethod, phone, cancelOrder, makeOrder
         }
     },
     components:{

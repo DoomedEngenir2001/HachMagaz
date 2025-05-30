@@ -7,34 +7,62 @@
             <div class="h-[105px] w-full text-4xl leading-[105px] text-center font-bold">Регистрация</div>
             <div class="h-[30px] w-full mt-[5px] text-xl leading-[30px] font-bold">Логин</div>
             <input v-model="this.login" placeholder="Введите логин" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
+            <span v-if="this.submitted && !this.loginIsValid" class="flex text-base text-red-600">Это поле должно быть заполнено!</span>
             <div class="h-[30px] w-full mt-[5px] text-xl leading-[30px] font-bold">Пароль</div>
             <input v-model="this.password" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
+            <span v-if="this.submitted && !this.passwordIsValid"class="flex text-base text-red-600">Пароль должен состоять, как минимум из пяти символов!</span>
             <div class="h-[30px] w-full mt-[5px] text-xl leading-[30px] font-bold">Email</div>
-            <input v-model="this.email" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
+            <input v-model="this.email" placeholder="Введите почту" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
+            <span v-if="this.submitted && !this.emailIsValid" class="flex text-base text-red-600">Это поле должно быть заполнено!</span>
             <div class="h-[30px] w-full mt-[5px] text-xl leading-[30px] font-bold">Телефон</div>
-            <input v-model="this.phone" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
+            <input v-model="this.phone" placeholder="Введите номер телефона" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
+            <span v-if="this.submitted && !this.phoneIsValid" class="flex text-base text-red-600">Это поле должно быть заполнено!</span>
             <div class="mt-[10px] flex text-center text-gray text-2xl justify-center"> <orangeBtn @click="this.$emit('toSignIn');">Войти</orangeBtn></div>
             <div class="mt-[20px] flex w-full text-center justify-center"><orangeBtn  @click="signUp()" class="text-white w-[220px] ">Зарегистрироваться</orangeBtn></div>    
-            
         </div>
     </div>
     </template>
     <script>
     /// ВАЛИДАЦИИ !!!
     import { mapActions, mapMutations } from "vuex";
-import cancelBtn from "./cancelBtn.vue";
+    import cancelBtn from "./cancelBtn.vue";
     import orangeBtn from "./orangeBtn.vue";
+
     export default {
         components: {
             cancelBtn,
             orangeBtn
         },
+ 
         data(){
             return{
                 login: "",
                 password: "",
                 email: "",
-                phone: ""
+                phone: "",
+                submitted: false
+            }
+        },
+        computed:{
+            loginIsValid(){
+                if (this.login !=="") return true;
+                else return false;
+            },
+            passwordIsValid(){
+                if (this.password.length > 4) return true;
+                else return false;
+            },
+            emailIsValid(){
+                const template = /@/
+                return template.test(this.email);
+            },
+            phoneIsValid(){
+                const template = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
+                return template.test(this.phone);
+            },
+            isFormValid(){
+                this.submitted = true;
+                return this.loginIsValid && this.passwordIsValid && this.emailIsValid && this.phoneIsValid
             }
         },
         methods:{
@@ -48,12 +76,15 @@ import cancelBtn from "./cancelBtn.vue";
                 setPasword: "setPassword"
             }),
             async signUp(){
-                this.setEmail(this.email);
-                this.setPhone(this.phone);
-                this.setLogin(this.login);
-                this.setPasword(this.password);
-                await this.SignUp();
-                this.$emit('toSignIn');
+                if(this.isFormValid){
+                    this.setEmail(this.email);
+                    this.setPhone(this.phone);
+                    this.setLogin(this.login);
+                    this.setPasword(this.password);
+                    await this.SignUp();
+                    this.$emit('toSignIn');
+                }
+
             }
         }
     }

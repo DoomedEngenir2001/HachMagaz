@@ -29,8 +29,11 @@ from logic.l_transanctions import create_transaction_row
 from logic.l_users         import get_user_orders, get_user_orders_with_status
 from logic.l_orders        import create_order_row
 from pydantic import BaseModel
+from yookassa import Payment, Configuration
+import uuid
 #-------------------------------------------------------------#
-
+Configuration.account_id = "1096384"
+Configuration.secret_key = "test_o1MqMgM5oiWYOtdjR3YNwkbprns3GMb1Lc-CqOPeRGA"
 orders_router = APIRouter()
 
 # @orders_router.get_orders_for_user("/get_orders_for_user")
@@ -51,6 +54,8 @@ class order_reg(BaseModel):
     address: str
     productCard_ids: list
     count: list
+    bill: int
+    method: str
 
 @orders_router.post("/newOrder")
 async def add_to_order(req: order_reg)->dict:
@@ -62,16 +67,35 @@ async def add_to_order(req: order_reg)->dict:
             _productCard = await ProductCards.get_rowById(ProductCards, int(productCard_id))
             if isinstance(_productCard, ProductCards):
                 if req.count[i] <= _productCard.limit:
-                    #_order : Orders = await get_user_orders_with_status(req.user_id, Order_status.STATUS_CREATED)
-                    # print( "_order result : " + str(_order) )
                     if isinstance(_order, Orders):
+                        if req.method == 'bank_card':
+                            payment = Payment.create({
+                                "amount": {
+                                "value": "%.02f" %req.bill,
+                                "currency": "RUB"
+                                },
+                                "payment_method_data": {
+                                    "type": req.method
+                                },
+                                "confirmation": {
+                                "type": "redirect",
+                                "return_url": "http://localhost:5173/"
+                                },
+                                "capture": True,
+                                "description": f"Заказ №{_order.id}",
+                                })
+                                # get confirmation
+                            confirmation_url = payment.confirmation.confirmation_url
+                        if req.method == "Nal":
+                            confirmation_url = "http://localhost:5173/"
                         _transactions : Transactions = await create_transaction_row(
-                                                            order_id       = _order.id,
-                                                            productCard_id = _productCard.id,
-                                                            count          = int(req.count[i]),
-                                                            price          = _productCard.specPrice,
-                                                            bankCardInfo   = ORM_Base.str_None,
-                                                            )
+                                                                order_id       = _order.id,
+                                                                productCard_id = _productCard.id,
+                                                                count          = int(req.count[i]),
+                                                                price          = _productCard.specPrice,
+                                                                bankCardInfo   = ORM_Base.str_None,
+                                                                )
+                        return {"url": confirmation_url}
                     
                     # print( "_transactions result : " + str(_transactions) )
                 else:
