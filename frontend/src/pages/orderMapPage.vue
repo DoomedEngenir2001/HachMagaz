@@ -28,7 +28,7 @@
                       <!-- {{ item.properties.name }} ({{ item.properties.description }}) -->
                   </option>
                 </datalist>
-        <span v-if="submitted & !adressValid" 
+        <span v-if=" !adressValid" 
         class="flex text-base text-red-600">Укажите адрес!</span>
         <div class="flex-row w-[300px] h-[31px] mt-[14px]">
             <input v-model="padik" placeholder="Подъезд" class="w-[145px] h-[31px] rounded-2xl border"/>

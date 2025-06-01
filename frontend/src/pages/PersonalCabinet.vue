@@ -39,10 +39,10 @@ const personalCabinetItems = ref({
 onMounted(() => {
   personalCabinetItems.value = {
     inputs: [
-      { name: 'Имя', value: 'Имя Абобус' },
-      { name: 'Фамилия', value: 'Фамилия Абобус' },
-      { name: 'Адрес', value: 'Адрес Абобус' },
-      { name: 'Телефон', value: 'Телефон Абобус' }
+      { name: 'Имя', value: 'Имя ' },
+      { name: 'Фамилия', value: 'Фамилия ' },
+      { name: 'Адрес', value: 'Адрес ' },
+      { name: 'Телефон', value: 'Телефон ' }
     ]
   }
 })

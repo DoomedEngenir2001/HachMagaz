@@ -10,7 +10,7 @@
         <span v-if="this.submitted && !this.loginIsValid" 
         class="flex text-base text-red-600">Это поле должно быть заполнено!</span>
         <div class="h-[30px] w-full mt-[5px] text-xl leading-[30px] font-bold">Пароль</div>
-        <input v-model="this.password" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
+        <input v-model="this.password" type="password" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
         <span v-if="this.submitted && !this.passwordIsValid" 
         class="flex text-base text-red-600">Это поле должно быть заполнено!</span>
         <div class="mt-[10px] w-full flex text-center text-gray text-xl justify-center"><orangeBtn @click="this.$emit('toSignUp');">Зарегистрироваться</orangeBtn></div>
@@ -20,11 +20,10 @@
 </div>
 </template>
 <script>
- /// ВАЛИДАЦИИ !!!
 import { mapActions, mapMutations } from "vuex";
 import cancelBtn from "./cancelBtn.vue";
 import orangeBtn from "./orangeBtn.vue";
-import OrangeBtn from "./orangeBtn.vue";
+import { sha256, sha224 } from 'js-sha256';
 export default {
     components: {
         cancelBtn,
@@ -49,6 +48,9 @@ export default {
             isFormValid(){
                 this.submitted = true;
                 return this.loginIsValid && this.passwordIsValid
+            },
+            passwordHash(){
+                return sha256(this.password)
             }
     },
     methods:{
@@ -63,7 +65,7 @@ export default {
         signIn(){
             if (this.isFormValid){
                 this.setLogin(this.login);
-                this.setPasword(this.password);
+                this.setPasword(this.passwordHash);
                 const resp = this.SignInAction().then(()=>{
                     console.log(resp)
                     if(resp.user_id)this.$emit("exit", true);

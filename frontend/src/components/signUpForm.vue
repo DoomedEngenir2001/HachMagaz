@@ -9,7 +9,7 @@
             <input v-model="this.login" placeholder="Введите логин" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
             <span v-if="this.submitted && !this.loginIsValid" class="flex text-base text-red-600">Это поле должно быть заполнено!</span>
             <div class="h-[30px] w-full mt-[5px] text-xl leading-[30px] font-bold">Пароль</div>
-            <input v-model="this.password" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
+            <input v-model="this.password" type="password" placeholder="Введите пароль" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
             <span v-if="this.submitted && !this.passwordIsValid"class="flex text-base text-red-600">Пароль должен состоять, как минимум из пяти символов!</span>
             <div class="h-[30px] w-full mt-[5px] text-xl leading-[30px] font-bold">Email</div>
             <input v-model="this.email" placeholder="Введите почту" class="outline w-[630px] h-[75px] mt-[5px] rounded-3xl">
@@ -23,11 +23,11 @@
     </div>
     </template>
     <script>
-    /// ВАЛИДАЦИИ !!!
+
     import { mapActions, mapMutations } from "vuex";
     import cancelBtn from "./cancelBtn.vue";
     import orangeBtn from "./orangeBtn.vue";
-
+    import sha256 from 'js-sha256';
     export default {
         components: {
             cancelBtn,
@@ -63,6 +63,9 @@
             isFormValid(){
                 this.submitted = true;
                 return this.loginIsValid && this.passwordIsValid && this.emailIsValid && this.phoneIsValid
+            },
+            passwordHash(){
+                return sha256(this.password);
             }
         },
         methods:{
@@ -80,7 +83,7 @@
                     this.setEmail(this.email);
                     this.setPhone(this.phone);
                     this.setLogin(this.login);
-                    this.setPasword(this.password);
+                    this.setPasword(this.passwordHash);
                     await this.SignUp();
                     this.$emit('toSignIn');
                 }

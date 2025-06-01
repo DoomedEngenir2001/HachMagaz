@@ -1,9 +1,7 @@
 <template>
 <div class="header">
     <img class="logo-placeholder" src="../assets/logotip.png"/>
-    <navBtn>Пицца</navBtn>
-    <navBtn>Cамса</navBtn>
-    <navBtn>Пиво</navBtn>
+    <div class="text-4xl text font-bold ml-[30px]">ХачМагаз</div>
     <div class="btnContainer">
         <orangeBtn @click="openCart" class="or-btn">Корзина</orangeBtn>
         <orangeBtn  @click="signIn" class="or-btn">Личный кабинет</orangeBtn>
