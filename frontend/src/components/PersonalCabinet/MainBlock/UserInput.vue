@@ -5,8 +5,10 @@ import type PutUserPropsPersonalCabinetRequest from '../../../share/api/Personal
 import handler_put_user_props from '../../../share/handlers/PersonalCabinetHandlers'
 import { ElNotification } from 'element-plus';
 import { ref } from "vue";
-
-
+import { defineEmits } from "vue";
+const emit = defineEmits<{
+  (e: 'saveInput', name: string, value:string): void
+}>()
 
 const props = defineProps<{
   name: string
@@ -28,6 +30,7 @@ async function pressButtonEvent(name: string, value:string, id_user:number) {
         value: stateInput.value.value,
         id_user: id_user,
       };
+      emit("saveInput", props.name, stateInput.value.value);
       await handler_put_user_props(data)
         stateInput.value.active = false
         return ElNotification({
@@ -56,11 +59,11 @@ async function pressButtonEvent(name: string, value:string, id_user:number) {
 </script>
 
 <template>
-  <div class="flex flex-row w-2/3">
-    <div class="w-1/12">
+  <div class="flex flex-row md:w-full lg:w-2/3">
+    <div class="md:w-1/12 w-1/4">
       {{name}}
     </div>
-    <n-input class="w-4/6 mr-2"
+    <n-input class="w-1/2 md:w-4/6 mr-2"
     autosize
     v-model:value="stateInput.value"
     @keyup.enter="pressButtonEvent(name,stateInput.value, 10)"

@@ -20,55 +20,55 @@ interface ProductCard {
 export default defineComponent({
     setup() {
         const data: RowData[] = [
-            {
-                name: 'Заказ №666',
-                date_transaction: '16.05.2025 12.34',
-                adres: 'г. Лохушкана, дом колотушкина',
-                children: [
-                    {
-                        product: 'Сосиска в попе',
-                        price: 100500,
-                        description: 'Очень вкусно, но пахнет фекалиями',
-                        id: 100,
-                        imagePath: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
-                    },
-                    {
-                        product: 'Сосиска в попе',
-                        price: 100500,
-                        description: 'Очень вкусно, но пахнет фекалиями',
-                        id: 100,
-                        imagePath: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
-                    },
-                    {
-                        product: 'Сосиска в попе',
-                        price: 100500,
-                        description: 'Очень вкусно, но пахнет фекалиями',
-                        id: 100,
-                        imagePath: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
-                    },
-                    {
-                        product: 'Сосиска в попе',
-                        price: 100500,
-                        description: 'Очень вкусно, но пахнет фекалиями',
-                        id: 100,
-                        imagePath: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
-                    }
-                ]
-            },
-            {
-                name: 'Заказ №667',
-                date_transaction: '18.05.2025 14.34',
-                adres: 'г. Лохушкана, дом колотушкина',
-                children: [
-                    {
-                        product: 'Сосиска в попе',
-                        price: 100500,
-                        description: 'Очень вкусно, но пахнет фекалиями',
-                        id: 100,
-                        imagePath: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
-                    }
-                ]
-            },
+        //     {
+            //     name: 'Заказ №666',
+            //     date_transaction: '16.05.2025 12.34',
+            //     adres: 'г. Лохушкана, дом колотушкина',
+            //     children: [
+            //         {
+            //             product: 'Сосиска в попе',
+            //             price: 100500,
+            //             description: 'Очень вкусно, но пахнет фекалиями',
+            //             id: 100,
+            //             imagePath: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
+            //         },
+            //         {
+            //             product: 'Сосиска в попе',
+            //             price: 100500,
+            //             description: 'Очень вкусно, но пахнет фекалиями',
+            //             id: 100,
+            //             imagePath: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
+            //         },
+            //         {
+            //             product: 'Сосиска в попе',
+            //             price: 100500,
+            //             description: 'Очень вкусно, но пахнет фекалиями',
+            //             id: 100,
+            //             imagePath: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
+            //         },
+            //         {
+            //             product: 'Сосиска в попе',
+            //             price: 100500,
+            //             description: 'Очень вкусно, но пахнет фекалиями',
+            //             id: 100,
+            //             imagePath: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
+            //         }
+            //     ]
+            // },
+            // {
+            //     name: 'Заказ №667',
+            //     date_transaction: '18.05.2025 14.34',
+            //     adres: 'г. Лохушкана, дом колотушкина',
+            //     children: [
+            //         {
+            //             product: 'Сосиска в попе',
+            //             price: 100500,
+            //             description: 'Очень вкусно, но пахнет фекалиями',
+            //             id: 100,
+            //             imagePath: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
+            //         }
+            //     ]
+            // },
         ]
 
         const columns: DataTableColumns<RowData> = [

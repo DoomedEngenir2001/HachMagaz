@@ -1,5 +1,5 @@
 <template>
-<div style="display: flex; flex-direction: row; width:32%">
+<div class="flex flex-row w-32% md:2-100%">
 <div style="height:100%;">
     <cancelBtn style="margin-top: 50vh; width: 40px; height: 40px; 
     border-radius: 40px;margin-right: 5px;" @click="close"></cancelBtn> 

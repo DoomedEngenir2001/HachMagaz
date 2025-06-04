@@ -10,7 +10,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .btn{
-    min-width: 144px;
+    min-width:144px;
     width: wrap;
     height: 50px;
     background-color:#ff6900;
@@ -18,6 +18,11 @@ export default defineComponent({
     font-size: 20px;
     border-radius: 20px;
     border: none;
+}
+@media(max-width: 768px){
+    .btn{
+        min-width: 80px;
+    }
 }
 .btn:hover{
     background-color:#FFF0E6;

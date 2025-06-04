@@ -3,7 +3,7 @@
         <HeaderPage @LogIn="toLK()" @OpenCart="this.cartIsVisible=true"></HeaderPage>
         <div class="center-align">
         <div class="product-panel">
-           <productCard  @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
+           <productCard  class="md:w-[150px] md:h-[200px]" @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
            :product="product.product" :price="product.price" :imagePath="product.image" :id="product.id"
            :description="product.description"></productCard> 
         </div>
@@ -16,13 +16,11 @@
         <div  v-show="this.cartIsVisible" class="cart-modal">
             <CartModal @toMap="openMap" @closeCart="this.cartIsVisible=false"></CartModal>
         </div>
-        <signInForm @exit="this.authResult(status)" 
+        <signInForm @exit="this.authResult()" 
         @toSignUp="this.signInIsVisble=false;this.signUpIsVisble=true;" @closeFormSignIn="this.signInIsVisble=false;this.signUpIsVisble=false;" 
         v-show="this.signInIsVisble"></signInForm>
         <signUpForm @toSignIn="this.signInIsVisble=true;this.signUpIsVisble=false;" @closeFormSignUp="this.signInIsVisble=false;this.signUpIsVisble=false;" 
         v-show="this.signUpIsVisble"></signUpForm>
-        <poppupAuth v-if="this.showPoppupOK">Вход выполнен</poppupAuth>
-        <poppupAuth  v-if="this.showPoppupFail" class="border-red">Вход не выполнен</poppupAuth>
     </div>
 </template>
 <script>
@@ -33,7 +31,7 @@ import ProductCardModal from '../components/ProductCardModal.vue';
 import CartModal from '../components/CartModal.vue';
 import signInForm from '../components/signInForm.vue';
 import signUpForm from '../components/signUpForm.vue';
-import poppupAuth from '../components/poppupAuth.vue';
+import { ElNotification } from 'element-plus';
 import { onMounted } from 'vue';
 export default{
     async created(){
@@ -58,7 +56,7 @@ export default{
         CartModal,
         signInForm,
         signUpForm,
-        poppupAuth
+        ElNotification
     },
     data(){
         return {
@@ -82,7 +80,8 @@ export default{
             getToken: "getToken",
             getProductsfromState: "getProductsfromState",
             getIndex: "getIndex",
-            getEnd: "getEnd"  
+            getEnd: "getEnd",
+            getUserId: "getUserId"  
         })
     },
     methods:{
@@ -105,22 +104,27 @@ export default{
            this.signUpIsVisble = false;
            this.signInIsVisble = true;
         },
-        authResult(status){
+        authResult(){
             this.signUpIsVisble = false;
            this.signInIsVisble = false;
-           console.log(status)
-            if(status){
-                this.showPoppupOK=true;
-                setTimeout(()=>{
-                    this.showPoppupOK=false;
-                }, 3000);
-            }
-            else {
-                this.showPoppupFail=true;
-                setTimeout(()=>{
-                    this.showPoppupFail=false;
-                }, 3000);
-            }
+           console.log(this.getUserId)
+           if (this.getUserId != null){
+            return ElNotification({
+                title: 'Успешно',
+                message: 'Вход выполнен',
+                type: 'success',
+                duration: 5000,
+                position: 'bottom-right',
+            });
+           }else {
+            return ElNotification({
+                title: 'Ошибка',
+                message: 'Вход не выполнен',
+                type: 'error',
+                duration: 5000,
+                position: 'bottom-right',
+            });
+           }
         },
         toLK(){
             if(this.getToken != '')this.$router.push('/personalCabinet');
@@ -151,7 +155,15 @@ export default{
     height: wrap;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 1%;
+}
+@media(max-width: 768px){
+    .product-panel{
+    grid-template-columns: repeat(2, 1fr);
+    width: 95%;   
+    margin-top: 20px;
+    gap: 1%;
+}
 }
 .modal{
   position: fixed;
