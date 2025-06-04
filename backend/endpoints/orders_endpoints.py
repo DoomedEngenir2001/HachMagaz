@@ -17,7 +17,7 @@ from orm_models.orm_configuration import ORM_Configuration
 from backend_configuration        import Backend_Configuration
 #-------------------------------------------------------------#
 from objects_DTO.productCard_DTO import ProductCard_DTO
-from objects_DTO import order_DTO
+from objects_DTO.order_DTO import Order_DTO
 from ORM_dict import ORM_dict
 from orm_models.orm_base         import ORM_Base
 from orm_models.orders_status    import Order_status
@@ -26,7 +26,6 @@ from orm_models.test_data_loader import insert_images_data, insert_products_data
 from fastapi.security      import OAuth2PasswordBearer
 from logic.l_jwt           import verify_jwt, create_jwt
 from logic.l_transanctions import create_transaction_row
-from logic.l_users         import get_user_orders, get_user_orders_with_status
 from logic.l_orders        import create_order_row
 from pydantic import BaseModel
 from yookassa import Payment, Configuration
@@ -108,23 +107,14 @@ async def add_to_order(req: order_reg)->dict:
         return {"message": "User not found"}
 
 @orders_router.get("/get_order_for_user_with_status")
-async def get_order_for_user_with_status(user_id: int = None, login : str = None, status : str = Order_status.STATUS_CREATED)->list:
-    _user : Users = None
-    if user_id is not None:
-        _user = await Users.get_rowById(Users, user_id)
-    if login is not None:
-        _user = await Users.get_rowByLogin( login )
-
-    print( "_user : " +  _user.__repr__() )
-
-    if isinstance(_user, Users) and status in Order_status.get_all_statuses():
-        _orders : Orders = await get_user_orders(_user.id)
+async def get_order_for_user_with_status(user_id: int = None, status : str = Order_status.STATUS_CREATED):
+    try:
+        _orders : Orders = await Orders.get_user_orders(user_id)
         print( "_orders : " +  _orders.__repr__() )
-        if isinstance(_orders, Orders):
-            orders = []
-            for _order in _orders:
-                order = order_DTO(_order)
-                orders.append(order)
-            return orders
-        else:
-            return {"message": "Orders not found"}
+        orders:list = []
+        for _order in _orders:
+            order = Order_DTO(_order)
+            orders.append(order)
+        return orders
+    except Exception as e:
+        return {"error":e}

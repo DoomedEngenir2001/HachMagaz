@@ -40,9 +40,9 @@ export default{
             "phone": phone
         });
     },
-    async getOrders(login, token){
-        return instance.post("/getOrders",{
-            "login": login
+    async getOrders(user_id, login, token){
+        return instance.get("/getOrders",{
+            "user_id":user_id
         },
         {
             headers:{

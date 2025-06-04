@@ -248,7 +248,7 @@ export default createStore({
             context.commit("setToken", response.data.token);
         },
         async getOrders(context){
-            const response = await api.getOrders(context.state.login, context.state.token);
+            const response = await api.getOrders(context.state.user_id, context.state.token);
             context.commit("setOrders", response.data);
         },
         async getAdresses(context){
