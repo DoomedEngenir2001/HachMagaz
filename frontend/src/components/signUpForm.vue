@@ -21,7 +21,7 @@
             <input v-model="this.phone" placeholder="Введите номер телефона" class="outline lg:w-[630px] lg:h-[75px] mt-[5px] rounded-3xl
             md:w-[310px] md:h-[50px]">
             <span v-if="this.submitted && !this.phoneIsValid" class="flex text-base text-red-600">Это поле должно быть заполнено!</span>
-            <div class="mt-[10px] flex text-center text-gray text-2xl justify-center"> <orangeBtn class="w-full" @click="this.$emit('toSignIn');">Войти</orangeBtn></div>
+            <div class="mt-[10px] flex text-center text-gray text-2xl justify-center"> <orangeBtn class="w-[220px]" @click="this.$emit('toSignIn');">Войти</orangeBtn></div>
             <div class="mt-[20px] flex w-full text-center justify-center"><orangeBtn  @click="signUp()" class="text-white w-[220px] ">Зарегистрироваться</orangeBtn></div>    
         </div>
     </div>

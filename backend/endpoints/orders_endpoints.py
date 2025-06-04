@@ -106,7 +106,7 @@ async def add_to_order(req: order_reg)->dict:
     else:
         return {"message": "User not found"}
 
-@orders_router.get("/get_order_for_user_with_status")
+@orders_router.get("/getOrders")
 async def get_order_for_user_with_status(user_id: int = None, status : str = Order_status.STATUS_CREATED):
     try:
         _orders : Orders = await Orders.get_user_orders(user_id)

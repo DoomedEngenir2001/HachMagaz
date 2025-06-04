@@ -22,7 +22,7 @@
     </div>
 
     <!-- Orders section -->
-    <div class="hidden md:flex flex-col w-full text-3xl shadow-md" >
+    <div class="md:flex flex-col w-full text-3xl shadow-md" >
       <div class="text-3xl font-bold pl-[20px] leading-[60px]">Мои заказы</div>
       <TableOrders />
     </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import orangeBtnTS from '../components/orangeBtnTS.vue'
 import UserInput from '../components/PersonalCabinet/MainBlock/UserInput.vue'
 import TableOrders from '../components/PersonalCabinet/MainBlock/TableOrders.vue'
@@ -53,7 +53,9 @@ const saveInput = (name:string, value:string) =>{
     store.commit("setPhone",value );
   }
 }
-
+onBeforeMount(()=>{
+  store.dispatch("getOrders");
+})
 onMounted(() => {
   personalCabinetItems.value = {
     inputs: [

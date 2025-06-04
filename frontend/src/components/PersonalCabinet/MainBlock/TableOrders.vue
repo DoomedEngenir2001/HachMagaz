@@ -1,6 +1,7 @@
 <script lang="ts">
 import type { DataTableColumns } from 'naive-ui'
 import { defineComponent } from 'vue'
+import { useStore } from 'vuex'
 
 interface RowData {
     name: string
@@ -19,7 +20,9 @@ interface ProductCard {
 // Test git
 export default defineComponent({
     setup() {
-        const data: RowData[] = [
+        const store = useStore();
+        const data: RowData[] = store.getters.getOrders;
+        // [
         //     {
             //     name: 'Заказ №666',
             //     date_transaction: '16.05.2025 12.34',
@@ -69,45 +72,45 @@ export default defineComponent({
             //         }
             //     ]
             // },
-        ]
+        // ]
 
         const columns: DataTableColumns<RowData> = [
             {
                 title: '№ заказа',
                 width: 50,
                 titleAlign: 'center',
-                key: 'name'
+                key: 'id'
             },
             {
                 title: 'Время заказа',
                 width: 30,
                 align: 'center',
-                key: 'date_transaction'
+                key: 'createTime'
             },
-            {
-                title: 'Хавчик',
-                width: 70,
-                align: 'center',
-                key: 'product'
-            },
-            {
-                title: 'Стоимость',
-                width: 70,
-                align: 'center',
-                key: 'price'
-            },
-            {
-                title: 'Описание',
-                titleAlign: 'center',
-                align: 'center',
-                width: 70,
-                key: 'description'
-            },
+            // {
+            //     title: 'Хавчик',
+            //     width: 70,
+            //     align: 'center',
+            //     key: 'product'
+            // },
+            // {
+            //     title: 'Стоимость',
+            //     width: 70,
+            //     align: 'center',
+            //     key: 'price'
+            // },
+            // {
+            //     title: 'Описание',
+            //     titleAlign: 'center',
+            //     align: 'center',
+            //     width: 70,
+            //     key: 'description'
+            // },
             {
                 title: 'Адрес доставки',
                 width: 70,
                 align: 'center',
-                key: 'adres'
+                key: 'address'
             },
         ]
 

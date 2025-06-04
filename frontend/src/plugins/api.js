@@ -42,7 +42,7 @@ export default{
     },
     async getOrders(user_id, login, token){
         return instance.get("/getOrders",{
-            "user_id":user_id
+            params:{"user_id":user_id}
         },
         {
             headers:{
