@@ -1,6 +1,7 @@
 <template>
     <div @scroll="this.onScroll(event)" class = "main-page">
-        <HeaderPage @LogIn="toLK()" @OpenCart="this.cartIsVisible=true"></HeaderPage>
+        <HeaderPage @contact="toContact()"
+            @LogIn="toLK()" @OpenCart="this.cartIsVisible=true"></HeaderPage>
         <div class="center-align">
         <div class="product-panel">
            <productCard  class="md:w-[150px] md:h-[200px]" @showModal="showModalWindow" v-for="product in this.getProductsfromState" :key="product.product" 
@@ -21,6 +22,7 @@
         v-show="this.signInIsVisble"></signInForm>
         <signUpForm @toSignIn="this.signInIsVisble=true;this.signUpIsVisble=false;" @closeFormSignUp="this.signInIsVisble=false;this.signUpIsVisble=false;" 
         v-show="this.signUpIsVisble"></signUpForm>
+        <ContactModal v-if="showContact" @closeContact="toContact()"></ContactModal>
     </div>
 </template>
 <script>
@@ -31,13 +33,13 @@ import ProductCardModal from '../components/ProductCardModal.vue';
 import CartModal from '../components/CartModal.vue';
 import signInForm from '../components/signInForm.vue';
 import signUpForm from '../components/signUpForm.vue';
+import ContactModal from '../components/ContactModal.vue';
 import { ElNotification } from 'element-plus';
 import { onMounted } from 'vue';
 export default{
     async created(){
         if (this.getProductsfromState.length ==0){
             await this.getProductsfromServer(this.getIndex);
- //           await this.getOrders();
         }
     },
     mounted() {
@@ -56,7 +58,8 @@ export default{
         CartModal,
         signInForm,
         signUpForm,
-        ElNotification
+        ElNotification,
+        ContactModal
     },
     data(){
         return {
@@ -70,8 +73,7 @@ export default{
             signUpIsVisble: false,
             productIsEnd: false,
             authOK: false,
-            showPoppupOK: false,
-            showPoppupFail: false
+            showContact: false
         }
     },
     computed: {
@@ -132,6 +134,10 @@ export default{
         },
         openMap(){
             this.$router.push('/orderMap');
+        },
+        toContact(){
+            if(this.showContact) this.showContact = false;
+            else this.showContact = true;
         }
     } 
 }

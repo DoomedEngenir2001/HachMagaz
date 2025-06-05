@@ -4,8 +4,8 @@
         v-model="map"
         :settings="{
           location: {
-            center: [30.31, 59.93 ],
-            zoom: 9,
+            center: [128.858795, 71.629263 ],
+            zoom: 15,
           },
         }"
         width="100%"
@@ -60,6 +60,7 @@
   import orangeBtnTS from "../components/orangeBtnTS.vue";
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
+  import { ElNotification } from 'element-plus';
     const selectedSearch = ref<LngLat | null>(null);
     const address = ref('');
     const padik = ref('');
@@ -67,6 +68,8 @@
     const stage = ref('');
     const flat = ref('')
     const comment = ref('')
+    var dist = 0.0;
+    const center = [128.858795, 71.629263 ]
     const searchResponse = shallowRef<null | SearchResponse>(null);
     const store = useStore();
     const router = useRouter();
@@ -86,6 +89,8 @@
         searchResponse.value.forEach(el => {
           if (address.value === el.properties.name +' ('+ el.properties.description+')'){
             selectedSearch.value = el.geometry?.coordinates as LngLat;
+            dist = Math.sqrt(Math.pow(selectedSearch.value[0]-center[0], 2)+
+          Math.pow(selectedSearch.value[1]-center[1], 2)) *111.1;
             return;
           }
       })
@@ -106,11 +111,20 @@
 
     const SubmitOrder = () => {
       submitted = true;
-      if (adressValid) {
+      if (adressValid && dist <50) {
         let fullAddr = address.value + " подъезд " + padik.value + " Этаж " + stage.value + " Квартира " + flat.value;
         let info = "Код от двери "  + doorCode.value + " Комментарий " + comment.value;
         store.commit('setAddress', fullAddr);
         router.push('/order');
+      } else if (adressValid && dist > 50){
+        router.push("/");
+          return ElNotification({
+              title: 'Ошибка',
+              message: 'Невозможно сюда доставить заказ',
+              type: 'error',
+              duration: 5000,
+              position: 'bottom-right',
+          });
       }
     };
   //Можно использовать для различных преобразований

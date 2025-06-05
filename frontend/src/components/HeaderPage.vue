@@ -3,6 +3,9 @@
     <img class="logo-placeholder" src="../assets/logotip.png"/>
     <div class="media-title text-4xl font-bold ml-[30px]">ХачМагаз</div>
     <div class="btnContainer">
+        <orangeBtn class="or-btn flex items-center 
+        min-w-[50px] justify-center"
+        @click="showContact"><img width="30px" height="30px" src="../assets/telephone.png"></orangeBtn>
         <orangeBtn @click="openCart" class="or-btn flex items-center 
         min-w-[50px] justify-center"><img  width="30px" height="30px" src="../assets/shopping-cart.png"></orangeBtn>
         <orangeBtn class=" or-btn flex justify-center items-center" @click="signIn"><img class="w-[30px] h-[30px] " src="../assets/user.png"></orangeBtn>
@@ -32,6 +35,9 @@ methods:{
     },
     signIn(){
         this.$emit('LogIn');
+    },
+    showContact(){
+        this.$emit('contact');
     }
 }
 }
