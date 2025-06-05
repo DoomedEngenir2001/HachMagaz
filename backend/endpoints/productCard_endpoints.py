@@ -28,6 +28,7 @@ from store.store_config import ACCESS_KEY, SECRET_KEY, URL, BUCKET
 from datetime import date
 from logic.l_images import create_image_row
 import base64
+from logic.l_jwt import verify_request
 
 CARD_BATCH=16
 S3CONTAINER = "058fc2e1-e870-47c5-9f35-bc8a2df28ab2"
@@ -89,7 +90,7 @@ async def get_product_cards():
     return response
 
 @productCards_routes.post("/processImage")
-async def process_image(req:ImageRequest)->dict:
+async def process_image(req:ImageRequest, auth=Depends(verify_request))->dict:
     client = S3Client(ACCESS_KEY, SECRET_KEY, URL, BUCKET)
     content = base64.b64decode(req.content.encode('utf-8'))
     await client.upload(content, req.filename)
@@ -98,7 +99,7 @@ async def process_image(req:ImageRequest)->dict:
     return{"filename":filepath}
 
 @productCards_routes.post("/addCard")
-async def add_product_card(req: addCardRequest)->dict:
+async def add_product_card(req: addCardRequest, auth=Depends(verify_request))->dict:
     # Cначала нужно сохранить картинку в файловой системе, только потом запись в бд делать
     product = await create_product_row(title=req.product, description=req.description, price=req.price, countInStock=req.limit)
     image = await create_image_row(file_path=req.image)
@@ -114,6 +115,6 @@ async def add_product_card(req: addCardRequest)->dict:
         return {"message": "failed"}
 
 @productCards_routes.post("/editCard")
-async def edit_product_card(req: editCardRequest)->dict:
+async def edit_product_card(req: editCardRequest, auth=Depends(verify_request))->dict:
     await ProductCards.update_product_card(req.id, 2, req.product, req.description, req.price, req.limit)
     return {"status":"success"}

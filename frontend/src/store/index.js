@@ -234,13 +234,17 @@ export default createStore({
         },
         async createOrder(context, method){
             const response=await api.createOrder(context.getters.getUserId, context.getters.getCartIdxs,
-                context.getters.getCartCount, context.getters.getAddress, method, context.getters.getCartCost);
+                context.getters.getCartCount, context.getters.getAddress, method, context.getters.getCartCost, context.getters.getToken);
             return response
         },
         async SignIn(context){
             const response = await api.SignIn(context.state.login, context.state.password);
-            context.commit("setToken", response.data.token);
-            context.commit("setUserId", response.data.user_id);
+            if (response.data.token && response.data.user_id){
+                context.commit("setToken", response.data.token);
+                context.commit("setUserId", response.data.user_id);
+                context.dispatch("getOrders")
+            }
+
         },
         async SignUp(context){
             const response = await api.SignUp(context.state.login, context.state.password, 

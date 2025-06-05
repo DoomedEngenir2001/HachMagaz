@@ -21,22 +21,22 @@ from objects_DTO.productCard_DTO import ProductCard_DTO
 from ORM_dict import ORM_dict
 #-------------------------------------------------------------#
 from fastapi.security import OAuth2PasswordBearer
-from logic.l_jwt      import verify_jwt, create_jwt
+from logic.l_jwt      import verify_jwt, verify_request
 #-------------------------------------------------------------#
 
 
 table_routes = APIRouter()
 
 
-@table_routes.get("/get_table_data")
-async def get_table_data(table : str):
+@table_routes.get("/get_table_data" )
+async def get_table_data(table : str, auth=Depends(verify_request)):
     if table in ORM_dict.keys():
         return await ORM_dict[table].get_table_data()
     else:
         return {"message": "Table not found"}
 
 @table_routes.get("/get_table_row_data")
-async def get_table_row_data(table : str, rowId : int):
+async def get_table_row_data(table : str, rowId : int, auth=Depends(verify_request)):
     if table in ORM_dict.keys():
         _return : ORM_Base = await ORM_Base.get_rowById(ORM_dict[table], rowId)
         if _return is None:
@@ -47,7 +47,7 @@ async def get_table_row_data(table : str, rowId : int):
         return {"message": "Table not found"}
 
 @table_routes.get("/drop_table")
-async def drop_table(table : str):
+async def drop_table(table : str, auth=Depends(verify_request)):
     if table in ORM_dict.keys():
         _return = await ORM_dict[table].drop_table()
         return {"delited table": _return}
@@ -55,20 +55,20 @@ async def drop_table(table : str):
         return {"message": "Table not found"}
 
 @table_routes.get("/drop_all_tables_data")
-async def drop_table_data():
+async def drop_table_data(auth=Depends(verify_request)):
     for table in ORM_dict.keys():
         await ORM_dict[table].drop_table_data()
     return {"message": "All tables data dropped"}
 
 @table_routes.get("/drop_table_data")
-async def drop_table_data(table : str):
+async def drop_table_data(table : str, auth=Depends(verify_request)):
     if table in ORM_dict.keys():
         return await ORM_dict[table].drop_table_data()
     else:
         return {"message": "Table not found"}
     
 @table_routes.post("/upload_file/")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(file: UploadFile = File(...), auth=Depends(verify_request)):
     file_path = os.path.join(Backend_Configuration.IMAGES_FOLDER, file.filename)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)  # Сохраняем файл

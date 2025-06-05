@@ -28,6 +28,7 @@ from logic.l_users    import  create_user_row_reg, authenticate_user
 from logic.l_jwt      import verify_jwt, create_jwt
 from fastapi.security import OAuth2PasswordRequestForm
 #-------------------------------------------------------------#
+from logic.l_jwt import verify_request
 class sign_up_request(BaseModel):
     login: str
     password: str
@@ -75,7 +76,7 @@ async def login_user(req:login_req
                 return AuthenticationError("Invalid password").show
         
 @user_routes.get("/is_user_exist")
-async def is_user_exist(login: str = None, email: str = None, phone: str = None):
+async def is_user_exist(login: str = None, email: str = None, phone: str = None, auth=Depends(verify_request)):
     _result : bool = False
     if login is not None:
         _result = _result or await Users.is_login_exist(login)
@@ -87,7 +88,7 @@ async def is_user_exist(login: str = None, email: str = None, phone: str = None)
     return {"message": _result}
 
 @user_routes.get("/get_user")
-async def get_user(user_id: int):
+async def get_user(user_id: int, auth=Depends(verify_request)):
     user : Users = await Users.get_rowById(cls=Users, id=user_id)
     if isinstance(user, Users):
         return user.toDict()

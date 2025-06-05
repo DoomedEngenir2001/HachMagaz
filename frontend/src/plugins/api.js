@@ -17,19 +17,19 @@ export default{
         return instance.get("/get_all_product_cards");
     },
     async createOrder(user_id, prod, count, addr, method, bill, token){
-        return instance.post("/newOrder", {
-            headers:{
-                "Authorization": `Bearer ${token}`
-            },
-            data: {
+        console.log(token)
+        const header = {
+            headers: {"Authorization": `Bearer ${token}`}
+            }
+        const data = {
                 "user_id": user_id,
                 "address": addr,
                 "method": method,
                 "bill": bill,
                 "productCard_ids": prod,
                 "count": count
-            }
-        })
+            }  
+        return instance.post("/newOrder", data, header);
     },
     async SignIn(login, password){
         return instance.post("/login",{
@@ -55,65 +55,30 @@ export default{
     },
 
     async getAdress(login, token){
-        return instance.post("/getAddresses",{
-            "login": login,
-            headers:{
-                Authorization: `Bearer ${token}`
-            }
-        });
-    },
-    async getProductDict(){
-        return instance.get("/getDict");
-    },
-    async getCart(login, token){
-        return instance.post("/getCart",{
-            "login": login,
-            headers:{
-                Authorization: `Bearer ${token}`
-            }
-        });
-    },
-    async addToCart(login, count, price, product, token){
-        return instance.post("/addToCart",  {
-            "login": login,
-            "count":count,
-            "price":price,
-            "product":product
-            },
-            {
-                headers:{
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        );
+        return instance.post("/getAddresses",{"login": login},{headers:{Authorization: 
+            `Bearer ${token}`}});
     },
     async addProduct(title, desc, price, image, limit, token){
-        return instance.post("/addCard", {
+        const data = {
             "product": title,
             "description":desc,
             "price":price,
             "image":image,
             "limit": limit
-            },
-            {
-                headers:{
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            }
+            const headers = {headers: {"Authorization": `Bearer ${token}`}}
+        return instance.post("/addCard",data ,headers);
     },
     async editCard(title, desc, price, image, limit, token){
-               return instance.post("/editCard", {
+        const data = {
             "id": id,
             "product": title,
             "description":desc,
             "price":price,
             "image":image,
             "limit": limit
-            },
-            {
-                headers:{
-                    Authorization: `Bearer ${token}`
-                }
-            }); 
+        }
+        const headers = {headers:{Authorization: `Bearer ${token}`}}
+        return instance.post("/editCard", data, headers); 
     }
 }

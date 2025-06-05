@@ -21,7 +21,7 @@ from ORM_dict import ORM_dict
 from orm_models.test_data_loader import insert_images_data, insert_products_data, insert_productCards_data, insert_users_data
 #-------------------------------------------------------------#
 from fastapi.security import OAuth2PasswordBearer
-from logic.l_jwt      import verify_jwt, create_jwt
+from logic.l_jwt      import verify_jwt, verify_request
 #-------------------------------------------------------------#
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -35,7 +35,7 @@ async def root():
 
 
 @debug_router.get("/setup_debug_data")
-async def setup_debug_data():
+async def setup_debug_data(auth=Depends(verify_request)):
     imagesList   = await insert_images_data()
     productsList = await insert_products_data()
     print ("productsList", productsList)

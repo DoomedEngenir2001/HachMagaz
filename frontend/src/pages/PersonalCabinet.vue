@@ -53,9 +53,6 @@ const saveInput = (name:string, value:string) =>{
     store.commit("setPhone",value );
   }
 }
-onBeforeMount(()=>{
-  store.dispatch("getOrders");
-})
 onMounted(() => {
   personalCabinetItems.value = {
     inputs: [
