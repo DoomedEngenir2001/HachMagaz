@@ -1,7 +1,7 @@
 <template>
 <div class="header md:h-[50px]">
     <img class="logo-placeholder" src="../assets/logotip.png"/>
-    <div class="media-title text-4xl font-bold ml-[30px]">ХачМагаз</div>
+    <div class="media-title text-4xl font-bold ml-[30px]">Продукты 47</div>
     <div class="btnContainer">
         <orangeBtn class="or-btn flex items-center 
         min-w-[50px] justify-center"
