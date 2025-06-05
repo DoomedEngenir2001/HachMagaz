@@ -4,7 +4,7 @@ from typing import Any
 import shutil
 import os
 from fastapi.security import OAuth2PasswordBearer
-from fastapi import APIRouter, Depends, Response, status, FastAPI, File, UploadFile
+from fastapi import APIRouter, Depends, Response, status, FastAPI, File, UploadFile, HTTPException
 #-------------------------------------------------------------#
 #ORM models block №1
 from orm_models.orm_products            import Products 
@@ -26,6 +26,7 @@ from pydantic import BaseModel
 from logic.l_errors   import UniqueDataError, AuthenticationError
 from logic.l_users    import  create_user_row_reg, authenticate_user
 from logic.l_jwt      import verify_jwt, create_jwt
+from fastapi.security import OAuth2PasswordRequestForm
 #-------------------------------------------------------------#
 class sign_up_request(BaseModel):
     login: str

@@ -30,6 +30,8 @@ from logic.l_orders        import create_order_row
 from pydantic import BaseModel
 from yookassa import Payment, Configuration
 import uuid
+from logic.l_jwt import verify_request
+from fastapi import Depends
 #-------------------------------------------------------------#
 Configuration.account_id = "1096384"
 Configuration.secret_key = "test_o1MqMgM5oiWYOtdjR3YNwkbprns3GMb1Lc-CqOPeRGA"
@@ -57,7 +59,7 @@ class order_reg(BaseModel):
     method: str
 
 @orders_router.post("/newOrder")
-async def add_to_order(req: order_reg)->dict:
+async def add_to_order(req: order_reg, auth=Depends(verify_request))->dict:
     _user = await Users.get_rowById(Users, req.user_id)
     _order: Orders =  await create_order_row(req.user_id, _user.email, _user.phone,req.address)
     if isinstance(_user, Users):
@@ -107,7 +109,8 @@ async def add_to_order(req: order_reg)->dict:
         return {"message": "User not found"}
 
 @orders_router.get("/getOrders")
-async def get_order_for_user_with_status(user_id: int = None, status : str = Order_status.STATUS_CREATED):
+async def get_order_for_user_with_status(user_id: int = None, 
+    status : str = Order_status.STATUS_CREATED, auth=Depends(verify_request)):
     try:
         _orders : Orders = await Orders.get_user_orders(user_id)
         print( "_orders : " +  _orders.__repr__() )

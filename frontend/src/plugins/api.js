@@ -16,14 +16,19 @@ export default{
     async getAllProducts(){
         return instance.get("/get_all_product_cards");
     },
-    async createOrder(user_id, prod, count, addr, method, bill){
+    async createOrder(user_id, prod, count, addr, method, bill, token){
         return instance.post("/newOrder", {
-            "user_id": user_id,
-            "address": addr,
-            "method": method,
-            "bill": bill,
-            "productCard_ids": prod,
-            "count": count,
+            headers:{
+                "Authorization": `Bearer ${token}`
+            },
+            data: {
+                "user_id": user_id,
+                "address": addr,
+                "method": method,
+                "bill": bill,
+                "productCard_ids": prod,
+                "count": count
+            }
         })
     },
     async SignIn(login, password){
@@ -40,22 +45,18 @@ export default{
             "phone": phone
         });
     },
-    async getOrders(user_id, login, token){
+    async getOrders(user_id, token){
         return instance.get("/getOrders",{
-            params:{"user_id":user_id}
-        },
-        {
+            params:{"user_id":user_id},
             headers:{
-                Authorization: `Bearer ${token}`
+                "Authorization": `Bearer ${token}`
             }
         });
     },
 
     async getAdress(login, token){
         return instance.post("/getAddresses",{
-            "login": login
-        },
-        {
+            "login": login,
             headers:{
                 Authorization: `Bearer ${token}`
             }
@@ -66,9 +67,7 @@ export default{
     },
     async getCart(login, token){
         return instance.post("/getCart",{
-            "login": login
-        },
-        {
+            "login": login,
             headers:{
                 Authorization: `Bearer ${token}`
             }
