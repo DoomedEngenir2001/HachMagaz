@@ -10,7 +10,7 @@ const routes = [
     {path: '/orderMap', component: OrderMapPage},
     {path: '/order', component: orderPage},
     {path: '/personalCabinet', component: PersonalCabinet},
-    {path: '/adminPage', component: adminPage},
+    // {path: '/adminPage', component: adminPage},
 ];
 
 const router = createRouter({routes, history: createWebHistory()});
