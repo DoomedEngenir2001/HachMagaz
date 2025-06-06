@@ -24,6 +24,8 @@ finally:
     origins = [
         "http://localhost",
         "http://localhost:5173",
+        "http://tiksiproducts47.ru",
+        "https://tiksiproducts47.ru"
     ]
     app.add_middleware(
         CORSMiddleware,
