@@ -76,7 +76,7 @@ export default{
 }
 @media (max-width: 768px){
     .product-card{
-    width: 180px;
+    width: 150px;
     height:290px;
     /* margin-right: 42.5px; */
     display: flex;
@@ -95,8 +95,8 @@ export default{
     }
 @media (max-width: 768px){
     .image-placeholder{
-    width: 180px;
-    height: 200px;
+    width: 150px;
+    height: 180px;
     display: flex;
     background-image: url("../assets/phone.png");
     
@@ -110,8 +110,8 @@ export default{
 }
 @media (max-width: 768px){
 .product-image{
-    width: 180px;
-    height: 200px;
+    width: 150px;
+    height: 180px;
     display: flex;
     object-fit: contain;
 }

@@ -9,11 +9,11 @@
            :description="product.description"></productCard> 
         </div>
         </div>
-        <div class="modal" v-show="isVisible">
+        <!-- <div class="modal" v-show="isVisible">
             <ProductCardModal @closeModal="this.isVisible=false"    
             :product="selectedProduct" :price="selectedPrice" :description="selectedDesc"
             :imagePath="selectedImg"/>
-        </div>
+        </div> -->
         <div  v-show="this.cartIsVisible" class="cart-modal">
             <CartModal @toMap="openMap" @closeCart="this.cartIsVisible=false"></CartModal>
         </div>
@@ -63,7 +63,7 @@ export default{
     },
     data(){
         return {
-            isVisible: false,
+            // isVisible: false,
             selectedPrice: null,
             selectedProduct: null,
             selectedDesc: null,
@@ -91,13 +91,13 @@ export default{
             getProductsfromServer: "getProductsfromServer",
             getOrders: "getOrders"
         }),
-        showModalWindow(product, price, imagePath, description){
-            this.selectedProduct=product;
-            this.selectedPrice=price;
-            this.selectedDesc=description;
-            this.selectedImg=imagePath;
-            this.isVisible=true;
-        },
+        // showModalWindow(product, price, imagePath, description){
+        //     this.selectedProduct=product;
+        //     this.selectedPrice=price;
+        //     this.selectedDesc=description;
+        //     this.selectedImg=imagePath;
+        //     this.isVisible=true;
+        // },
         toSignUp(){
            this.signUpIsVisble = true;
            this.signInIsVisble = false;

@@ -21,7 +21,7 @@ services:
 
 
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin:latest
     depends_on:
       - db
     restart: always

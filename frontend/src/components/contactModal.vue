@@ -1,6 +1,6 @@
 <template>
     <div class="fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center ">
-        <div class="flex-column items-center w-wrap h-wrap bg-white rounded-3xl 
+        <div class="flex-column items-center md:w-wrap md:h-wrap bg-white rounded-3xl 
         p-[8px] w-[400px] h-[200px]">
             <div class="flex-row w-full h-1/10">
                 <cancelBtn @click="this.$emit('closeContact');" class="m-r-0 m-l-auto"></cancelBtn>
