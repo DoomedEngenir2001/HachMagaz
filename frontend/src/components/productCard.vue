@@ -76,14 +76,16 @@ export default{
 }
 @media (max-width: 768px){
     .product-card{
-    width: 150px;
-    height:290px;
+    width: 170px;
+    height:270px;
     /* margin-right: 42.5px; */
     display: flex;
     flex-direction: column;
     border: 2px solid rgba( 128,128,128, 0.4);
     border-radius: 10px;
     /* box-shadow:  5px 5px rgb(175, 175, 175); */
+    margin-left:auto;
+    margin-right:auto;
 }
 }
     .image-placeholder{
@@ -95,7 +97,7 @@ export default{
     }
 @media (max-width: 768px){
     .image-placeholder{
-    width: 150px;
+    width: 170px;
     height: 180px;
     display: flex;
     background-image: url("../assets/phone.png");
@@ -110,7 +112,7 @@ export default{
 }
 @media (max-width: 768px){
 .product-image{
-    width: 150px;
+    width: 170px;
     height: 180px;
     display: flex;
     object-fit: contain;
@@ -125,6 +127,7 @@ export default{
 @media (max-width: 768px){
 .product-name{
     font-size: 16px;
+    width: 170px;
 }
 }
 .price-holder{
@@ -138,6 +141,7 @@ export default{
 @media (max-width: 768px){
 .price-holder{
     font-size: 18px;
+    width: 170px;
 }
 }
 .toRightCorner{
@@ -149,7 +153,6 @@ export default{
     margin-left: auto; 
     margin-right: 0;
     min-width: 50px;
-
 }
 }
 </style>

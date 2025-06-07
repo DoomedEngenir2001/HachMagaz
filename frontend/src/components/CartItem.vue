@@ -90,6 +90,11 @@ export default{
     height: 140px;
     padding-left: 5px;
 }
+@media(max-width: 768px) {
+    .central-content{
+        font-size: 16px;
+    }
+}
 .product-image{
     width: 20%;
     height: 140px;

@@ -78,6 +78,16 @@ export default{
     background-color: #F3F3F7;
 
 }
+@media(max-width: 768px){
+    .cart{
+        height: 95%;
+    }
+}
+@media(max-width: 768px){
+    .cart{
+        width: 92%;
+    }
+}
 .header-cart{
     display: flex;
     flex-direction: row;
@@ -86,6 +96,11 @@ export default{
     font-size: 36px;
     font-weight: bold;
     margin-left: 10px;
+}
+@media(max-width: 768px){
+    .header-cart{
+        font-size: 18px;
+    }
 }
 .cart-panel{
     display: flex;

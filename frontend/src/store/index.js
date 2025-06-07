@@ -17,7 +17,7 @@ export default createStore({
         surname: getStorage("surname") || 'Фамилия',
         phone: getStorage("phone") ||'Телефон',
         token: getStorage("token") ||'',
-        user_id: getStorage("user_id") ||null,
+        user_id: getStorage("user_id") ||1,
         index:0,
         end: false
     },

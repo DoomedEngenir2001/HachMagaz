@@ -15,7 +15,7 @@
       <yandex-map-default-features-layer/>
       <yandex-map-default-marker v-if="selectedSearch" :settings="{  coordinates: selectedSearch }"/>
       </yandex-map>
-      <div class="h-wrap p-[5px] bg-white fixed bottom-[10px] left-[10px] rounded-2xl">
+      <div class="h-wrap p-[5px] bg-white fixed bottom-[50px] left-[30px] rounded-2xl">
         <div class="flex flex-col w-[250px] md:w-[320px] h-wrap">
             <div class="w-full font-bold lg:h-[20px] text-lg text-center mt:h-[15px]">Укажите ваш адрес</div>
             <input v-model="address" list="search" placeholder="Город, улица и дом" class="flex w-full 
