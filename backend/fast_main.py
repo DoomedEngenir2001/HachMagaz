@@ -15,10 +15,10 @@ from fastapi.staticfiles import StaticFiles
 import asyncio
 #-------------------------------------------------------------#
 try: 
-    pass
-    #  asyncio.create_task(init_db())
-# except Exception as ex:
-    # print(f"Ебаный в рот!! Какая-то хуйня: \n {ex}")
+    # pass
+     asyncio.create_task(init_db())
+except Exception as ex:
+    print(f"Ебаный в рот!! Какая-то хуйня: \n {ex}")
 finally:
     app = FastAPI(title ="test123ree4")
     origins = [
