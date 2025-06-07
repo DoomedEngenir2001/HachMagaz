@@ -17,7 +17,7 @@ export default createStore({
         surname: getStorage("surname") || 'Фамилия',
         phone: getStorage("phone") ||'Телефон',
         token: getStorage("token") ||'',
-        user_id: getStorage("user_id") ||1,
+        user_id: getStorage("user_id") ||null,
         index:0,
         end: false
     },
@@ -237,6 +237,18 @@ export default createStore({
                 context.getters.getCartCount, context.getters.getAddress, method, context.getters.getCartCost, context.getters.getToken);
             return response
         },
+        async createOrderWithUnauthorizedUser(context, method){
+            const resposeAuth = await api.SignIn("bot", "12345");
+            if (resposeAuth.data.token && resposeAuth.data.user_id){
+                context.commit("setToken", resposeAuth.data.token);
+                context.commit("setUserId", resposeAuth.data.user_id);
+                const response=await api.createOrder(context.getters.getUserId, context.getters.getCartIdxs,
+                    context.getters.getCartCount, context.getters.getAddress, method, context.getters.getCartCost, context.getters.getToken);
+                return response
+            }
+                return {"message":"error"}
+
+        },    
         async SignIn(context){
             const response = await api.SignIn(context.state.login, context.state.password);
             if (response.data.token && response.data.user_id){

@@ -57,27 +57,43 @@ export default {
             router.push('/');
         }
         const makeOrder = async () =>{
-            const resp = await store.dispatch("createOrder", "Nal");
-            store.commit("setCart", []);
-            if (resp.data.url){
-                router.push("/")
-                return ElNotification({
-                    title: 'Успешно',
-                    message: 'Заказ создан',
-                    type: 'success',
-                    duration: 5000,
-                    position: 'bottom-right',
-            });
-           }else {
-                return ElNotification({
-                    title: 'Ошибка',
-                    message: 'Заказ не создан',
-                    type: 'error',
-                    duration: 5000,
-                    position: 'bottom-right',
-                });
-           }
+            try{
+                var resp = null;
+                if (store.getters.getUserId !=null){
+                    resp = await store.dispatch("createOrder", "Nal");
+                }else {
+                    resp = await store.dispatch("createOrderWithUnauthorizedUser", "Nal");
+                }
+                store.commit("setCart", []);
+                if (resp.data.url){
+                    router.push("/")
+                    return ElNotification({
+                        title: 'Успешно',
+                        message: 'Заказ создан',
+                        type: 'success',
+                        duration: 5000,
+                        position: 'bottom-right',
+                    });
+                    }else {
+                    return ElNotification({
+                        title: 'Ошибка',
+                        message: 'Заказ не создан',
+                        type: 'error',
+                        duration: 5000,
+                        position: 'bottom-right',
+                    });
+            }
             
+            }catch (e){
+                   return ElNotification({
+                        title: 'Ошибка',
+                        message: 'Заказ не создан',
+                        type: 'error',
+                        duration: 5000,
+                        position: 'bottom-right',
+                    });
+            }
+
         }
         return {
             cart, cost, addrr, name, surname, card, srok,cvv, paymentMethod, phone, cancelOrder, makeOrder
