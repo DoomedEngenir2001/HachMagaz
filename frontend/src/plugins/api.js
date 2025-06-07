@@ -1,6 +1,6 @@
 import axios from "axios";
 const instance = axios.create({ // создаем instance с установленными настройками
-    baseURL: "http://tiksiproducts47.ru/api/",
+    baseURL: "https://tiksiproducts47.ru/api/",
     withCredentials: false,
     headers: {
       Accept: 'application/json',
