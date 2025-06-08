@@ -23,10 +23,11 @@ services:
   phpmyadmin:
     image: phpmyadmin:latest
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     restart: always
     ports:
-      - 8080:8080
+       - 8080:80
     env_file:
       - .env
     networks:
@@ -38,6 +39,7 @@ services:
       - '8000:8000'
       build: 
         context: ./
+        
       volumes:
       - ./backend/:/backend/ 
       depends_on:
