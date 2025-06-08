@@ -97,7 +97,7 @@ export default{
     }
 @media (max-width: 768px){
     .image-placeholder{
-    width: 170px;
+    width: 100%;
     height: 180px;
     display: flex;
     background-image: url("../assets/phone.png");
@@ -112,7 +112,7 @@ export default{
 }
 @media (max-width: 768px){
 .product-image{
-    width: 170px;
+    width: 100%;
     height: 180px;
     display: flex;
     object-fit: contain;
