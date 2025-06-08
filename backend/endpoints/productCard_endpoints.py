@@ -30,7 +30,7 @@ from logic.l_images import create_image_row
 import base64
 from logic.l_jwt import verify_request
 
-CARD_BATCH=16
+CARD_BATCH=8
 S3CONTAINER = "058fc2e1-e870-47c5-9f35-bc8a2df28ab2"
 productCards_routes = APIRouter()
 class addCardRequest(BaseModel):
