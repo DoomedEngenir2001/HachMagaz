@@ -219,7 +219,7 @@ export default createStore({
     actions: {
         async getProductsfromServer(context, index){
             const response = await api.getProducts(index);
-            if (response.data[0] === "Products is ended"){
+            if (response.data[0] === "Products is ended" && index >0){
                 context.commit("setEnd");
             }
             if(!context.state.end){
