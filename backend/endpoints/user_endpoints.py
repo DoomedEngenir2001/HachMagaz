@@ -53,9 +53,7 @@ async def create_user(req: sign_up_request)->dict: # ДОДЕЛАТЬ
         return {"token":token}
     
 @user_routes.post("/login")
-async def login_user(req:login_req
-                     #, email: str = None, phone: str = None
-                     )->dict:
+async def login_user(req:login_req):
     # print(f"login_user: {password}, {login}, {email}, {phone}")
    # user : Users = None
     if req.login is not None:
