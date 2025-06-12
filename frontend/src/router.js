@@ -7,7 +7,9 @@ import PersonalCabinet from './pages/PersonalCabinet.vue';
 import adminPage from './pages/adminPage.vue'
 import {getStorage} from "./plugins/persistent"
 const routes = [
-    {path: '/', component: MainPage},
+    {path: '/', component: MainPage, meta:{
+        requiresAuth: false
+    }},
     {path: '/orderMap', component: OrderMapPage, meta:{
         requiresAuth: true
     }},
@@ -22,7 +24,7 @@ const router = createRouter({routes, history: createWebHistory()});
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth){
         const token = getStorage("token");
-        if (token != ''){
+        if (token && token != ''){
             next()
         }else{
             next('/');
