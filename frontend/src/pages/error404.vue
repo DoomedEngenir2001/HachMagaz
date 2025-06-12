@@ -4,6 +4,6 @@
         <div class="text-3xl">По вашему запросу ничего не найдено</div>
     </div>
 </template>
-<script>
-export default{}
+<script setup>
+
 </script>
