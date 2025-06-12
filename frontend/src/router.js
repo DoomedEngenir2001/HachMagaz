@@ -4,6 +4,7 @@ import OrderMapPage from './pages/orderMapPage.vue';
 import MainPage from './pages/mainPage.vue';
 import orderPage from './pages/orderPage.vue';
 import PersonalCabinet from './pages/PersonalCabinet.vue';
+import error404 from './pages/error404.vue';
 import adminPage from './pages/adminPage.vue'
 import {getStorage} from "./plugins/persistent"
 const routes = [
@@ -18,7 +19,12 @@ const routes = [
     }},
     {path: '/personalCabinet', component: PersonalCabinet, meta:{
         requiresAuth: true
-    }}
+    }},
+    {path: '/error404', component: error404, meta:{
+        requiresAuth: false
+    }  
+
+    }
 ];
 const router = createRouter({routes, history: createWebHistory()});
 router.beforeEach((to, from, next) => {
@@ -31,6 +37,9 @@ router.beforeEach((to, from, next) => {
         }
     } else{
         next();
+    }
+    if (to != '/' && to!= '/orderMap' && to!='/order' && to!= '/personalCabinet'){
+        next('/error404');
     }
 })
 export default  router;
