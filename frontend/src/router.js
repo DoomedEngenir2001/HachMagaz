@@ -21,7 +21,7 @@ const routes = [
 const router = createRouter({routes, history: createWebHistory()});
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth){
-        const token = localStorage.getStorage("token");
+        const token = getStorage("token");
         if (token != ''){
             next()
         }else{
