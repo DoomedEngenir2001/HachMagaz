@@ -9,19 +9,29 @@ import adminPage from './pages/adminPage.vue';
 import {getStorage} from "./plugins/persistent";
 const routes = [
     {path: '/', component: MainPage, meta:{
-        requiresAuth: false
+        requiresAuth: false,
+        requiresCart: false,
+        requiresAdress: false
     }},
     {path: '/orderMap', component: OrderMapPage, meta:{
-        requiresCart: true
+        requiresCart: true,
+        requiresAuth: false,
+        requiresAdress: false
     }},
     {path: '/order', component: orderPage, meta:{
-        requiresAdress: true
+        requiresAdress: true,
+        requiresCart: false,
+        requiresAuth: false
     }},
     {path: '/personalCabinet', component: PersonalCabinet, meta:{
-        requiresAuth: true
+        requiresAuth: true,
+        requiresCart: false,
+        requiresAdress: false
     }},
     {path: '/:pathMatch(.*)*', component: error404, meta:{
-        requiresAuth: false
+        requiresAuth: false,
+        requiresCart: false,
+        requiresAdress: false
     }  
 
     }
