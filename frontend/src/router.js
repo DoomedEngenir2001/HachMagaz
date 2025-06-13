@@ -20,7 +20,7 @@ const routes = [
     {path: '/personalCabinet', component: PersonalCabinet, meta:{
         requiresAuth: true
     }},
-    {path: '/error404', component: error404, meta:{
+    {path: '/:pathMatch(.*)*', component: error404, meta:{
         requiresAuth: false
     }  
 
@@ -35,12 +35,8 @@ router.beforeEach((to, from, next) => {
         }else{
             next('/');
         }
-    } else{
+    } else  {
         next();
-    }
-    if (to.path != '/' && to.path!= '/orderMap' && to.path!='/order' 
-        && to.path!= '/personalCabinet'){
-        next('/error404');
     }
 })
 export default  router;
