@@ -12,10 +12,10 @@ const routes = [
         requiresAuth: false
     }},
     {path: '/orderMap', component: OrderMapPage, meta:{
-        requiresAuth: true
+        requiresCart: true
     }},
     {path: '/order', component: orderPage, meta:{
-        requiresAuth: true
+        requiresAdress: true
     }},
     {path: '/personalCabinet', component: PersonalCabinet, meta:{
         requiresAuth: true
@@ -35,7 +35,21 @@ router.beforeEach((to, from, next) => {
         }else{
             next('/');
         }
-    } else  {
+    }else if (to.meta.requiresCart){
+        const cart = getStorage("cart");
+        if (cart){
+            next()
+        }else{
+            next('/')
+        }
+    } else if (to.meta.requiresAdress){
+        const addr = getStorage("address");
+        if (addr){
+            next()
+        }else{
+            next('/')
+        }
+    }else  {
         next();
     }
 })
